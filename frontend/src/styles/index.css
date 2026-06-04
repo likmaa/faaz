@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body { height: 100%; }
+
+/* Base typography using Tailwind configured fonts */
+body { @apply font-body text-textprimary antialiased; }
+h1,h2,h3,h4,.heading { @apply font-heading font-bold tracking-tight text-textprimary; }
+
+/* Utility glass panel */
+.glass {
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 16px;
+}
+
+/* Custom layer example */
+@layer components {
+  .btn-primary { @apply inline-flex items-center justify-center rounded-md bg-primary-600 px-4 py-2 text-white hover:bg-primary-500 active:bg-primary-700 transition font-medium shadow-sm hover:shadow-md; }
+  .btn-secondary { @apply inline-flex items-center justify-center rounded-md bg-secondary-600 px-4 py-2 text-white hover:bg-secondary-500 active:bg-secondary-700 transition font-medium shadow-sm hover:shadow-md; }
+  .section-header { @apply font-heading text-3xl md:text-4xl font-bold mb-2; }
+}

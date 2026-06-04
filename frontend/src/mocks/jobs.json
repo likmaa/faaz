@@ -1,0 +1,90 @@
+{
+  "emploi": [
+    {
+      "id": 1,
+      "type": "emploi",
+      "titre": "Chargé(e) de programmes — Éducation & Jeunesse",
+      "description": "La FAAZ recrute un(e) Chargé(e) de programmes pour piloter ses interventions dans les domaines de l'éducation et du soutien à la jeunesse. Sous la supervision du Directeur des programmes, vous serez responsable de la conception, de la mise en œuvre et du suivi-évaluation des projets éducatifs.\n\nMissions principales :\n- Coordonner les programmes de parrainage scolaire et de distribution de kits\n- Gérer les relations avec les établissements scolaires partenaires\n- Assurer le suivi terrain et la collecte de données d'impact\n- Rédiger les rapports d'activité et les bilans de projet\n- Contribuer à la recherche de financement (appels à projets)\n\nProfil recherché :\n- Bac+4/5 en sciences sociales, développement international ou éducation\n- Minimum 3 ans d'expérience dans une ONG ou une organisation de développement\n- Excellente maîtrise du français (oral et écrit)\n- Connaissance du secteur éducatif béninois fortement appréciée\n- Capacité à travailler en autonomie et en équipe",
+      "localisation": "Cotonou, Bénin",
+      "type_contrat": "CDI",
+      "date_limite": "2024-10-31",
+      "created_at": "2024-09-15"
+    },
+    {
+      "id": 2,
+      "type": "emploi",
+      "titre": "Responsable Communication & Réseaux Sociaux",
+      "description": "Dans le cadre du renforcement de sa présence digitale, la FAAZ recherche un(e) Responsable Communication pour gérer sa stratégie de communication externe et ses réseaux sociaux.\n\nMissions :\n- Élaborer et déployer la stratégie de communication de la fondation\n- Gérer les réseaux sociaux (Facebook, Instagram, LinkedIn, Twitter)\n- Produire des contenus multimédias (photos, vidéos, infographies)\n- Rédiger les newsletters, communiqués de presse et rapports annuels\n- Coordonner les événements de la fondation\n\nProfil :\n- Bac+3/5 en communication, journalisme ou marketing digital\n- Maîtrise des outils de création graphique (Canva, Adobe)\n- Expérience confirmée en gestion de réseaux sociaux\n- Sens de l'organisation et créativité",
+      "localisation": "Cotonou, Bénin",
+      "type_contrat": "CDD 12 mois renouvelable",
+      "date_limite": "2024-10-15",
+      "created_at": "2024-09-01"
+    },
+    {
+      "id": 3,
+      "type": "emploi",
+      "titre": "Comptable / Gestionnaire Financier(ère)",
+      "description": "La FAAZ recrute un(e) Comptable pour assurer la gestion financière et comptable de la fondation dans le respect des procédures internes et des exigences des bailleurs de fonds.\n\nMissions :\n- Tenir la comptabilité générale et analytique de la fondation\n- Préparer les états financiers mensuels et annuels\n- Gérer la trésorerie et assurer le suivi des flux financiers\n- Préparer les justificatifs financiers pour les bailleurs\n- Assurer la conformité fiscale et sociale\n\nProfil :\n- BTS ou Licence en comptabilité / gestion\n- Minimum 2 ans d'expérience\n- Maîtrise de SAGE ou d'un logiciel comptable équivalent\n- Rigueur, discrétion et sens des responsabilités",
+      "localisation": "Cotonou, Bénin",
+      "type_contrat": "CDI",
+      "date_limite": "2024-11-15",
+      "created_at": "2024-09-20"
+    }
+  ],
+  "benevolat": [
+    {
+      "id": 10,
+      "type": "benevolat",
+      "titre": "Tuteurs / Tutrices scolaires bénévoles",
+      "description": "La FAAZ recrute des bénévoles passionnés par l'éducation pour assurer des séances de tutorat et de soutien scolaire auprès d'enfants en difficulté, du CP au CM2.\n\nEngagement demandé :\n- 2 à 4 heures par semaine, le samedi matin ou en soirée en semaine\n- Formation préalable assurée par la FAAZ (pédagogie, gestion de groupe)\n- Accompagnement et supervision par un coordinateur pédagogique\n\nProfil :\n- Niveau Bac minimum\n- Patience, bienveillance et goût pour la transmission\n- Capacité à s'engager sur au moins 6 mois\n- Ouvert à tous les profils : étudiants, actifs, retraités",
+      "localisation": "Cotonou & Abomey-Calavi",
+      "engagement": "4h/semaine minimum",
+      "date_limite": "Recrutement permanent",
+      "created_at": "2024-01-01"
+    },
+    {
+      "id": 11,
+      "type": "benevolat",
+      "titre": "Accompagnateurs / Accompagnatrices personnes âgées",
+      "description": "Rejoignez notre réseau de bénévoles qui rendent visite aux personnes âgées isolées et les accompagnent dans leurs démarches quotidiennes. Un engagement simple et profondément humain.\n\nActivités :\n- Visites régulières à domicile ou au centre d'accueil\n- Aide aux courses, démarches administratives, accompagnement médical\n- Animation d'ateliers (lecture, jeux de société, jardinage)\n- Écoute et lien social\n\nProfil :\n- Empathie, écoute et disponibilité\n- Aucun diplôme requis, formation assurée par la FAAZ\n- Permis de conduire apprécié",
+      "localisation": "Cotonou",
+      "engagement": "3h/semaine",
+      "date_limite": "Recrutement permanent",
+      "created_at": "2024-01-01"
+    },
+    {
+      "id": 12,
+      "type": "benevolat",
+      "titre": "Agents de terrain — distribution d'aide humanitaire",
+      "description": "Lors de nos opérations d'urgence et de distribution d'aide (vivres, kits scolaires, matériel médical), nous mobilisons des bénévoles de terrain pour soutenir nos équipes permanentes.\n\nMissions ponctuelles :\n- Participation aux journées de distribution\n- Manutention, tri et conditionnement des dons matériels\n- Accueil et orientation des bénéficiaires\n- Reporting terrain simple\n\nProfil :\n- Disponibilité ponctuelle sur les week-ends\n- Bonne condition physique\n- Esprit d'équipe et sens du service",
+      "localisation": "Bénin (mobilité requise)",
+      "engagement": "Ponctuel selon les opérations",
+      "date_limite": "Recrutement permanent",
+      "created_at": "2024-01-01"
+    }
+  ],
+  "stage": [
+    {
+      "id": 20,
+      "type": "stage",
+      "titre": "Stage — Suivi & Évaluation de projets",
+      "description": "La FAAZ propose un stage de 3 à 6 mois dans son département Suivi & Évaluation. Ce stage offre une immersion concrète dans le cycle de projet d'une ONG : conception, mise en œuvre, collecte de données terrain et mesure d'impact.\n\nMissions :\n- Contribuer à l'élaboration des outils de collecte de données (enquêtes, entretiens)\n- Participer aux visites terrain et aux entretiens avec les bénéficiaires\n- Analyser les données et produire des rapports de suivi\n- Contribuer à la rédaction des bilans de projet\n\nProfil :\n- Étudiant(e) en développement international, sociologie, statistiques ou équivalent\n- Niveau Bac+3 minimum\n- Maîtrise d'Excel ou de SPSS\n- Intérêt marqué pour le secteur associatif",
+      "localisation": "Cotonou, Bénin",
+      "duree": "3 à 6 mois",
+      "indemnite": "Indemnité de stage selon barème FAAZ",
+      "date_limite": "2024-11-30",
+      "created_at": "2024-09-01"
+    },
+    {
+      "id": 21,
+      "type": "stage",
+      "titre": "Stage — Communication Digitale & Création de Contenu",
+      "description": "Intégrez l'équipe Communication de la FAAZ et participez activement à la mise en valeur de nos actions sur les réseaux sociaux et notre site web.\n\nMissions :\n- Produire des contenus (posts, stories, vidéos courtes) pour nos réseaux sociaux\n- Réaliser des reportages photo lors de nos événements et opérations terrain\n- Rédiger des articles pour notre blog et newsletter\n- Contribuer à la mise à jour du site web\n- Analyser les performances de nos publications\n\nProfil :\n- Étudiant(e) en communication, journalisme ou marketing digital\n- Maîtrise des réseaux sociaux et des outils créatifs (Canva, CapCut…)\n- Plume fluide en français\n- Enthousiasme, créativité et curiosité",
+      "localisation": "Cotonou, Bénin",
+      "duree": "3 à 4 mois",
+      "indemnite": "Indemnité de stage",
+      "date_limite": "2024-10-31",
+      "created_at": "2024-09-05"
+    }
+  ]
+}

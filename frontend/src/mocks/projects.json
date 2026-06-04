@@ -1,0 +1,142 @@
+[
+  {
+    "id": 1,
+    "titre": "Chaque orphelin à l'école",
+    "slug": "chaque-orphelin-a-lecole",
+    "axe": "Aide à l'enfance indigente",
+    "axe_slug": "enfance",
+    "description": "Chaque enfant orphelin mérite une chance égale d'apprendre et de s'épanouir. Ce projet finance les frais de scolarité, les fournitures scolaires et le suivi pédagogique des enfants orphelins accueillis dans les centres partenaires de la FAAZ, de Adjohoun à Grand-Popo.",
+    "objectifs": "Assurer la scolarisation complète des orphelins : frais d'inscription, cahiers, stylos, cartables, uniformes et accompagnement pédagogique mensuel.",
+    "montant_cible": 2500000,
+    "montant_collecte": 1850000,
+    "image": "/assets/img/about1.png",
+    "statut": "actif",
+    "localisation": "Adjohoun, Abomey-Calavi, Grand-Popo, Toviclin",
+    "beneficiaires": 122,
+    "nb_editions": 4,
+    "created_at": "2021-09-01",
+    "editions": [
+      { "date": "2021-09-18", "lieu": "Orphelinat Saint Dominique d'Azowlissè, Adjohoun", "beneficiaires": 28 },
+      { "date": "2022-09-24", "lieu": "Orphelinat Saint Dominique d'Azowlissè, Adjohoun", "beneficiaires": 30 },
+      { "date": "2024-09-14", "lieu": "Cité des Anges, Hêvié, Abomey-Calavi", "beneficiaires": 35 },
+      { "date": "2025-09-27", "lieu": "Centre SILOE, Grand-Popo + Maison de l'Espoir, Toviclin", "beneficiaires": 29 }
+    ]
+  },
+  {
+    "id": 2,
+    "titre": "Dons de vivres aux orphelins",
+    "slug": "dons-de-vivres",
+    "axe": "Aide à l'enfance indigente",
+    "axe_slug": "enfance",
+    "description": "Aucun enfant ne devrait souffrir de la faim. Ce projet organise des collectes et remises de vivres (maïs, riz, huile, haricot, gari, œufs, sucre, Milo, lait, macaronis) aux orphelinats partenaires, pour couvrir plusieurs mois d'alimentation.",
+    "objectifs": "Approvisionner les orphelinats en denrées alimentaires essentielles pour 3 à 6 mois. Prendre en charge les orphelins dans leur alimentation.",
+    "montant_cible": 1200000,
+    "montant_collecte": 1200000,
+    "image": "/assets/img/accueil1.png",
+    "statut": "actif",
+    "localisation": "Orphelinat Saint Dominique d'Azowlissè, Adjohoun",
+    "beneficiaires": 108,
+    "nb_editions": 3,
+    "created_at": "2022-07-01",
+    "editions": [
+      { "date": "2022-07-09", "lieu": "Orphelinat Saint Dominique d'Azowlissè, Adjohoun", "beneficiaires": 34 },
+      { "date": "2024-06-29", "lieu": "Orphelinat Saint Dominique d'Azowlissè, Adjohoun", "beneficiaires": 38 },
+      { "date": "2026-02-28", "lieu": "Orphelinat Saint Dominique d'Azowlissè, Adjohoun", "beneficiaires": 36 }
+    ]
+  },
+  {
+    "id": 3,
+    "titre": "Santé & dons de vêtements",
+    "slug": "sante-et-dons-de-vetements",
+    "axe": "Aide à l'enfance indigente",
+    "axe_slug": "enfance",
+    "description": "Consultations médicales gratuites, séances d'IEC (Information, Éducation, Communication), remise de vêtements neufs et recyclés, médicaments et kits d'hygiène bucco-dentaire : ce projet prend soin des enfants orphelins dans leur globalité, corps et santé.",
+    "objectifs": "Offrir un bilan de santé complet et équiper chaque enfant en vêtements adaptés à la saison. Sensibiliser aux gestes d'hygiène.",
+    "montant_cible": 1800000,
+    "montant_collecte": 1620000,
+    "image": "/assets/img/close-up-team-hand-shake.jpg",
+    "statut": "actif",
+    "localisation": "Cotonou et communes partenaires",
+    "beneficiaires": 232,
+    "nb_editions": 6,
+    "created_at": "2021-01-01",
+    "editions": [
+      { "date": "2021-05-01", "lieu": "Cotonou", "beneficiaires": 32 },
+      { "date": "2022-04-16", "lieu": "Cotonou", "beneficiaires": 38 },
+      { "date": "2023-05-06", "lieu": "Cotonou", "beneficiaires": 40 },
+      { "date": "2024-04-27", "lieu": "Cotonou", "beneficiaires": 42 },
+      { "date": "2025-04-19", "lieu": "Cotonou", "beneficiaires": 40 },
+      { "date": "2026-05-02", "lieu": "Cotonou", "beneficiaires": 40 }
+    ]
+  },
+  {
+    "id": 4,
+    "titre": "Noël aux orphelins",
+    "slug": "noel-aux-orphelins",
+    "axe": "Aide à l'enfance indigente",
+    "axe_slug": "enfance",
+    "description": "Chaque enfant a le droit de fêter Noël avec joie. La FAAZ organise chaque 25 décembre une fête pour les orphelins de ses centres partenaires : repas de fête, gâteaux et cadeaux soigneusement choisis (jeux de société, poupées, scrabble, voitures miniatures, guitare…).",
+    "objectifs": "Offrir à chaque enfant un Noël mémorable : repas festif, cadeaux personnalisés, animations et moments de joie partagés.",
+    "montant_cible": 900000,
+    "montant_collecte": 810000,
+    "image": "/assets/img/about1.png",
+    "statut": "actif",
+    "localisation": "Centres orphelins partenaires, Bénin",
+    "beneficiaires": 180,
+    "nb_editions": 6,
+    "created_at": "2020-12-25",
+    "editions": [
+      { "date": "2020-12-25", "lieu": "Cotonou", "beneficiaires": 25 },
+      { "date": "2021-12-25", "lieu": "Cotonou", "beneficiaires": 28 },
+      { "date": "2022-12-25", "lieu": "Adjohoun", "beneficiaires": 30 },
+      { "date": "2023-12-25", "lieu": "Adjohoun", "beneficiaires": 32 },
+      { "date": "2024-12-25", "lieu": "Abomey-Calavi", "beneficiaires": 35 },
+      { "date": "2025-12-25", "lieu": "Grand-Popo & Toviclin", "beneficiaires": 30 }
+    ]
+  },
+  {
+    "id": 5,
+    "titre": "Prix Gnamey de l'Excellence",
+    "slug": "prix-gnamey-excellence",
+    "axe": "Excellence en milieu scolaire",
+    "axe_slug": "scolaire",
+    "description": "En mémoire du Professeur Gnamey Kouassivi Charles (27 ans d'enseignement au CEG K/Vêdoko, décédé le 4 décembre 2018), la FAAZ décerne chaque année le Prix Gnamey aux meilleurs élèves du CEP, BEPC et BAC. Le prix est assorti d'enveloppes de 15 000 à 200 000 FCFA, d'attestations et de bâches d'excellence.",
+    "objectifs": "Récompenser et encourager l'excellence scolaire dans les établissements publics du Bénin. Étendre la portée du prix à de nouvelles communes chaque année.",
+    "montant_cible": 3000000,
+    "montant_collecte": 2400000,
+    "image": "/assets/img/accueil1.png",
+    "statut": "actif",
+    "localisation": "Cotonou, Athiémé, Savalou, Kpomassè et autres communes",
+    "beneficiaires": 90,
+    "nb_editions": 6,
+    "created_at": "2020-12-05",
+    "editions": [
+      { "date": "2020-12-05", "lieu": "CEG K/Vêdoko, Cotonou", "beneficiaires": 12 },
+      { "date": "2021-12-04", "lieu": "CEG K/Vêdoko, Cotonou", "beneficiaires": 14 },
+      { "date": "2022-12-03", "lieu": "Cotonou + Athiémé", "beneficiaires": 16 },
+      { "date": "2023-12-02", "lieu": "Cotonou + Savalou", "beneficiaires": 16 },
+      { "date": "2024-12-07", "lieu": "Cotonou + Kpomassè", "beneficiaires": 18 },
+      { "date": "2025-12-05", "lieu": "Cotonou + 3 communes", "beneficiaires": 14 }
+    ]
+  },
+  {
+    "id": 6,
+    "titre": "Coaching de la jeunesse — Phase 1",
+    "slug": "coaching-jeunesse-phase1",
+    "axe": "Coaching de la jeunesse",
+    "axe_slug": "jeunesse",
+    "description": "Programme de coaching et de leadership transformationnel destiné aux jeunes béninois. La Phase 1 a rassemblé 28 jeunes pour des sessions intensives sur les compétences de vie, l'orientation professionnelle et la santé mentale. La Phase 2 est en préparation.",
+    "objectifs": "Accompagner les jeunes dans leur développement personnel et professionnel : compétences relationnelles, leadership, gestion du stress, orientation de vie et entrepreneuriat.",
+    "montant_cible": 1500000,
+    "montant_collecte": 950000,
+    "image": "/assets/img/close-up-team-hand-shake.jpg",
+    "statut": "actif",
+    "localisation": "Royal Space Hôtel, Abomey-Calavi",
+    "beneficiaires": 28,
+    "nb_editions": 1,
+    "created_at": "2022-03-12",
+    "editions": [
+      { "date": "2022-03-12", "lieu": "Royal Space Hôtel, Abomey-Calavi", "beneficiaires": 28 }
+    ]
+  }
+]

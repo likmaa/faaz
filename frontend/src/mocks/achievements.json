@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "titre": "122 orphelins scolarisés en 4 éditions",
+    "recit": "Depuis 2021, le projet « Chaque orphelin à l'école » a permis à 122 enfants orphelins d'entamer ou de poursuivre leur scolarité dans de bonnes conditions. Fournitures complètes, uniformes, frais d'inscription et suivi pédagogique mensuel : la FAAZ s'est engagée à côté de ces enfants, édition après édition, de l'Orphelinat Saint Dominique d'Azowlissè à Adjohoun jusqu'aux centres de Grand-Popo et Toviclin.",
+    "axe": "Aide à l'enfance indigente",
+    "axe_slug": "enfance",
+    "image": "/assets/img/about1.png",
+    "date": "2025-09-27",
+    "chiffres": ["122 bénéficiaires", "4 éditions (2021–2025)", "4 centres partenaires"]
+  },
+  {
+    "id": 2,
+    "titre": "6 éditions du Prix Gnamey de l'Excellence",
+    "recit": "En hommage au Professeur Gnamey Kouassivi Charles, figure emblématique de l'enseignement au Bénin, la FAAZ décerne chaque année le Prix Gnamey aux meilleurs élèves du CEP, BEPC et BAC. En 6 éditions, le prix a récompensé des dizaines d'élèves méritants à Cotonou, Athiémé, Savalou, Kpomassè et dans d'autres communes. Les enveloppes vont de 15 000 à 200 000 FCFA, accompagnées d'attestations et de bâches d'excellence.",
+    "axe": "Excellence en milieu scolaire",
+    "axe_slug": "scolaire",
+    "image": "/assets/img/accueil1.png",
+    "date": "2025-12-05",
+    "chiffres": ["6 éditions (2020–2025)", "15 000 à 200 000 FCFA par lauréat", "Cotonou + 3 communes en 2025"]
+  },
+  {
+    "id": 3,
+    "titre": "232 bénéficiaires du programme Santé & Vêtements",
+    "recit": "En 6 éditions depuis 2021, le projet « Santé & dons de vêtements » a offert à 232 enfants orphelins des consultations médicales gratuites, des séances d'IEC, des vêtements neufs et recyclés, des médicaments et des kits d'hygiène bucco-dentaire. Chaque édition mobilise médecins, infirmiers et bénévoles de la FAAZ pour une journée complète de prise en charge.",
+    "axe": "Aide à l'enfance indigente",
+    "axe_slug": "enfance",
+    "image": "/assets/img/close-up-team-hand-shake.jpg",
+    "date": "2026-05-02",
+    "chiffres": ["232 bénéficiaires", "6 éditions (2021–2026)", "Consultations + vêtements + hygiène"]
+  },
+  {
+    "id": 4,
+    "titre": "108 orphelins nourris — 3 éditions de dons de vivres",
+    "recit": "Trois fois en quatre ans, la FAAZ a approvisionné l'Orphelinat Saint Dominique d'Azowlissè en vivres essentiels : maïs, riz, huile, haricot, gari, œufs, sucre, Milo, lait, macaronis. 108 enfants ont bénéficié de ces dons, couvrant plusieurs mois d'alimentation à chaque édition. La dernière édition s'est tenue le 28 février 2026.",
+    "axe": "Aide à l'enfance indigente",
+    "axe_slug": "enfance",
+    "image": "/assets/img/about1.png",
+    "date": "2026-02-28",
+    "chiffres": ["108 bénéficiaires", "3 éditions (2022–2026)", "6+ mois de vivres par édition"]
+  },
+  {
+    "id": 5,
+    "titre": "6 Noëls partagés avec les orphelins",
+    "recit": "Depuis 2020, chaque 25 décembre, les membres de la FAAZ apportent la fête aux enfants orphelins de leurs centres partenaires. Repas de fête, gâteaux et cadeaux (jeux de société, poupées, scrabble, voitures miniatures, guitare…) : 6 éditions pour montrer à ces enfants qu'ils ne sont pas seuls, que la communauté pense à eux.",
+    "axe": "Aide à l'enfance indigente",
+    "axe_slug": "enfance",
+    "image": "/assets/img/accueil1.png",
+    "date": "2025-12-25",
+    "chiffres": ["6 éditions (2020–2025)", "~30 enfants par édition", "Cadeaux, repas & animations"]
+  },
+  {
+    "id": 6,
+    "titre": "28 jeunes coachés — Phase 1 du programme Leadership",
+    "recit": "Le 12 mars 2022 au Royal Space Hôtel d'Abomey-Calavi, la FAAZ a rassemblé 28 jeunes béninois pour la Phase 1 de son programme de coaching et de leadership transformationnel. Au programme : compétences de vie, orientation professionnelle, gestion du stress et santé mentale. Une Phase 2 est en préparation pour toucher un public plus large.",
+    "axe": "Coaching de la jeunesse",
+    "axe_slug": "jeunesse",
+    "image": "/assets/img/close-up-team-hand-shake.jpg",
+    "date": "2022-03-12",
+    "chiffres": ["28 jeunes accompagnés", "1 journée intensive", "Royal Space Hôtel, Abomey-Calavi"]
+  }
+]

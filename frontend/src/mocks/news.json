@@ -1,0 +1,56 @@
+[
+  {
+    "id": 1,
+    "titre": "4ᵉ édition — « Chaque orphelin à l'école » : 29 enfants scolarisés à Grand-Popo et Toviclin",
+    "contenu": "Le 20 et 27 septembre 2025, la Fondation les Amis de A à Z a organisé la 4ᵉ édition du projet « Chaque orphelin à l'école » dans deux nouveaux centres : le Centre SILOE de Grand-Popo et la Maison de l'Espoir de Toviclin. 29 enfants ont reçu leurs kits scolaires complets — cahiers, stylos, cartable, uniforme — et bénéficieront d'un suivi pédagogique tout au long de l'année scolaire.\n\nDepuis le lancement en 2021, ce sont désormais 122 orphelins qui ont été scolarisés grâce à ce projet. La FAAZ tient à remercier chaleureusement tous les membres et donateurs qui ont rendu cette expansion possible.",
+    "image": "/assets/img/about1.png",
+    "categorie": "Enfance",
+    "created_at": "2025-09-30",
+    "auteur": "Équipe FAAZ"
+  },
+  {
+    "id": 2,
+    "titre": "Prix Gnamey 2025 — 6ᵉ édition : l'excellence récompensée à Cotonou et dans 3 nouvelles communes",
+    "contenu": "Le 5 décembre 2025, la Fondation les Amis de A à Z a célébré la 6ᵉ édition du Prix Gnamey de l'Excellence, en mémoire du Professeur Gnamey Kouassivi Charles. Conformément à la décision de l'Assemblée Générale du 27 août 2023, le prix a été étendu à trois nouvelles communes en plus de Cotonou.\n\nLes meilleurs élèves du CEP, BEPC et BAC ont reçu des enveloppes de 15 000 à 200 000 FCFA, des attestations de mérite et des bâches d'excellence. La fondation perpétue ainsi la mémoire de cet enseignant exemplaire qui a consacré 27 ans de sa vie à l'éducation au CEG K/Vêdoko.",
+    "image": "/assets/img/accueil1.png",
+    "categorie": "Excellence scolaire",
+    "created_at": "2025-12-07",
+    "auteur": "Équipe FAAZ"
+  },
+  {
+    "id": 3,
+    "titre": "6ᵉ édition Santé & Vêtements — 40 enfants pris en charge le 2 mai 2026",
+    "contenu": "Le 2 mai 2026, la FAAZ a organisé la 6ᵉ édition de son projet « Santé & dons de vêtements ». 40 enfants orphelins ont bénéficié de consultations médicales gratuites, de séances d'IEC sur l'hygiène et la santé, de vêtements neufs et recyclés adaptés à la saison, ainsi que de médicaments et de kits d'hygiène bucco-dentaire.\n\nDepuis le lancement en 2021, ce sont 232 enfants qui ont bénéficié de ce programme de prise en charge globale. Médecins, infirmiers et membres bénévoles de la fondation se sont mobilisés pour cette journée dédiée à la santé et au bien-être des enfants.",
+    "image": "/assets/img/close-up-team-hand-shake.jpg",
+    "categorie": "Enfance",
+    "created_at": "2026-05-05",
+    "auteur": "Équipe FAAZ"
+  },
+  {
+    "id": 4,
+    "titre": "3ᵉ dons de vivres à l'Orphelinat Saint Dominique — 36 orphelins approvisionnés pour 6 mois",
+    "contenu": "Le 28 février 2026, la Fondation les Amis de A à Z a livré sa 3ᵉ cargaison de vivres à l'Orphelinat Saint Dominique d'Azowlissè, à Adjohoun. 36 orphelins disposeront de provisions pour plusieurs mois : maïs, riz, huile, haricot, gari, œufs, sucre, Milo, lait et macaronis.\n\nCe projet, initié en juillet 2022, a désormais bénéficié à 108 enfants au total. La fondation exprime sa gratitude à tous ceux qui ont contribué à cette action, membres comme donateurs occasionnels.",
+    "image": "/assets/img/about1.png",
+    "categorie": "Enfance",
+    "created_at": "2026-03-01",
+    "auteur": "Équipe FAAZ"
+  },
+  {
+    "id": 5,
+    "titre": "Assemblée Générale 2025 — Bilan d'impact et perspectives 2026",
+    "contenu": "L'Assemblée Générale annuelle de la Fondation les Amis de A à Z s'est réunie conformément aux statuts avant la fin du premier semestre 2025. Les membres ont validé le bilan de l'exercice écoulé, adopté le plan d'action 2025–2026 et renouvelé une partie du Conseil d'Administration.\n\nParmi les décisions majeures : renforcement du programme de coaching jeunesse (Phase 2), ouverture officielle des réflexions sur le programme d'assistance aux personnes du 3ᵉ âge, et extension du Prix Gnamey à de nouvelles communes. La fondation compte sur la mobilisation de l'ensemble de ses membres pour concrétiser ces ambitions.",
+    "image": "/assets/img/accueil1.png",
+    "categorie": "Vie associative",
+    "created_at": "2025-06-20",
+    "auteur": "Secrétariat FAAZ"
+  },
+  {
+    "id": 6,
+    "titre": "Coaching jeunesse Phase 1 — Retour sur une journée transformatrice",
+    "contenu": "Le 12 mars 2022, la FAAZ a réuni 28 jeunes au Royal Space Hôtel d'Abomey-Calavi pour la Phase 1 de son programme de coaching et de leadership transformationnel. Une journée intensive ponctuée de sessions sur les compétences de vie, l'orientation professionnelle et la santé mentale.\n\n« Cette journée m'a ouvert les yeux sur ce dont j'étais capable », témoigne l'un des participants. La fondation prépare actuellement la Phase 2 de ce programme, avec l'ambition de toucher un public plus large et d'intégrer un volet entrepreneuriat.",
+    "image": "/assets/img/close-up-team-hand-shake.jpg",
+    "categorie": "Jeunesse",
+    "created_at": "2022-03-20",
+    "auteur": "Équipe FAAZ"
+  }
+]

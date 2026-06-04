@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "categorie": "Dons",
+    "question": "Comment faire un don à la FAAZ ?",
+    "reponse": "Vous pouvez faire un don de plusieurs façons :\n\n1. Via le bouton « DONATE » présent sur toutes les pages du site : il ouvre un formulaire rapide où vous choisissez le montant (en FCFA) et le canal de paiement.\n\n2. En choisissant un projet précis sur la page « Nos projets » et en cliquant sur « Soutenir ce projet ».\n\n3. Par mobile money : numéro MoMo Pay disponible sur la page de don.\n\n4. Par virement bancaire : nos coordonnées bancaires sont disponibles sur la page de don.\n\nPour les dons par carte ou via PayPal (diaspora), l'intégration est disponible sur la page de don. Un reçu vous est envoyé par e-mail après chaque transaction."
+  },
+  {
+    "id": 2,
+    "categorie": "Dons",
+    "question": "Puis-je faire un don anonyme ?",
+    "reponse": "Oui. Lors du processus de don, vous avez le choix entre :\n\n— Don anonyme : aucune information personnelle enregistrée. Le don est comptabilisé mais aucun reçu ne peut être émis.\n\n— Don identifié : vous laissez votre prénom, nom et e-mail pour recevoir un reçu officiel et suivre votre impact.\n\nLes deux options sont totalement acceptées."
+  },
+  {
+    "id": 3,
+    "categorie": "Dons",
+    "question": "Y a-t-il des frais sur les dons ?",
+    "reponse": "Les agrégateurs de paiement prélèvent environ 3 % de frais par transaction (KKiaPay, PayPal). Ces frais sont à la charge du donateur ou de la fondation selon le canal choisi.\n\nPour les virements bancaires directs ou les dépôts MoMo Pay, les frais sont ceux de votre opérateur. La fondation publie ses comptes annuellement pour garantir la transparence."
+  },
+  {
+    "id": 4,
+    "categorie": "Adhésion",
+    "question": "Comment devenir membre de la FAAZ ?",
+    "reponse": "Pour rejoindre la communauté FAAZ :\n\n1. Remplissez le formulaire d'adhésion sur la page « Devenir membre ».\n2. L'équipe examine votre dossier (bonne moralité, adhésion aux statuts, appropriation de la vision).\n3. Après validation, vous réglez le droit d'adhésion de 10 000 FCFA.\n4. Votre adhésion est activée et vous accédez à l'espace membre.\n\nLa cotisation annuelle de 25 000 FCFA est due au plus tard le 30 juin de chaque exercice."
+  },
+  {
+    "id": 5,
+    "categorie": "Adhésion",
+    "question": "Quels sont les montants de l'adhésion et de la cotisation ?",
+    "reponse": "— Droit d'adhésion (unique, à verser à l'inscription) : 10 000 FCFA (~15 €)\n— Cotisation annuelle : 25 000 FCFA (~40 €), à régler avant le 30 juin de chaque année.\n\nCes montants sont fixés par les statuts de la fondation et validés en Assemblée Générale."
+  },
+  {
+    "id": 6,
+    "categorie": "Adhésion",
+    "question": "Quelles sont les conditions pour adhérer à la FAAZ ?",
+    "reponse": "Toute personne physique ou morale peut adhérer à la FAAZ, sous réserve de :\n\n— Être de bonne moralité.\n— Adhérer aux statuts et au règlement intérieur de la fondation.\n— S'approprier la vision et les valeurs de la FAAZ.\n— Régler le droit d'adhésion de 10 000 FCFA.\n— Payer la cotisation annuelle de 25 000 FCFA.\n\nL'adhésion est soumise à l'approbation du Conseil d'Administration."
+  },
+  {
+    "id": 7,
+    "categorie": "Bénévolat & Recrutement",
+    "question": "Comment devenir bénévole à la FAAZ ?",
+    "reponse": "Consultez nos offres de bénévolat sur la page « Devenir bénévole ». Pour chaque mission, un descriptif complet et un formulaire de candidature sont disponibles.\n\nUn modèle de lettre de motivation est téléchargeable sur cette même page pour vous aider dans votre démarche. Notre équipe vous contactera sous 2 semaines après réception de votre candidature."
+  },
+  {
+    "id": 8,
+    "categorie": "Bénévolat & Recrutement",
+    "question": "Puis-je m'engager depuis la diaspora ?",
+    "reponse": "Absolument ! La diaspora est un pilier essentiel de la FAAZ. Vous pouvez contribuer à distance : bénévolat de compétences (communication, traduction, conseil), don financier, parrainage d'un orphelin, ou rôle d'ambassadeur FAAZ dans votre pays de résidence.\n\nContactez-nous à contact@lafaaz.org pour discuter de la forme d'engagement la plus adaptée à votre situation."
+  },
+  {
+    "id": 9,
+    "categorie": "Général",
+    "question": "Qu'est-ce que le Prix Gnamey de l'Excellence ?",
+    "reponse": "Le Prix Gnamey de l'Excellence est décerné chaque année par la FAAZ en mémoire du Professeur Gnamey Kouassivi Charles, enseignant au CEG K/Vêdoko pendant 27 ans, décédé le 4 décembre 2018.\n\nIl récompense les meilleurs élèves du CEP, BEPC et BAC dans plusieurs communes du Bénin. Les lauréats reçoivent des enveloppes de 15 000 à 200 000 FCFA, des attestations de mérite et des bâches d'excellence. 6 éditions ont été organisées depuis 2020."
+  },
+  {
+    "id": 10,
+    "categorie": "Général",
+    "question": "Comment contacter la FAAZ ?",
+    "reponse": "Téléphone : +229 97 60 38 05\nE-mail : info@lafaaz.org / contact@lafaaz.org\nSite web : lafaaz.org\n\nVous pouvez aussi nous contacter via nos réseaux sociaux (Facebook, Instagram, X, TikTok, YouTube). Notre équipe est disponible du lundi au vendredi."
+  }
+]
