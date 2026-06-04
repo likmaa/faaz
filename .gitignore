@@ -35,3 +35,18 @@ yarn-error.log
 /.vscode
 /faazancien/
 
+# Python/Django backend
+backend/venv/
+backend/db.sqlite3
+backend/*.log
+backend/__pycache__/
+backend/*/__pycache__/
+backend/*/*/__pycache__/
+backend/.env
+backend/.env.*
+
+# React Admin
+admin/node_modules/
+admin/dist/
+admin/.env
+admin/.env.*
