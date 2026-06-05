@@ -13,8 +13,9 @@ import Actualites from './pages/Actualites';
 import Partenaires from './pages/Partenaires';
 import FAQ from './pages/FAQ';
 import Parametres from './pages/Parametres';
-import CMS from './pages/CMS';
 import Recruitment from './pages/Recruitment';
+import Equipe from './pages/Equipe';
+import Temoignages from './pages/Temoignages';
 
 export default function App() {
   return (
@@ -40,7 +41,8 @@ export default function App() {
           <Route path="actualites" element={<Actualites />} />
           <Route path="partenaires" element={<Partenaires />} />
           <Route path="faq" element={<FAQ />} />
-          <Route path="cms" element={<CMS />} />
+          <Route path="equipe" element={<Equipe />} />
+          <Route path="temoignages" element={<Temoignages />} />
 
           {/* Recrutement */}
           <Route path="recruitment" element={<Recruitment />} />

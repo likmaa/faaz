@@ -1,40 +1,88 @@
 import React from 'react';
+import { useQuery } from '@tanstack/react-query';
+import api from '../../services/api';
 
-// Vrais chiffres FAAZ — source : documentation officielle
-const impactStats = [
-  {
-    title: "Enfance indigente",
-    description: "4 projets actifs depuis 2020 : scolarisation, vivres, santé & vêtements, Noël aux orphelins.",
-    subItems: [
-      { label: 'Orphelins scolarisés', value: '122' },
-      { label: 'Bénéficiaires santé & vêtements', value: '232' },
-      { label: 'Bénéficiaires vivres', value: '108' },
-      { label: 'Noëls partagés', value: '6 éd.' },
-    ],
-  },
-  {
-    title: "Excellence & Jeunesse",
-    description: "Le Prix Gnamey récompense les meilleurs élèves du Bénin. Le coaching jeunesse ouvre de nouveaux horizons.",
-    subItems: [
-      { label: 'Éditions du Prix Gnamey', value: '6' },
-      { label: 'Communes touchées', value: '4+' },
-      { label: 'Enveloppes jusqu\'à', value: '200K FCFA' },
-      { label: 'Jeunes coachés (Phase 1)', value: '28' },
-    ],
-  },
-  {
-    title: "6 ans d'engagement",
-    description: "Depuis 2020, la FAAZ agit avec régularité, transparence et une proximité absolue avec les bénéficiaires.",
-    subItems: [
-      { label: "Années d'action continue", value: '6' },
-      { label: 'Centres partenaires', value: '4+' },
-      { label: 'Communes atteintes', value: '8+' },
-      { label: 'Projets actifs', value: '6' },
-    ],
-  },
-];
+function extractStat(list, titleKeyword, statLabelKeyword, fallback) {
+  if (!list || list.length === 0) return fallback;
+  for (const r of list) {
+    const title = (r.title || r.titre || '').toLowerCase();
+    if (title.includes(titleKeyword.toLowerCase())) {
+      const statsArray = r.stats || [];
+      for (const s of statsArray) {
+        const label = (s.label || '').toLowerCase();
+        if (label.includes(statLabelKeyword.toLowerCase())) {
+          const cleaned = (s.value || '').replace(/[^\d]/g, '');
+          const parsed = parseInt(cleaned, 10);
+          if (!isNaN(parsed)) {
+            return parsed;
+          }
+        }
+      }
+    }
+  }
+  return fallback;
+}
 
 export default function ImpactSection() {
+  const { data: realisations = [] } = useQuery({
+    queryKey: ['realisations'],
+    queryFn: async () => {
+      try {
+        const res = await api.get('/realisations/');
+        const list = Array.isArray(res.data) 
+          ? res.data 
+          : (Array.isArray(res.data?.results) 
+              ? res.data.results 
+              : (res.data?.data || []));
+        return list;
+      } catch (err) {
+        return [];
+      }
+    },
+    staleTime: 1000 * 60 * 5
+  });
+
+  const scolarises = extractStat(realisations, 'scolaris', 'bénéficiaire', 122);
+  const sante = extractStat(realisations, 'sant', 'bénéficiaire', 232);
+  const vivres = extractStat(realisations, 'vivres', 'bénéficiaire', 108);
+  const noelEditions = extractStat(realisations, 'noël', 'édition', 6);
+  const gnameyEditions = extractStat(realisations, 'gnamey', 'édition', 6);
+  const coaches = extractStat(realisations, 'coach', 'jeune', 28);
+  const actionYears = Math.max(6, new Date().getFullYear() - 2020);
+
+  const impactStats = [
+    {
+      title: "Enfance indigente",
+      description: "4 projets actifs depuis 2020 : scolarisation, vivres, santé & vêtements, Noël aux orphelins.",
+      subItems: [
+        { label: 'Orphelins scolarisés', value: `${scolarises}` },
+        { label: 'Bénéficiaires santé & vêtements', value: `${sante}` },
+        { label: 'Bénéficiaires vivres', value: `${vivres}` },
+        { label: 'Noëls partagés', value: `${noelEditions} éd.` },
+      ],
+    },
+    {
+      title: "Excellence & Jeunesse",
+      description: "Le Prix Gnamey récompense les meilleurs élèves du Bénin. Le coaching jeunesse ouvre de nouveaux horizons.",
+      subItems: [
+        { label: 'Éditions du Prix Gnamey', value: `${gnameyEditions}` },
+        { label: 'Communes touchées', value: '4+' },
+        { label: 'Enveloppes jusqu\'à', value: '200K FCFA' },
+        { label: 'Jeunes coachés (Phase 1)', value: `${coaches}` },
+      ],
+    },
+    {
+      title: `${actionYears} ans d'engagement`,
+      description: `Depuis 2020, la FAAZ agit avec régularité, transparence et une proximité absolue avec les bénéficiaires.`,
+      subItems: [
+        { label: "Années d'action continue", value: `${actionYears}` },
+        { label: 'Centres partenaires', value: '4+' },
+        { label: 'Communes atteintes', value: '8+' },
+        { label: 'Projets actifs', value: '6' },
+      ],
+    },
+  ];
+
   return (
     <section id="impact" className="py-24 bg-[#fafbfc]">
       <div className="mx-auto max-w-[1400px] px-6 sm:px-10 lg:px-20">

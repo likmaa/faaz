@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 
 const slides = [
-  { url: '/assets/img/accueil1.png', alt: 'Volunteers working with children' },
-  { url: '/assets/img/about1.png', alt: 'Community support' },
-  { url: '/assets/img/close-up-team-hand-shake.jpg', alt: 'Field projects' },
+  { url: '/img/accueil1.png', alt: 'Volunteers working with children' },
+  { url: '/img/about1.png', alt: 'Community support' },
+  { url: '/img/close-up-team-hand-shake.jpg', alt: 'Field projects' },
 ];
 
 export default function CTASection() {

@@ -41,7 +41,7 @@ export default function Footer() {
           {/* Colonne identité */}
           <div className="sm:col-span-2 lg:col-span-1">
             <img
-              src="/assets/img/logo blanc.png"
+              src="/img/logo blanc.png"
               alt="FAAZ"
               className="h-14 w-auto object-contain object-left mb-4"
             />

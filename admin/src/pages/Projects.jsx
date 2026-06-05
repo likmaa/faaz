@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import api from '../services/api';
-import { FolderHeart, Plus, Trash2, Edit, Loader2, DollarSign, X, Check } from 'lucide-react';
+import { FolderHeart, Plus, Trash2, Edit, Loader2, DollarSign, X, Check, ImageIcon } from 'lucide-react';
+import { getImageUrl } from '../utils/imageUrl';
 
 export default function Projects() {
   const [projects, setProjects] = useState([]);
@@ -15,6 +16,7 @@ export default function Projects() {
     description: '',
     axe: '',
     target_amount: '',
+    collected_amount: '0',
     status: 'collecte',
   });
   const [imageFile, setImageFile] = useState(null);
@@ -47,6 +49,7 @@ export default function Projects() {
       description: '',
       axe: axes[0]?.id || '',
       target_amount: '',
+      collected_amount: '0',
       status: 'collecte',
     });
     setImageFile(null);
@@ -61,6 +64,7 @@ export default function Projects() {
       description: proj.description,
       axe: proj.axe,
       target_amount: proj.target_amount,
+      collected_amount: proj.collected_amount,
       status: proj.status,
     });
     setImageFile(null);
@@ -87,6 +91,7 @@ export default function Projects() {
     formData.append('description', form.description);
     formData.append('axe', form.axe);
     formData.append('target_amount', form.target_amount);
+    formData.append('collected_amount', form.collected_amount);
     formData.append('status', form.status);
     
     if (imageFile) formData.append('image', imageFile);
@@ -143,8 +148,22 @@ export default function Projects() {
           {projects.map((proj) => {
             const percent = Math.min(100, Math.round((parseFloat(proj.collected_amount) / parseFloat(proj.target_amount)) * 100)) || 0;
             return (
-              <div key={proj.id} className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col justify-between hover:shadow-md transition relative overflow-hidden">
-                <div className="space-y-4">
+              <div key={proj.id} className="bg-white border border-slate-200 rounded-3xl shadow-sm flex flex-col justify-between hover:shadow-md transition relative overflow-hidden">
+                {/* Image du projet */}
+                {getImageUrl(proj.image) ? (
+                  <div className="h-40 overflow-hidden">
+                    <img
+                      src={getImageUrl(proj.image)}
+                      alt={proj.title}
+                      className="w-full h-full object-cover"
+                      onError={e => { e.target.parentElement.classList.add('hidden'); e.target.parentElement.nextSibling.classList.remove('hidden'); }}
+                    />
+                  </div>
+                ) : null}
+                <div className={`h-40 bg-gradient-to-br from-primary-50 to-blue-100 flex items-center justify-center ${getImageUrl(proj.image) ? 'hidden' : ''}`}>
+                  <ImageIcon className="w-10 h-10 text-primary-200" />
+                </div>
+                <div className="p-6 space-y-4">
                   {/* Badge */}
                   <div className="flex justify-between items-start">
                     <span className="inline-flex px-2.5 py-1 bg-slate-100 text-slate-600 rounded-full font-bold text-[10px] uppercase tracking-wider">
@@ -182,7 +201,7 @@ export default function Projects() {
                 </div>
 
                 {/* Actions */}
-                <div className="flex items-center justify-end gap-2 border-t border-slate-100 pt-4 mt-5">
+                <div className="flex items-center justify-end gap-2 border-t border-slate-100 px-6 py-4">
                   <button
                     onClick={() => handleOpenEdit(proj)}
                     className="p-2 border border-slate-200 text-slate-500 hover:bg-slate-50 rounded-xl transition"
@@ -273,6 +292,18 @@ export default function Projects() {
               </div>
 
               <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Montant collecté (FCFA) *</label>
+                  <input
+                    required
+                    type="number"
+                    placeholder="0"
+                    value={form.collected_amount}
+                    onChange={(e) => setForm({ ...form, collected_amount: e.target.value })}
+                    className="w-full bg-slate-50 border border-slate-200 text-slate-700 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition"
+                  />
+                </div>
+
                 <div>
                   <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Statut *</label>
                   <select

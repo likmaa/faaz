@@ -4,6 +4,7 @@ import api from '../services/api';
 import StatusBadge from '../components/ui/StatusBadge';
 import ConfirmDialog from '../components/ui/ConfirmDialog';
 import { toast } from '../store/toast';
+import { getImageUrl } from '../utils/imageUrl';
 
 const EMPTY_FORM = {
   title: '', story: '', date: '', project: '', status: 'brouillon',
@@ -171,7 +172,21 @@ export default function Realisations() {
                 {items.map(r => (
                   <tr key={r.id} className="hover:bg-slate-50/60 transition">
                     <td className="px-5 py-4">
-                      <p className="text-sm font-bold text-slate-800">{r.title}</p>
+                      <div className="flex items-center gap-3">
+                        {(r.media_urls && r.media_urls.length > 0 && getImageUrl(r.media_urls[0])) ? (
+                          <img
+                            src={getImageUrl(r.media_urls[0])}
+                            alt=""
+                            className="w-12 h-12 object-cover rounded-xl border border-slate-200 shadow-sm flex-shrink-0"
+                            onError={e => { e.target.style.display = 'none'; }}
+                          />
+                        ) : (
+                          <div className="w-12 h-12 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-300 flex-shrink-0">
+                            <ImageIcon className="w-5 h-5" />
+                          </div>
+                        )}
+                        <p className="text-sm font-bold text-slate-800">{r.title}</p>
+                      </div>
                     </td>
                     <td className="px-5 py-4 text-sm text-slate-600">{r.project_title || '—'}</td>
                     <td className="px-5 py-4 text-sm text-slate-600">{formatDate(r.date)}</td>
@@ -240,12 +255,16 @@ export default function Realisations() {
                     className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 transition" />
                   <button onClick={addMedia} className="px-3 py-2 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 transition text-sm font-bold">Ajouter</button>
                 </div>
-                {form.media_urls.map((url, i) => (
-                  <div key={i} className="flex items-center gap-2 mb-1">
-                    <span className="flex-1 text-xs text-slate-500 truncate">{url}</span>
-                    <button onClick={() => removeMedia(i)} className="text-red-400 hover:text-red-600"><X className="w-3.5 h-3.5" /></button>
-                  </div>
-                ))}
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {form.media_urls.map((url, i) => (
+                    <div key={i} className="relative group w-16 h-16 rounded-xl overflow-hidden border border-slate-200 bg-slate-50 shadow-sm flex-shrink-0">
+                      <img src={getImageUrl(url)} alt="" className="w-full h-full object-cover" />
+                      <button type="button" onClick={() => removeMedia(i)} className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 flex items-center justify-center text-white transition rounded-xl">
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
               </div>
 
               {/* Stats */}

@@ -6,7 +6,7 @@ import {
   LayoutDashboard, Users, ClipboardList, HandCoins, FolderHeart, Tag,
   Award, Newspaper, Building2, HelpCircle, Briefcase, Settings,
   LogOut, User as UserIcon, Menu, X, Loader2, ChevronDown, ChevronRight,
-  Bell, FileText
+  Bell, FileText, Heart
 } from 'lucide-react';
 
 const NAV_GROUPS = [
@@ -35,6 +35,8 @@ const NAV_GROUPS = [
       { label: 'Réalisations', to: '/realisations', icon: Award },
       { label: 'Actualités',   to: '/actualites',   icon: Newspaper },
       { label: 'Partenaires',  to: '/partenaires',  icon: Building2 },
+      { label: 'Équipe',       to: '/equipe',       icon: Users },
+      { label: 'Témoignages',  to: '/temoignages',  icon: Heart },
       { label: 'FAQ',          to: '/faq',          icon: HelpCircle },
     ],
   },
@@ -60,7 +62,8 @@ function Breadcrumb() {
     members: 'Membres', cotisations: 'Cotisations', donations: 'Dons',
     projects: 'Projets de dons', axes: 'Axes', realisations: 'Réalisations',
     actualites: 'Actualités', partenaires: 'Partenaires', faq: 'FAQ',
-    recruitment: 'Recrutement', parametres: 'Paramètres', cms: 'CMS',
+    recruitment: 'Recrutement', parametres: 'Paramètres',
+    equipe: 'Équipe', temoignages: 'Témoignages',
   };
 
   if (segments.length === 0) return null;
@@ -213,7 +216,7 @@ export default function AdminLayout() {
   return (
     <div className="min-h-screen bg-slate-50 flex">
       {/* Sidebar desktop */}
-      <aside className="fixed inset-y-0 left-0 z-20 w-60 bg-white border-r border-slate-200 hidden lg:flex flex-col shadow-sm">
+      <aside className="fixed inset-y-0 left-0 z-30 w-60 bg-white border-r border-slate-200 hidden lg:flex flex-col shadow-sm">
         <SidebarContent />
       </aside>
 
@@ -221,10 +224,10 @@ export default function AdminLayout() {
       {sidebarOpen && (
         <>
           <div
-            className="fixed inset-0 z-20 bg-black/20 backdrop-blur-sm lg:hidden"
+            className="fixed inset-0 z-30 bg-black/20 backdrop-blur-sm lg:hidden"
             onClick={() => setSidebarOpen(false)}
           />
-          <aside className="fixed inset-y-0 left-0 z-30 w-60 bg-white border-r border-slate-200 flex flex-col shadow-xl lg:hidden">
+          <aside className="fixed inset-y-0 left-0 z-40 w-60 bg-white border-r border-slate-200 flex flex-col shadow-xl lg:hidden">
             <SidebarContent />
           </aside>
         </>
@@ -233,7 +236,7 @@ export default function AdminLayout() {
       {/* Main content */}
       <div className="flex-1 lg:pl-60 flex flex-col min-h-screen">
         {/* ── Topbar ── */}
-        <header className="h-20 bg-white border-b border-slate-200 sticky top-0 z-10 px-5 flex items-center gap-4 shadow-sm">
+        <header className="h-20 bg-white border-b border-slate-200 sticky top-0 z-20 px-5 flex items-center gap-4 shadow-sm">
           <button
             onClick={() => setSidebarOpen(true)}
             className="lg:hidden p-1.5 rounded-lg text-slate-500 hover:bg-slate-100 transition"

@@ -132,7 +132,7 @@ export default function Dashboard() {
   return (
     <div className="space-y-8">
       {/* Welcome Banner */}
-      <div className="bg-gradient-to-br from-secondary-700 to-secondary-900 text-white rounded-3xl p-6 md:p-8 shadow-sm relative overflow-hidden">
+      <div className="bg-gradient-to-br from-secondary-700 to-secondary-900 text-white rounded-3xl p-6 md:p-8 shadow-sm relative overflow-hidden z-0">
         {/* Subtle background glow effect using light blue */}
         <div className="absolute -top-10 -right-10 w-64 h-64 bg-white/10 rounded-full blur-3xl pointer-events-none" />
         <div className="absolute -bottom-10 -left-10 w-64 h-64 bg-secondary-500/20 rounded-full blur-3xl pointer-events-none" />

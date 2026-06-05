@@ -3,8 +3,9 @@ from rest_framework.routers import DefaultRouter
 from .views import (
     CMSSettingViewSet, TeamMemberViewSet, PartnerViewSet, FAQItemViewSet,
     MemberViewSet, MembershipPaymentViewSet, AxeViewSet, ProjectViewSet,
-    DonationViewSet, RealisationViewSet, RecruitmentOfferViewSet, CandidatureViewSet,
-    CustomTokenObtainPairView, RegisterView, UserProfileView, KKiaPayWebhookView
+    DonationViewSet, RealisationViewSet, NewsViewSet, RecruitmentOfferViewSet,
+    CandidatureViewSet, CustomTokenObtainPairView, RegisterView, UserProfileView,
+    KKiaPayWebhookView, TestimonialViewSet
 )
 
 router = DefaultRouter()
@@ -18,8 +19,10 @@ router.register(r'axes', AxeViewSet, basename='axes')
 router.register(r'projects', ProjectViewSet, basename='projects')
 router.register(r'donations', DonationViewSet, basename='donations')
 router.register(r'realisations', RealisationViewSet, basename='realisations')
+router.register(r'news', NewsViewSet, basename='news')
 router.register(r'recruitment', RecruitmentOfferViewSet, basename='recruitment')
 router.register(r'candidatures', CandidatureViewSet, basename='candidatures')
+router.register(r'temoignages', TestimonialViewSet, basename='temoignages')
 
 urlpatterns = [
     path('login', CustomTokenObtainPairView.as_view(), name='login'),

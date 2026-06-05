@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import PageHero from '../components/ui/PageHero';
+import api from '../services/api';
 import StatsSection from '../components/sections/StatsSection';
 import TimelineSection from '../components/sections/TimelineSection';
 import TestimonialsSection from '../components/sections/TestimonialsSection';
@@ -56,13 +58,81 @@ const ORGANES = [
 ];
 
 const EQUIPE = [
-  { nom: 'Dr. Koffi Gnamey', role: 'Président de la fondation', image: '/assets/img/president.png', initiales: 'KG' },
-  { nom: 'Mme Sika Adjovi', role: 'Secrétaire Générale', image: '/assets/img/secretaire.png', initiales: 'SA' },
-  { nom: 'M. Bruno Soglo', role: 'Trésorier Général', image: '/assets/img/tresorier.png', initiales: 'BS' },
-  { nom: 'M. Damien Dossou', role: 'Directeur Exécutif', image: '/assets/img/directeur.png', initiales: 'DD' },
+  { nom: 'Dr. Koffi Gnamey', role: 'Président de la fondation', image: '/img/president.png', initiales: 'KG' },
+  { nom: 'Mme Sika Adjovi', role: 'Secrétaire Générale', image: '/img/secretaire.png', initiales: 'SA' },
+  { nom: 'M. Bruno Soglo', role: 'Trésorier Général', image: '/img/tresorier.png', initiales: 'BS' },
+  { nom: 'M. Damien Dossou', role: 'Directeur Exécutif', image: '/img/directeur.png', initiales: 'DD' },
 ];
 
 export default function About() {
+  const [team, setTeam] = useState(EQUIPE);
+
+  const { data: cmsSettings = {} } = useQuery({
+    queryKey: ['cms-settings'],
+    queryFn: async () => {
+      try {
+        const res = await api.get('/cms/');
+        const list = Array.isArray(res.data) 
+          ? res.data 
+          : (Array.isArray(res.data?.results) 
+              ? res.data.results 
+              : (res.data?.data || []));
+        const map = {};
+        list.forEach(item => {
+          map[item.key] = item.value;
+        });
+        return map;
+      } catch (err) {
+        return {};
+      }
+    },
+    staleTime: 1000 * 65 * 10
+  });
+
+  const slogan = cmsSettings.slogan || "Engageons notre amitié au service des personnes vulnérables et de l'humanité.";
+  const mission = cmsSettings.mission || "Promouvoir le bien-être des personnes les plus vulnérables à travers des actions solidaires, structurées et à impact mesurable.";
+  const vision = cmsSettings.vision || "Épanouissement durable de l'humanité — un Bénin où chaque personne vulnérable est accompagnée avec dignité.";
+  const aboutText = cmsSettings.about_text || "La FAAZ — Fondation les Amis de A à Z — est une ONG béninoise à membres fondée sur un engagement simple : promouvoir le bien-être des personnes les plus vulnérables. Orphelins, élèves méritants, jeunes en quête de repères, personnes âgées isolées : chaque action de la FAAZ part d'une conviction, celle que l'amitié peut changer des vies.";
+
+  useEffect(() => {
+    async function fetchTeam() {
+      try {
+        const res = await api.get('/team/');
+        const list = Array.isArray(res.data) 
+          ? res.data 
+          : (Array.isArray(res.data?.results) 
+              ? res.data.results 
+              : (res.data?.data || []));
+        if (list && list.length > 0) {
+          const sorted = [...list].sort((a, b) => (a.order || 0) - (b.order || 0));
+          const mapped = sorted.map(m => {
+            const first = m.first_name || '';
+            const last = m.last_name || '';
+            const initials = (first[0] || '') + (last[0] || '');
+            
+            // If the photo path starts with /media/, resolve it to absolute backend URL
+            let photoUrl = m.photo || '';
+            if (photoUrl && !photoUrl.startsWith('http')) {
+              const apiBase = (import.meta.env.VITE_API_URL || 'http://localhost:8000/api').replace(/\/api$/, '');
+              photoUrl = `${apiBase}${photoUrl}`;
+            }
+
+            return {
+              nom: `${first} ${last}`.trim(),
+              role: m.role || '',
+              image: photoUrl,
+              initiales: initials.toUpperCase() || 'KG'
+            };
+          });
+          setTeam(mapped);
+        }
+      } catch (err) {
+        console.warn("Using fallback team members", err);
+      }
+    }
+    fetchTeam();
+  }, []);
+
   return (
     <div className="bg-white">
       <PageHero
@@ -85,11 +155,11 @@ export default function About() {
                 Engageons notre amitié<br />
                 <span className="bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">au service des vulnérables.</span>
               </h2>
-              <p className="text-slate-500 text-sm sm:text-base leading-relaxed mb-4 font-body">
-                La FAAZ — Fondation les Amis de A à Z — est une ONG béninoise à membres fondée sur un engagement simple : promouvoir le bien-être des personnes les plus vulnérables. Orphelins, élèves méritants, jeunes en quête de repères, personnes âgées isolées : chaque action de la FAAZ part d'une conviction, celle que l'amitié peut changer des vies.
+              <p className="text-slate-500 text-sm sm:text-base leading-relaxed mb-4 font-body whitespace-pre-line">
+                {aboutText}
               </p>
               <p className="text-slate-500 text-sm sm:text-base leading-relaxed font-body">
-                Notre slogan — « Engageons notre amitié au service des personnes vulnérables et de l'humanité » — n'est pas un vœu pieux. Il traduit 6 ans d'actions concrètes, documentées, et chiffrées.
+                Notre slogan — « {slogan} » — n'est pas un vœu pieux. Il traduit des actions concrètes, documentées, et chiffrées.
               </p>
             </div>
             
@@ -98,7 +168,7 @@ export default function About() {
               <div className="rounded-3xl border border-emerald-100 bg-gradient-to-br from-emerald-50/20 to-white p-6 shadow-[0_8px_30px_rgba(22,163,74,0.02)] hover:shadow-[0_12px_30px_rgba(22,163,74,0.06)] hover:border-emerald-200 transition-all duration-500">
                 <h3 className="font-bold text-base mb-2 text-slate-800 font-body">Vision</h3>
                 <p className="text-sm text-slate-500 leading-relaxed font-body">
-                  Épanouissement durable de l'humanité — un Bénin où chaque personne vulnérable est accompagnée avec dignité.
+                  {vision}
                 </p>
               </div>
               
@@ -106,7 +176,7 @@ export default function About() {
               <div className="rounded-3xl border border-sky-100 bg-gradient-to-br from-sky-50/20 to-white p-6 shadow-[0_8px_30px_rgba(2,132,199,0.02)] hover:shadow-[0_12px_30px_rgba(2,132,199,0.06)] hover:border-sky-200 transition-all duration-500">
                 <h3 className="font-bold text-base mb-2 text-slate-800 font-body">Mission</h3>
                 <p className="text-sm text-slate-500 leading-relaxed font-body">
-                  Promouvoir le bien-être des personnes les plus vulnérables à travers des actions solidaires, structurées et à impact mesurable.
+                  {mission}
                 </p>
               </div>
 
@@ -116,7 +186,7 @@ export default function About() {
                 <Quote size={90} className="absolute right-4 bottom-[-15px] text-primary-200/20 stroke-[1] pointer-events-none group-hover:scale-110 group-hover:text-primary-300/20 transition-all duration-500" />
                 <h3 className="font-bold text-xs uppercase tracking-wider text-slate-400 mb-2 font-body">Slogan</h3>
                 <p className="text-sm sm:text-base text-secondary-700 italic font-bold leading-relaxed font-body relative z-10">
-                  « Engageons notre amitié au service des personnes vulnérables et de l'humanité. »
+                  « {slogan} »
                 </p>
               </div>
             </div>
@@ -247,7 +317,7 @@ export default function About() {
           <span className="text-xs font-bold uppercase tracking-widest text-secondary-600 mb-4 block">Les personnes derrière la fondation</span>
           <h2 className="text-3xl md:text-4xl lg:text-5xl leading-[1.1] font-extrabold text-slate-900 tracking-tight font-heading mb-10">Notre équipe</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {EQUIPE.map(m => (
+            {team.map(m => (
               <div key={m.role} className="bg-white border border-slate-100/80 rounded-3xl p-3 shadow-[0_8px_30px_rgba(15,23,42,0.02)] hover:shadow-xl hover:border-secondary-200 hover:-translate-y-1.5 transition-all duration-500 group cursor-pointer relative overflow-hidden">
                 {/* Cadre de photo */}
                 <div className="relative aspect-[4/5] w-full rounded-2xl overflow-hidden mb-4 bg-slate-50 border border-slate-100">

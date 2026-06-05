@@ -8,9 +8,9 @@ import React, { useEffect, useRef, useState } from 'react';
  * - Lazy loads when entering viewport
  */
 export default function BackgroundVideo({
-  mp4Src = '/assets/video/kk1_1280.mp4',
-  webmSrc = '/assets/video/kk1_1280.webm',
-  poster = '/assets/img/caroussel.jpg',
+  mp4Src = '/video/kk1_1280.mp4',
+  webmSrc = '/video/kk1_1280.webm',
+  poster = '/img/caroussel.jpg',
   overlay = 'bg-black/20'
 }) {
   const videoRef = useRef(null);
@@ -98,7 +98,7 @@ export default function BackgroundVideo({
 }
 
 <BackgroundVideo
-  webmSrc="/assets/video/kk1_1280.webm"
-  mp4Src="/assets/video/kk1_960.mp4"
+  webmSrc="/video/kk1_1280.webm"
+  mp4Src="/video/kk1_960.mp4"
   poster={null}
 />

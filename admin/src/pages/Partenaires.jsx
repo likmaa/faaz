@@ -3,6 +3,7 @@ import { Plus, Pencil, Trash2, GripVertical, Loader2, Building2, ExternalLink } 
 import api from '../services/api';
 import ConfirmDialog from '../components/ui/ConfirmDialog';
 import { toast } from '../store/toast';
+import { getImageUrl } from '../utils/imageUrl';
 
 const EMPTY_FORM = { name: '', link: '', logo: '', description: '' };
 
@@ -122,8 +123,8 @@ export default function Partenaires() {
               <GripVertical className="w-5 h-5 text-slate-300 cursor-grab active:cursor-grabbing flex-shrink-0" />
 
               {/* Logo */}
-              {p.logo ? (
-                <img src={p.logo} alt={p.name} className="w-12 h-10 object-contain rounded-lg border border-slate-100 bg-white flex-shrink-0" />
+              {getImageUrl(p.logo) ? (
+                <img src={getImageUrl(p.logo)} alt={p.name} className="w-12 h-10 object-contain rounded-lg border border-slate-100 bg-white flex-shrink-0" />
               ) : (
                 <div className="w-12 h-10 rounded-lg bg-slate-100 flex items-center justify-center flex-shrink-0">
                   <Building2 className="w-5 h-5 text-slate-400" />
@@ -167,9 +168,14 @@ export default function Partenaires() {
               </div>
               <div>
                 <label className="block text-xs font-bold text-slate-600 mb-1.5">Logo (URL)</label>
-                <input type="url" value={form.logo} onChange={e => setForm(f => ({ ...f, logo: e.target.value }))}
-                  placeholder="https://…"
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 transition" />
+                <input type="text" value={form.logo} onChange={e => setForm(f => ({ ...f, logo: e.target.value }))}
+                  placeholder="https://… ou /img/…"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 transition mb-2" />
+                {getImageUrl(form.logo) && (
+                  <div className="w-20 h-16 rounded-xl border border-slate-200 bg-white flex items-center justify-center p-2 shadow-sm">
+                    <img src={getImageUrl(form.logo)} alt="Aperçu logo" className="max-w-full max-h-full object-contain" onError={e => e.target.style.display = 'none'} />
+                  </div>
+                )}
               </div>
               <div>
                 <label className="block text-xs font-bold text-slate-600 mb-1.5">Lien (URL)</label>

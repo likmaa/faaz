@@ -1,8 +1,9 @@
 import React from 'react';
+import { useQuery } from '@tanstack/react-query';
+import api from '../../services/api';
 import { Globe, Droplet, Sun, GraduationCap, Activity, Sprout, Handshake } from 'lucide-react';
 
-// Partenaires réels / crédibles avec icônes Lucide et couleurs au survol dédiées
-const partners = [
+const fallbackPartners = [
   { 
     id: 1, 
     name: 'UNICEF Bénin', 
@@ -60,6 +61,26 @@ const partners = [
 ];
 
 export default function PartnersSection() {
+  const { data: partnersList = [] } = useQuery({
+    queryKey: ['partners'],
+    queryFn: async () => {
+      try {
+        const res = await api.get('/partners/');
+        const list = Array.isArray(res.data) 
+          ? res.data 
+          : (Array.isArray(res.data?.results) 
+              ? res.data.results 
+              : (res.data?.data || []));
+        return list;
+      } catch (err) {
+        return [];
+      }
+    },
+    staleTime: 1000 * 60 * 10
+  });
+
+  const displayList = partnersList.length > 0 ? partnersList : fallbackPartners;
+
   return (
     <section className="py-24 bg-white relative overflow-hidden" id="partners-section">
       {/* Motifs de fond (Dotted pattern) */}
@@ -91,22 +112,44 @@ export default function PartnersSection() {
 
         {/* Grille de badges capsules */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-5 font-sans">
-          {partners.map(p => {
-            const Icon = p.Icon;
+          {displayList.map(p => {
+            let logoUrl = p.logo || '';
+            if (logoUrl && !logoUrl.startsWith('http')) {
+              const apiBase = (import.meta.env.VITE_API_URL || 'http://localhost:8000/api').replace(/\/api$/, '');
+              logoUrl = `${apiBase}${logoUrl}`;
+            }
+
+            const hoverClasses = p.hoverClasses || 'hover:border-primary-300 hover:bg-primary-50/10 hover:shadow-[0_12px_24px_-8px_rgba(22,163,74,0.15)]';
+            const colorClass = p.colorClass || 'text-primary-600';
+            const iconHoverClasses = p.iconHoverClasses || 'group-hover:bg-primary-600 group-hover:text-white group-hover:border-primary-600';
+            const IconComponent = p.Icon || Handshake;
+            const typeText = p.type || 'Partenaire';
+
             return (
-              <div 
+              <a 
                 key={p.id} 
                 id={`partner-card-${p.id}`}
-                className={`group flex items-center gap-4 p-4 border border-slate-100 rounded-2xl bg-white/70 backdrop-blur-sm hover:-translate-y-1 hover:scale-[1.02] transition-all duration-500 ease-out cursor-pointer shadow-[0_4px_12px_-4px_rgba(0,0,0,0.02)] ${p.hoverClasses}`}
+                href={p.link || '#'}
+                target={p.link ? '_blank' : undefined}
+                rel={p.link ? 'noopener noreferrer' : undefined}
+                className={`group flex items-center gap-4 p-4 border border-slate-100 rounded-2xl bg-white/70 backdrop-blur-sm hover:-translate-y-1 hover:scale-[1.02] transition-all duration-500 ease-out cursor-pointer shadow-[0_4px_12px_-4px_rgba(0,0,0,0.02)] ${hoverClasses}`}
               >
-                <div className={`w-12 h-12 rounded-xl bg-slate-50/80 border border-slate-100/80 flex items-center justify-center flex-shrink-0 shadow-sm transition-all duration-500 ${p.colorClass} ${p.iconHoverClasses}`}>
-                  <Icon size={20} strokeWidth={2} className="transition-transform duration-500 group-hover:rotate-6 group-hover:scale-110" />
+                <div className={`w-12 h-12 rounded-xl bg-slate-50/80 border border-slate-100/80 flex items-center justify-center flex-shrink-0 shadow-sm transition-all duration-500 overflow-hidden ${colorClass} ${iconHoverClasses}`}>
+                  {p.logo ? (
+                    <img 
+                      src={logoUrl} 
+                      alt={p.name} 
+                      className="w-full h-full object-contain p-1 bg-white" 
+                    />
+                  ) : (
+                    <IconComponent size={20} strokeWidth={2} className="transition-transform duration-500 group-hover:rotate-6 group-hover:scale-110" />
+                  )}
                 </div>
                 <div>
                   <p className="text-xs font-bold text-slate-800 leading-snug transition-colors duration-300 group-hover:text-slate-900 font-body">{p.name}</p>
-                  <p className="text-[9px] font-bold text-slate-400 mt-0.5 tracking-wider uppercase font-body">{p.type}</p>
+                  <p className="text-[9px] font-bold text-slate-400 mt-0.5 tracking-wider uppercase font-body">{typeText}</p>
                 </div>
-              </div>
+              </a>
             );
           })}
         </div>

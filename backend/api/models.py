@@ -7,11 +7,12 @@ from django.contrib.auth.models import User
 
 class CMSSetting(models.Model):
     key = models.CharField(max_length=255, unique=True)
-    value = models.TextField()
+    value = models.TextField(blank=True, default='')
     description = models.CharField(max_length=255, blank=True)
 
     def __str__(self):
-        return f"{self.key}: {self.value[:30]}..."
+        val = self.value or ""
+        return f"{self.key}: {val[:30]}..."
 
 
 class TeamMember(models.Model):
@@ -37,10 +38,28 @@ class Partner(models.Model):
         return self.name
 
 
+class Testimonial(models.Model):
+    name = models.CharField(max_length=150)
+    role = models.CharField(max_length=255, blank=True, default='')
+    amount = models.CharField(max_length=50, blank=True, null=True)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.name} ({self.role})"
+
+
 class FAQItem(models.Model):
+    STATUS_CHOICES = [
+        ('publie', 'Publié'),
+        ('brouillon', 'Brouillon'),
+    ]
+
     question = models.TextField()
     answer = models.TextField()
+    category = models.CharField(max_length=100, blank=True, default='')
     order = models.IntegerField(default=0)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='publie')
 
     class Meta:
         ordering = ['order']
@@ -135,6 +154,7 @@ class Project(models.Model):
     ]
 
     title = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=255, blank=True, default='')
     description = models.TextField()
     axe = models.ForeignKey(Axe, on_delete=models.PROTECT, related_name='projects')
     pdf_file = models.FileField(upload_to='projects/pdf/', blank=True, null=True)
@@ -142,6 +162,7 @@ class Project(models.Model):
     target_amount = models.DecimalField(max_digits=12, decimal_places=2)
     collected_amount = models.DecimalField(max_digits=12, decimal_places=2, default=0)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='collecte')
+    localisation = models.CharField(max_length=255, blank=True, default='')
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
@@ -179,11 +200,38 @@ class Realisation(models.Model):
     title = models.CharField(max_length=255)
     story = models.TextField()
     media_urls = models.JSONField(default=list, blank=True) # Liste d'URLs d'images/vidéos
+    stats = models.JSONField(default=list, blank=True)  # [{"label": "Bénéficiaires", "value": "122"}]
     date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"Réalisation: {self.title} ({self.project.title})"
+
+
+# =====================================================================
+# 5. ACTUALITÉS (NEWS)
+# =====================================================================
+
+class News(models.Model):
+    STATUS_CHOICES = [
+        ('publie', 'Publié'),
+        ('brouillon', 'Brouillon'),
+    ]
+
+    title = models.CharField(max_length=255)
+    content = models.TextField()
+    category = models.CharField(max_length=100, blank=True, default='')
+    cover_image = models.CharField(max_length=500, blank=True, default='')  # URL ou chemin relatif
+    date = models.DateField(null=True, blank=True)
+    featured = models.BooleanField(default=False)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='publie')
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return self.title
 
 
 # =====================================================================

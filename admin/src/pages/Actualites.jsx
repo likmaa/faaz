@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { Plus, Pencil, Trash2, Loader2, Newspaper, Star } from 'lucide-react';
+import { Plus, Pencil, Trash2, Loader2, Newspaper, Star, ImageIcon } from 'lucide-react';
 import api from '../services/api';
 import StatusBadge from '../components/ui/StatusBadge';
 import ConfirmDialog from '../components/ui/ConfirmDialog';
 import { toast } from '../store/toast';
+import { getImageUrl } from '../utils/imageUrl';
 
 const EMPTY_FORM = {
   title: '', content: '', category: '', cover_image: '', date: '', featured: false, status: 'brouillon',
@@ -120,6 +121,7 @@ export default function Actualites() {
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-slate-50 border-b border-slate-200">
+                  <th className="px-5 py-3.5 text-xs font-bold uppercase tracking-wider text-slate-400">Aperçu</th>
                   <th className="px-5 py-3.5 text-xs font-bold uppercase tracking-wider text-slate-400">Titre</th>
                   <th className="px-5 py-3.5 text-xs font-bold uppercase tracking-wider text-slate-400">Catégorie</th>
                   <th className="px-5 py-3.5 text-xs font-bold uppercase tracking-wider text-slate-400">Date</th>
@@ -131,6 +133,19 @@ export default function Actualites() {
               <tbody className="divide-y divide-slate-100">
                 {items.map(item => (
                   <tr key={item.id} className="hover:bg-slate-50/60 transition">
+                    <td className="px-5 py-4">
+                      {getImageUrl(item.cover_image) ? (
+                        <img
+                          src={getImageUrl(item.cover_image)}
+                          alt={item.title}
+                          className="w-14 h-14 object-cover rounded-xl border border-slate-200 shadow-sm"
+                          onError={e => { e.target.style.display='none'; e.target.nextSibling.style.display='flex'; }}
+                        />
+                      ) : null}
+                      <div className={`w-14 h-14 rounded-xl bg-slate-100 border border-slate-200 items-center justify-center ${getImageUrl(item.cover_image) ? 'hidden' : 'flex'}`}>
+                        <ImageIcon className="w-5 h-5 text-slate-300" />
+                      </div>
+                    </td>
                     <td className="px-5 py-4">
                       <p className="text-sm font-bold text-slate-800 truncate max-w-xs">{item.title}</p>
                     </td>
@@ -176,10 +191,20 @@ export default function Actualites() {
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 transition" />
               </div>
               <div>
-                <label className="block text-xs font-bold text-slate-600 mb-1.5">Image de couverture (URL)</label>
-                <input type="url" value={form.cover_image} onChange={e => setForm(f => ({ ...f, cover_image: e.target.value }))}
-                  placeholder="https://…"
+                <label className="block text-xs font-bold text-slate-600 mb-1.5">Image de couverture (URL ou chemin)</label>
+                <input type="text" value={form.cover_image} onChange={e => setForm(f => ({ ...f, cover_image: e.target.value }))}
+                  placeholder="Ex: /img/about1.png ou https://..."
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 transition" />
+                {form.cover_image && getImageUrl(form.cover_image) && (
+                  <div className="mt-2 rounded-xl overflow-hidden border border-slate-200 bg-slate-100 h-40">
+                    <img
+                      src={getImageUrl(form.cover_image)}
+                      alt="Aperçu"
+                      className="w-full h-full object-cover"
+                      onError={e => { e.target.parentElement.innerHTML = '<div class="w-full h-full flex items-center justify-center text-slate-400 text-xs">Image introuvable</div>'; }}
+                    />
+                  </div>
+                )}
               </div>
               <div>
                 <label className="block text-xs font-bold text-slate-600 mb-1.5">Date</label>

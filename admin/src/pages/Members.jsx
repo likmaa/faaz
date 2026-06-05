@@ -1,12 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import api from '../services/api';
-import { Users, Check, X, Search, Loader2, Phone, Mail, UserCheck } from 'lucide-react';
+import { Users, Check, X, Search, Loader2, Phone, Mail, UserCheck, Plus } from 'lucide-react';
 
 export default function Members() {
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState('all'); // all, en_attente, valide, rejete
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [form, setForm] = useState({
+    first_name: '',
+    last_name: '',
+    email: '',
+    phone: '',
+    address: '',
+    zip_code: '',
+    city: '',
+    country: 'Bénin',
+    birth_date: '',
+    profession: '',
+    contact_method: 'email',
+  });
 
   useEffect(() => {
     fetchMembers();
@@ -21,6 +36,39 @@ export default function Members() {
       console.error("Erreur lors de la récupération des membres.", err);
     } finally {
       setLoading(false);
+    }
+  }
+
+  function handleOpenCreate() {
+    setForm({
+      first_name: '',
+      last_name: '',
+      email: '',
+      phone: '',
+      address: '',
+      zip_code: '',
+      city: '',
+      country: 'Bénin',
+      birth_date: '',
+      profession: '',
+      contact_method: 'email',
+    });
+    setShowAddModal(true);
+  }
+
+  async function handleAddMember(e) {
+    e.preventDefault();
+    setSaving(true);
+    try {
+      const res = await api.post('/members/', form);
+      const validatedRes = await api.post(`/members/${res.data.id}/validate_adhesion/`, { action: 'valide' });
+      setMembers([validatedRes.data, ...members]);
+      setShowAddModal(false);
+    } catch (err) {
+      console.error(err);
+      alert(err.response?.data?.email?.[0] || "Erreur lors de la création du membre.");
+    } finally {
+      setSaving(false);
     }
   }
 
@@ -53,6 +101,13 @@ export default function Members() {
           <h1 className="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight font-title">Membres & Adhésions</h1>
           <p className="text-slate-500 text-sm mt-1">Validez les demandes d'adhésion et suivez le paiement des cotisations.</p>
         </div>
+        <button
+          onClick={handleOpenCreate}
+          className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-full font-bold text-sm shadow-md shadow-primary-600/15 active:scale-[0.98] transition self-start sm:self-auto"
+        >
+          <Plus className="w-4 h-4" />
+          Nouveau membre
+        </button>
       </div>
 
       {/* Filters and search */}
@@ -202,6 +257,181 @@ export default function Members() {
                 ))}
               </tbody>
             </table>
+          </div>
+        </div>
+      )}
+
+      {/* Modal d'ajout de membre */}
+      {showAddModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
+          <div className="fixed inset-0 bg-black/40 backdrop-blur-sm" onClick={() => setShowAddModal(false)} />
+          <div className="bg-white rounded-3xl p-6 md:p-8 max-w-2xl w-full relative z-10 shadow-2xl max-h-[90vh] overflow-y-auto border border-slate-150 animate-in fade-in duration-200">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-4 mb-6">
+              <h2 className="text-xl font-bold text-slate-900 font-title">Ajouter un nouveau membre</h2>
+              <button 
+                type="button"
+                onClick={() => setShowAddModal(false)} 
+                className="p-1 rounded-xl text-slate-400 hover:text-slate-600 hover:bg-slate-50 transition"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleAddMember} className="space-y-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-500 uppercase mb-2">Prénom</label>
+                  <input
+                    required
+                    type="text"
+                    placeholder="Ex: Koffi"
+                    value={form.first_name}
+                    onChange={(e) => setForm({ ...form, first_name: e.target.value })}
+                    className="w-full bg-slate-50 border border-slate-200 text-slate-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-500 uppercase mb-2">Nom de famille</label>
+                  <input
+                    required
+                    type="text"
+                    placeholder="Ex: Gnamey"
+                    value={form.last_name}
+                    onChange={(e) => setForm({ ...form, last_name: e.target.value })}
+                    className="w-full bg-slate-50 border border-slate-200 text-slate-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-500 uppercase mb-2">E-mail</label>
+                  <input
+                    required
+                    type="email"
+                    placeholder="Ex: koffi.gnamey@example.com"
+                    value={form.email}
+                    onChange={(e) => setForm({ ...form, email: e.target.value })}
+                    className="w-full bg-slate-50 border border-slate-200 text-slate-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-500 uppercase mb-2">Téléphone</label>
+                  <input
+                    required
+                    type="tel"
+                    placeholder="Ex: +229 97 00 00 00"
+                    value={form.phone}
+                    onChange={(e) => setForm({ ...form, phone: e.target.value })}
+                    className="w-full bg-slate-50 border border-slate-200 text-slate-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="md:col-span-2">
+                  <label className="block text-xs font-semibold text-slate-500 uppercase mb-2">Adresse</label>
+                  <input
+                    required
+                    type="text"
+                    placeholder="Ex: Lot 42, Haie Vive"
+                    value={form.address}
+                    onChange={(e) => setForm({ ...form, address: e.target.value })}
+                    className="w-full bg-slate-50 border border-slate-200 text-slate-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-500 uppercase mb-2">Code Postal</label>
+                  <input
+                    type="text"
+                    placeholder="Ex: 01 B.P. 123"
+                    value={form.zip_code}
+                    onChange={(e) => setForm({ ...form, zip_code: e.target.value })}
+                    className="w-full bg-slate-50 border border-slate-200 text-slate-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-500 uppercase mb-2">Ville</label>
+                  <input
+                    required
+                    type="text"
+                    placeholder="Ex: Cotonou"
+                    value={form.city}
+                    onChange={(e) => setForm({ ...form, city: e.target.value })}
+                    className="w-full bg-slate-50 border border-slate-200 text-slate-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-500 uppercase mb-2">Pays</label>
+                  <input
+                    required
+                    type="text"
+                    placeholder="Ex: Bénin"
+                    value={form.country}
+                    onChange={(e) => setForm({ ...form, country: e.target.value })}
+                    className="w-full bg-slate-50 border border-slate-200 text-slate-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold text-slate-500 uppercase mb-2">Date de naissance</label>
+                  <input
+                    required
+                    type="date"
+                    value={form.birth_date}
+                    onChange={(e) => setForm({ ...form, birth_date: e.target.value })}
+                    className="w-full bg-slate-50 border border-slate-200 text-slate-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-semibold text-slate-500 uppercase mb-2">Profession</label>
+                  <input
+                    required
+                    type="text"
+                    placeholder="Ex: Enseignant / Médecin"
+                    value={form.profession}
+                    onChange={(e) => setForm({ ...form, profession: e.target.value })}
+                    className="w-full bg-slate-50 border border-slate-200 text-slate-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-slate-500 uppercase mb-2">Canal de contact privilégié</label>
+                <select
+                  value={form.contact_method}
+                  onChange={(e) => setForm({ ...form, contact_method: e.target.value })}
+                  className="w-full bg-slate-50 border border-slate-200 text-slate-700 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition"
+                >
+                  <option value="email">Email</option>
+                  <option value="phone">Téléphone</option>
+                  <option value="whatsapp">WhatsApp</option>
+                </select>
+              </div>
+
+              <div className="flex justify-end gap-3 pt-4 border-t border-slate-100">
+                <button
+                  type="button"
+                  onClick={() => setShowAddModal(false)}
+                  className="px-5 py-3 border border-slate-200 text-slate-600 rounded-full font-bold text-sm hover:bg-slate-50 transition"
+                >
+                  Annuler
+                </button>
+                <button
+                  type="submit"
+                  disabled={saving}
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-full font-bold text-sm shadow-md transition disabled:opacity-60"
+                >
+                  {saving ? <Loader2 className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
+                  Créer et Valider l'adhésion
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

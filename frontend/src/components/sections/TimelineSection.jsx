@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { CheckCircle2 } from 'lucide-react';
+import api from '../../services/api';
 
-const EVENTS = [
+const FALLBACK_EVENTS = [
   {
     year: '2020',
     items: [
@@ -62,6 +63,40 @@ const EVENTS = [
 ];
 
 export default function TimelineSection() {
+  const [events, setEvents] = useState(FALLBACK_EVENTS);
+
+  useEffect(() => {
+    async function fetchRealisations() {
+      try {
+        const res = await api.get('/realisations/');
+        const list = Array.isArray(res.data) 
+          ? res.data 
+          : (Array.isArray(res.data?.results) 
+              ? res.data.results 
+              : (res.data?.data || []));
+        if (list && list.length > 0) {
+          // Group by year from the date
+          const groups = {};
+          list.forEach(r => {
+            const year = r.date ? new Date(r.date).getFullYear().toString() : '2026';
+            if (!groups[year]) groups[year] = [];
+            groups[year].push(r.title);
+          });
+          // Sort years ascending and map
+          const sorted = Object.keys(groups)
+            .sort((a, b) => parseInt(a) - parseInt(b))
+            .map(year => ({
+              year,
+              items: groups[year]
+            }));
+          setEvents(sorted);
+        }
+      } catch (err) {
+        console.warn("Using fallback events for timeline", err);
+      }
+    }
+    fetchRealisations();
+  }, []);
   return (
     <section className="bg-white py-24 overflow-hidden" id="timeline-section">
       <div className="mx-auto max-w-[1400px] px-6 sm:px-10 lg:px-20">
@@ -84,7 +119,7 @@ export default function TimelineSection() {
           <div className="absolute left-4 lg:left-1/2 top-0 bottom-0 w-[3px] bg-gradient-to-b from-primary-500 to-secondary-500 transform lg:-translate-x-1/2 z-0" />
 
           <div className="space-y-16">
-            {EVENTS.map((ev, idx) => {
+            {events.map((ev, idx) => {
               const isCurrent = ev.year === '2026';
               const isEven = idx % 2 === 0;
               

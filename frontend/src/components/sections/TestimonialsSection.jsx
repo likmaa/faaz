@@ -37,8 +37,12 @@ export default function TestimonialsSection() {
     queryKey: ['home-temoignages'],
     queryFn: async () => {
       try {
-        const res = await api.get('/temoignages?limit=5'); // Récupère plus de témoignages pour le carrousel si disponible
-        const list = res.data?.data || [];
+        const res = await api.get('/temoignages?limit=5');
+        const list = Array.isArray(res.data)
+          ? res.data
+          : (Array.isArray(res.data?.results)
+              ? res.data.results
+              : (res.data?.data || []));
         return list.length > 0 ? list : fallbackData;
       } catch (err) {
         return fallbackData;

@@ -1,13 +1,27 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import api from '../../services/api';
 
-const STATS = [
-  { value: 122,  suffix: '',     label: 'Orphelins scolarisés',   sub: 'Chaque orphelin à l\'école' },
-  { value: 232,  suffix: '',     label: 'Bénéficiaires santé',    sub: 'Santé & dons de vêtements' },
-  { value: 108,  suffix: '',     label: 'Bénéficiaires vivres',   sub: 'Dons de vivres aux orphelins' },
-  { value: 28,   suffix: '',     label: 'Jeunes coachés',         sub: 'Coaching & leadership' },
-  { value: 6,    suffix: '',     label: 'Éd. Prix Gnamey',        sub: 'Excellence scolaire' },
-  { value: 6,    suffix: ' ans', label: 'D\'action continue',     sub: '2020 → 2026' },
-];
+function extractStat(list, titleKeyword, statLabelKeyword, fallback) {
+  if (!list || list.length === 0) return fallback;
+  for (const r of list) {
+    const title = (r.title || r.titre || '').toLowerCase();
+    if (title.includes(titleKeyword.toLowerCase())) {
+      const statsArray = r.stats || [];
+      for (const s of statsArray) {
+        const label = (s.label || '').toLowerCase();
+        if (label.includes(statLabelKeyword.toLowerCase())) {
+          const cleaned = (s.value || '').replace(/[^\d]/g, '');
+          const parsed = parseInt(cleaned, 10);
+          if (!isNaN(parsed)) {
+            return parsed;
+          }
+        }
+      }
+    }
+  }
+  return fallback;
+}
 
 function Counter({ value, suffix, duration = 1600 }) {
   const [display, setDisplay] = useState(0);
@@ -43,16 +57,50 @@ function Counter({ value, suffix, duration = 1600 }) {
 }
 
 export default function StatsSection() {
+  const { data: realisations = [] } = useQuery({
+    queryKey: ['realisations'],
+    queryFn: async () => {
+      try {
+        const res = await api.get('/realisations/');
+        const list = Array.isArray(res.data) 
+          ? res.data 
+          : (Array.isArray(res.data?.results) 
+              ? res.data.results 
+              : (res.data?.data || []));
+        return list;
+      } catch (err) {
+        return [];
+      }
+    },
+    staleTime: 1000 * 60 * 5
+  });
+
+  const scolarises = extractStat(realisations, 'scolaris', 'bénéficiaire', 122);
+  const sante = extractStat(realisations, 'sant', 'bénéficiaire', 232);
+  const vivres = extractStat(realisations, 'vivres', 'bénéficiaire', 108);
+  const coaches = extractStat(realisations, 'coach', 'jeune', 28);
+  const gnameyEditions = extractStat(realisations, 'gnamey', 'édition', 6);
+  const actionYears = Math.max(6, new Date().getFullYear() - 2020);
+
+  const stats = [
+    { value: scolarises,     suffix: '',     label: 'Orphelins scolarisés',   sub: 'Chaque orphelin à l\'école' },
+    { value: sante,          suffix: '',     label: 'Bénéficiaires santé',    sub: 'Santé & dons de vêtements' },
+    { value: vivres,         suffix: '',     label: 'Bénéficiaires vivres',   sub: 'Dons de vivres aux orphelins' },
+    { value: coaches,        suffix: '',     label: 'Jeunes coachés',         sub: 'Coaching & leadership' },
+    { value: gnameyEditions, suffix: '',     label: 'Éd. Prix Gnamey',        sub: 'Excellence scolaire' },
+    { value: actionYears,    suffix: ' ans', label: 'D\'action continue',     sub: `2020 → ${new Date().getFullYear()}` },
+  ];
+
   return (
     <section className="bg-primary-600 py-14 sm:py-16">
       <div className="mx-auto max-w-7xl px-6 sm:px-10 lg:px-20">
 
         <p className="text-center text-primary-200 text-xs font-bold uppercase tracking-widest mb-10">
-          Notre impact · Données réelles 2020–2026
+          Notre impact · Données réelles 2020–{new Date().getFullYear()}
         </p>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 lg:gap-2">
-          {STATS.map((stat, i) => (
+          {stats.map((stat, i) => (
             <div key={i} className="text-center px-2">
               <div className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-1">
                 <Counter value={stat.value} suffix={stat.suffix} duration={1500 + i * 80} />

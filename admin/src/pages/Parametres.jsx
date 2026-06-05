@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Save, Loader2, Building2, CreditCard, Users2, UserCog } from 'lucide-react';
 import { toast } from '../store/toast';
+import api from '../services/api';
 
 const TABS = [
   { id: 'fondation', label: 'Fondation', icon: Building2 },
@@ -24,17 +25,19 @@ const INPUT = 'w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5
 
 export default function Parametres() {
   const [tab, setTab] = useState('fondation');
+  const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
 
   // Fondation form
   const [fondation, setFondation] = useState({
     name: 'Fondation les Amis de A à Z',
-    slogan: '',
-    mission: '',
-    vision: '',
+    slogan: "Engageons notre amitié\nau service des personnes\nvulnérables.",
+    mission: "Promouvoir le bien-être des personnes les plus vulnérables à travers des actions solidaires, structurées et à impact mesurable.",
+    vision: "Épanouissement durable de l'humanité — un Bénin où chaque personne vulnérable est accompagnée avec dignité.",
+    about_text: "La FAAZ — Fondation les Amis de A à Z — est une ONG béninoise à membres fondée sur un engagement simple : promouvoir le bien-être des personnes les plus vulnérables. Orphelins, élèves méritants, jeunes en quête de repères, personnes âgées isolées : chaque action de la FAAZ part d'une conviction, celle que l'amitié peut changer des vies.",
     phone: '97 60 38 05',
     email: 'info@lafaaz.org',
-    address: '',
+    address: 'Cotonou, Bénin',
     facebook: '',
     instagram: '',
     twitter: '',
@@ -61,11 +64,102 @@ export default function Parametres() {
     deadline_month: 6,
   });
 
+  useEffect(() => {
+    fetchSettings();
+  }, []);
+
+  async function fetchSettings() {
+    setLoading(true);
+    try {
+      const res = await api.get('/cms/');
+      const list = Array.isArray(res.data) 
+        ? res.data 
+        : (Array.isArray(res.data?.results) 
+            ? res.data.results 
+            : (res.data?.data || []));
+
+      const map = {};
+      list.forEach(item => {
+        map[item.key] = item.value;
+      });
+
+      // Update fondation state
+      setFondation(f => ({
+        ...f,
+        name: map.name || f.name,
+        slogan: map.slogan || f.slogan,
+        mission: map.mission || f.mission,
+        vision: map.vision || f.vision,
+        about_text: map.about_text || f.about_text,
+        phone: map.phone || f.phone,
+        email: map.email || f.email,
+        address: map.address || f.address,
+        facebook: map.facebook || f.facebook,
+        instagram: map.instagram || f.instagram,
+        twitter: map.twitter || f.twitter,
+        tiktok: map.tiktok || f.tiktok,
+        youtube: map.youtube || f.youtube,
+      }));
+
+      // Update paiement state
+      setPaiement(p => ({
+        ...p,
+        kkiapay_key: map.kkiapay_key || p.kkiapay_key,
+        kkiapay_limit: map.kkiapay_limit ? parseInt(map.kkiapay_limit, 10) : p.kkiapay_limit,
+        paypal_client_id: map.paypal_client_id || p.paypal_client_id,
+        momo_number: map.momo_number || p.momo_number,
+        bank_name: map.bank_name || p.bank_name,
+        bank_iban: map.bank_iban || p.bank_iban,
+        fee_note: map.fee_note || p.fee_note,
+      }));
+
+      // Update adhesion state
+      setAdhesion(a => ({
+        ...a,
+        adhesion_fee: map.adhesion_fee ? parseInt(map.adhesion_fee, 10) : a.adhesion_fee,
+        annual_fee: map.annual_fee ? parseInt(map.annual_fee, 10) : a.annual_fee,
+        deadline_day: map.deadline_day ? parseInt(map.deadline_day, 10) : a.deadline_day,
+        deadline_month: map.deadline_month ? parseInt(map.deadline_month, 10) : a.deadline_month,
+      }));
+
+    } catch (err) {
+      console.error(err);
+      toast.error('Erreur lors du chargement des paramètres.');
+    } finally {
+      setLoading(false);
+    }
+  }
+
   async function handleSave() {
     setSaving(true);
-    await new Promise(r => setTimeout(r, 700)); // Simulate API call
-    toast.success('Paramètres enregistrés.');
-    setSaving(false);
+    try {
+      const payload = tab === 'fondation' 
+        ? fondation 
+        : (tab === 'paiement' ? paiement : adhesion);
+        
+      await Promise.all(
+        Object.entries(payload).map(([key, value]) =>
+          api.put(`/cms/${key}/`, { key, value: String(value) }).catch(() =>
+            api.post('/cms/', { key, value: String(value) })
+          )
+        )
+      );
+      toast.success('Paramètres enregistrés avec succès.');
+    } catch (err) {
+      console.error(err);
+      toast.error("Erreur lors de l'enregistrement des paramètres.");
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="h-[60vh] flex flex-col items-center justify-center gap-3">
+        <Loader2 className="w-8 h-8 text-primary-600 animate-spin" />
+        <span className="text-sm font-semibold text-slate-500">Chargement des paramètres…</span>
+      </div>
+    );
   }
 
   return (
@@ -111,6 +205,9 @@ export default function Parametres() {
             </Field>
             <Field label="Vision">
               <textarea value={fondation.vision} onChange={e => setFondation(f => ({ ...f, vision: e.target.value }))} rows={3} className={`${INPUT} resize-none`} />
+            </Field>
+            <Field label="Présentation générale (Section À propos)">
+              <textarea value={fondation.about_text} onChange={e => setFondation(f => ({ ...f, about_text: e.target.value }))} rows={4} className={`${INPUT} resize-none`} />
             </Field>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">

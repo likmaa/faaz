@@ -79,13 +79,46 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
+#
+# Configuration via variables d'environnement :
+#   - Développement (SQLite) : DB_ENGINE=sqlite3 (ou non défini)
+#   - Production (MySQL)     : DB_ENGINE=mysql + DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD
+#
+# Exemple fichier .env production :
+#   DB_ENGINE=mysql
+#   DB_HOST=localhost
+#   DB_PORT=3306
+#   DB_NAME=faaz_db
+#   DB_USER=faaz_user
+#   DB_PASSWORD=motdepasse_securise
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+import os
+
+_DB_ENGINE = os.environ.get('DB_ENGINE', 'sqlite3')
+
+if _DB_ENGINE == 'mysql':
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': os.environ.get('DB_NAME', 'faaz_db'),
+            'USER': os.environ.get('DB_USER', 'root'),
+            'PASSWORD': os.environ.get('DB_PASSWORD', ''),
+            'HOST': os.environ.get('DB_HOST', 'localhost'),
+            'PORT': os.environ.get('DB_PORT', '3306'),
+            'OPTIONS': {
+                'charset': 'utf8mb4',
+                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            },
+        }
     }
-}
+else:
+    # Default: SQLite (développement local)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 
 # Password validation
@@ -152,10 +185,9 @@ SIMPLE_JWT = {
 }
 
 # CORS configuration
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "http://localhost:3001",
-]
+# En production : définir DB_ENGINE=mysql et ajouter vos origines
+_cors_origins = os.environ.get('CORS_ORIGINS', 'http://localhost:3000,http://localhost:3001')
+CORS_ALLOWED_ORIGINS = [origin.strip() for origin in _cors_origins.split(',') if origin.strip()]
 
 # Media files config
 MEDIA_URL = '/media/'

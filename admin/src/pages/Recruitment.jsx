@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import api from '../services/api';
 import { Briefcase, Plus, Trash2, Loader2, Download, Eye, X, Check, FileDown } from 'lucide-react';
+import { getImageUrl } from '../utils/imageUrl';
 
 export default function Recruitment() {
   const [offers, setOffers] = useState([]);
@@ -193,7 +194,7 @@ export default function Recruitment() {
 
                     <div className="flex gap-2">
                       <a
-                        href={cand.cv_file}
+                        href={getImageUrl(cand.cv_file)}
                         target="_blank"
                         rel="noreferrer"
                         className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 text-slate-600 rounded-lg text-xs font-bold hover:bg-slate-50 transition"
@@ -203,7 +204,7 @@ export default function Recruitment() {
                       </a>
                       {cand.cover_letter_file && (
                         <a
-                          href={cand.cover_letter_file}
+                          href={getImageUrl(cand.cover_letter_file)}
                           target="_blank"
                           rel="noreferrer"
                           className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 text-slate-600 rounded-lg text-xs font-bold hover:bg-slate-50 transition"

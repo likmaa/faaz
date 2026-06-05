@@ -5,13 +5,13 @@ from django.contrib.auth.models import User
 from .models import (
     CMSSetting, TeamMember, Partner, FAQItem,
     Member, MembershipPayment, Axe, Project,
-    Donation, Realisation, RecruitmentOffer, Candidature
+    Donation, Realisation, News, RecruitmentOffer, Candidature, Testimonial
 )
 from .serializers import (
     CMSSettingSerializer, TeamMemberSerializer, PartnerSerializer, FAQItemSerializer,
     MemberSerializer, MembershipPaymentSerializer, AxeSerializer, ProjectSerializer,
-    DonationSerializer, RealisationSerializer, RecruitmentOfferSerializer, CandidatureSerializer,
-    UserSerializer
+    DonationSerializer, RealisationSerializer, NewsSerializer, RecruitmentOfferSerializer,
+    CandidatureSerializer, UserSerializer, TestimonialSerializer
 )
 
 # Helper permission class to make read-only public and writes admin-only
@@ -41,6 +41,12 @@ class TeamMemberViewSet(viewsets.ModelViewSet):
 class PartnerViewSet(viewsets.ModelViewSet):
     queryset = Partner.objects.all()
     serializer_class = PartnerSerializer
+    permission_classes = [IsAdminOrReadOnly]
+
+
+class TestimonialViewSet(viewsets.ModelViewSet):
+    queryset = Testimonial.objects.all()
+    serializer_class = TestimonialSerializer
     permission_classes = [IsAdminOrReadOnly]
 
 
@@ -100,20 +106,29 @@ class MemberViewSet(viewsets.ModelViewSet):
         
         # If validated, create user account if email doesn't have one
         if action_type == 'valide' and not member.user:
-            # Generate temporary username and password based on email
-            username = member.email.split('@')[0]
-            if User.objects.filter(username=username).exists():
-                username = f"{username}_{member.id}"
-            
-            temp_user = User.objects.create_user(
-                username=username,
-                email=member.email,
-                first_name=member.first_name,
-                last_name=member.last_name,
-                password=User.objects.make_random_password()
-            )
-            member.user = temp_user
-            member.save()
+            existing_user = User.objects.filter(email=member.email).first()
+            if existing_user:
+                member.user = existing_user
+                member.save()
+            else:
+                # Generate temporary username and password based on email
+                username = member.email.split('@')[0]
+                base_username = username
+                counter = 1
+                while User.objects.filter(username=username).exists():
+                    username = f"{base_username}_{member.id}_{counter}"
+                    counter += 1
+                
+                import secrets
+                temp_user = User.objects.create_user(
+                    username=username,
+                    email=member.email,
+                    first_name=member.first_name,
+                    last_name=member.last_name,
+                    password=secrets.token_urlsafe(12)
+                )
+                member.user = temp_user
+                member.save()
             
         return Response(self.get_serializer(member).data)
 
@@ -173,6 +188,16 @@ class DonationViewSet(viewsets.ModelViewSet):
 class RealisationViewSet(viewsets.ModelViewSet):
     queryset = Realisation.objects.all()
     serializer_class = RealisationSerializer
+    permission_classes = [IsAdminOrReadOnly]
+
+
+# =====================================================================
+# NEWS VIEWSET
+# =====================================================================
+
+class NewsViewSet(viewsets.ModelViewSet):
+    queryset = News.objects.all()
+    serializer_class = NewsSerializer
     permission_classes = [IsAdminOrReadOnly]
 
 

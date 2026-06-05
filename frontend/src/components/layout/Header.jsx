@@ -113,13 +113,13 @@ export default function Header() {
             onClick={closeMobile}
           >
             <img
-              src="/assets/img/logo blanc.png"
+              src="/img/logo blanc.png"
               alt="FAAZ"
               loading="eager"
               className={`absolute inset-0 w-full h-full object-contain object-left transition-opacity duration-500 ${hasSolidBg ? 'opacity-0' : 'opacity-100'}`}
             />
             <img
-              src="/assets/img/logo.png"
+              src="/img/logo.png"
               alt="FAAZ"
               loading="eager"
               className={`absolute inset-0 w-full h-full object-contain object-left transition-opacity duration-500 ${hasSolidBg ? 'opacity-100' : 'opacity-0'}`}

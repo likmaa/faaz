@@ -1,4 +1,6 @@
 import React from 'react';
+import { useQuery } from '@tanstack/react-query';
+import api from '../services/api';
 import CausesSection from '../components/sections/CausesSection';
 import ImpactSection from '../components/sections/ImpactSection';
 import CTASection from '../components/sections/CTASection';
@@ -10,6 +12,29 @@ import PartnersSection from '../components/sections/PartnersSection';
 import ContactSection from '../components/sections/ContactSection';
 
 export default function Home() {
+  const { data: cmsSettings = {} } = useQuery({
+    queryKey: ['cms-settings'],
+    queryFn: async () => {
+      try {
+        const res = await api.get('/cms/');
+        const list = Array.isArray(res.data) 
+          ? res.data 
+          : (Array.isArray(res.data?.results) 
+              ? res.data.results 
+              : (res.data?.data || []));
+        const map = {};
+        list.forEach(item => {
+          map[item.key] = item.value;
+        });
+        return map;
+      } catch (err) {
+        return {};
+      }
+    },
+    staleTime: 1000 * 60 * 10
+  });
+
+  const slogan = cmsSettings.slogan || "Engageons notre amitié\nau service des personnes\nvulnérables.";
   return (
     <>
       {/* ── Hero ─────────────────────────────────────────────── */}
@@ -17,8 +42,8 @@ export default function Home() {
 
         {/* Vidéo fond */}
         <BackgroundVideo
-          webmSrc="/assets/video/kk1_hq.webm"
-          mp4Src="/assets/video/kk1_hq.mp4"
+          webmSrc="/video/kk1_hq.webm"
+          mp4Src="/video/kk1_hq.mp4"
           poster={null}
         />
 
@@ -43,12 +68,19 @@ export default function Home() {
             <p className="text-white/55 text-xs sm:text-sm font-bold uppercase tracking-[0.25em] mb-2 sm:mb-3">
               Fondation les Amis de A à Z
             </p>
-            <h1 className="text-white font-extrabold tracking-tight leading-[1.05]
-                           text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem]">
-              Engageons notre amitié<br />
-              au service des personnes<br />
-              <span className="text-primary-400">vulnérables.</span>
-            </h1>
+            {slogan.includes("Engageons notre amitié") && slogan.includes("vulnérables") ? (
+              <h1 className="text-white font-extrabold tracking-tight leading-[1.05]
+                             text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem]">
+                Engageons notre amitié<br />
+                au service des personnes<br />
+                <span className="text-primary-400">vulnérables.</span>
+              </h1>
+            ) : (
+              <h1 className="text-white font-extrabold tracking-tight leading-[1.05]
+                             text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] whitespace-pre-line">
+                {slogan}
+              </h1>
+            )}
 
             {/* Barre inférieure */}
             <div className="w-full h-px bg-white/30 mt-6 sm:mt-8 mb-6 sm:mb-8" />
