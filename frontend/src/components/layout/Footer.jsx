@@ -25,6 +25,7 @@ const columns = [
     heading: 'Informations',
     links: [
       { to: '/faq',  label: 'FAQ' },
+      { to: '/#contact', label: 'Contact' },
     ],
   },
 ];

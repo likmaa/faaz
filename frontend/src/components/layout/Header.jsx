@@ -23,6 +23,7 @@ const nav = [
       { to: '/faq',          label: 'FAQ' },
     ],
   },
+  { to: '/#contact', label: 'Contact' },
 ];
 
 const DONATE_PRESETS = [5000, 10000, 25000];

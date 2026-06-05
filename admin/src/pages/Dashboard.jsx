@@ -132,22 +132,32 @@ export default function Dashboard() {
   return (
     <div className="space-y-8">
       {/* Welcome Banner */}
-      <div className="bg-gradient-to-r from-primary-600 via-primary-700 to-secondary-700 text-white rounded-3xl p-6 md:p-8 shadow-md relative overflow-hidden">
-        {/* Background decorative vector shapes */}
-        <div className="absolute -top-10 -right-10 w-48 h-48 bg-white/10 rounded-full blur-2xl pointer-events-none" />
-        <div className="absolute -bottom-10 -left-10 w-48 h-48 bg-secondary-500/20 rounded-full blur-2xl pointer-events-none" />
+      <div className="bg-gradient-to-br from-secondary-700 to-secondary-900 text-white rounded-3xl p-6 md:p-8 shadow-sm relative overflow-hidden">
+        {/* Subtle background glow effect using light blue */}
+        <div className="absolute -top-10 -right-10 w-64 h-64 bg-white/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-10 -left-10 w-64 h-64 bg-secondary-500/20 rounded-full blur-3xl pointer-events-none" />
 
-        <div className="relative z-10 space-y-2">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 text-white text-xs font-semibold backdrop-blur-md">
-            <Activity className="w-3.5 h-3.5" />
-            Espace d'administration actif
-          </span>
-          <h1 className="text-2xl md:text-3xl font-extrabold font-title tracking-tight">
-            Bonjour, {user?.first_name || 'Administrateur'} 👋
-          </h1>
-          <p className="text-white/80 text-sm max-w-xl font-medium">
-            Ravi de vous revoir. Nous sommes le <span className="text-white font-bold">{currentDate}</span>. Voici un aperçu rapide de l'activité de la Fondation les Amis de A à Z.
-          </p>
+        <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-6 items-center">
+          <div className="md:col-span-2 space-y-3">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 text-white text-xs font-semibold backdrop-blur-md">
+              <Activity className="w-3.5 h-3.5 animate-pulse text-white" />
+              Espace d'administration actif
+            </span>
+            <h1 className="text-2xl md:text-3xl font-extrabold font-title tracking-tight text-white">
+              Bonjour, {user?.first_name || 'Administrateur'} 👋
+            </h1>
+            <p className="text-white/95 text-sm max-w-xl font-medium leading-relaxed">
+              Ravi de vous revoir. Nous sommes le <span className="text-white font-bold">{currentDate}</span>. Voici un aperçu rapide de l'activité de la Fondation les Amis de A à Z.
+            </p>
+          </div>
+          
+          <div className="hidden md:flex justify-end pr-4">
+            <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-4 text-center min-w-[180px] shadow-lg">
+              <span className="text-[10px] uppercase font-bold tracking-widest text-white/80 block">Membres Actifs</span>
+              <span className="text-3xl font-black font-title text-white block mt-1">{stats.totalMembers}</span>
+              <span className="text-[10px] font-semibold text-white/70 block mt-0.5">{stats.pendingMembers} en attente</span>
+            </div>
+          </div>
         </div>
       </div>
 
