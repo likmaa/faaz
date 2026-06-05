@@ -88,6 +88,16 @@ export default function Recruitment() {
     }
   }
 
+  async function handleDeleteCandidature(id, candidateName) {
+    if (!confirm(`Voulez-vous vraiment supprimer la candidature de "${candidateName}" ? Cette action est définitive.`)) return;
+    try {
+      await api.delete(`/candidatures/${id}/`);
+      setCandidatures(candidatures.filter(c => c.id !== id));
+    } catch (err) {
+      alert("Erreur lors de la suppression de la candidature.");
+    }
+  }
+
   const activeCandidatures = candidatures.filter(c => c.offer === selectedOffer?.id);
 
   if (loading) {
@@ -217,21 +227,30 @@ export default function Recruitment() {
                   </div>
 
                   <div className="flex sm:flex-col items-end justify-between sm:justify-start gap-3">
-                    <span
-                      className={`inline-flex px-2.5 py-1 rounded-full text-xs font-bold ${
-                        cand.status === 'retenu'
-                          ? 'bg-emerald-50 text-emerald-700'
+                    <div className="flex items-center gap-2">
+                      <span
+                        className={`inline-flex px-2.5 py-1 rounded-full text-xs font-bold ${
+                          cand.status === 'retenu'
+                            ? 'bg-emerald-50 text-emerald-700'
+                            : cand.status === 'rejete'
+                            ? 'bg-red-50 text-red-700'
+                            : 'bg-amber-50 text-amber-700'
+                        }`}
+                      >
+                        {cand.status === 'retenu'
+                          ? 'Retenu'
                           : cand.status === 'rejete'
-                          ? 'bg-red-50 text-red-700'
-                          : 'bg-amber-50 text-amber-700'
-                      }`}
-                    >
-                      {cand.status === 'retenu'
-                        ? 'Retenu'
-                        : cand.status === 'rejete'
-                        ? 'Rejeté'
-                        : 'En cours'}
-                    </span>
+                          ? 'Rejeté'
+                          : 'En cours'}
+                      </span>
+                      <button
+                        onClick={() => handleDeleteCandidature(cand.id, `${cand.first_name} ${cand.last_name}`)}
+                        className="p-1 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition"
+                        title="Supprimer la candidature"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
 
                     {cand.status === 'en_cours' && (
                       <div className="flex gap-2">
