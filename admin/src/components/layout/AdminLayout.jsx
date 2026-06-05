@@ -288,7 +288,7 @@ export default function AdminLayout() {
         </header>
 
         {/* Content */}
-        <main className="flex-1 p-5 md:p-8 max-w-7xl w-full mx-auto">
+        <main className="flex-1 p-5 md:p-8 w-full">
           <Breadcrumb />
           <Outlet />
         </main>
