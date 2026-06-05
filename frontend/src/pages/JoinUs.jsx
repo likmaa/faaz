@@ -7,7 +7,7 @@ const FIELDS = [
   { name: 'prenom',       label: 'Prénom',          type: 'text',  required: true,  col: 1 },
   { name: 'nom',          label: 'Nom',              type: 'text',  required: true,  col: 1 },
   { name: 'email',        label: 'Adresse e-mail',   type: 'email', required: true,  col: 2 },
-  { name: 'telephone',    label: 'Téléphone',        type: 'tel',   required: true,  col: 1, pattern: '[+0-9\\s-]{6,20}', placeholder: 'Ex: +229 97 60 38 05' },
+  { name: 'telephone',    label: 'Téléphone',        type: 'tel',   required: true,  col: 1, pattern: '[+0-9 -]{6,20}', placeholder: 'Ex: +229 97 60 38 05' },
   { name: 'date_naissance', label: 'Date de naissance', type: 'date', required: true, col: 1 },
   { name: 'profession',   label: 'Profession',       type: 'text',  required: false, col: 2 },
   { name: 'adresse',      label: 'Adresse',          type: 'text',  required: false, col: 2 },
