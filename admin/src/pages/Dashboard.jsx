@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useAuthStore } from '../store/auth';
 import api from '../services/api';
 import {
   Users,
@@ -8,11 +10,20 @@ import {
   Loader2,
   TrendingUp,
   Activity,
+  Clock,
+  PlusCircle,
+  Settings,
+  Newspaper,
+  Heart,
+  ChevronRight,
+  UserCheck,
   CheckCircle2,
-  Clock
+  XCircle,
+  AlertCircle
 } from 'lucide-react';
 
 export default function Dashboard() {
+  const { user } = useAuthStore();
   const [stats, setStats] = useState({
     totalMembers: 0,
     pendingMembers: 0,
@@ -22,7 +33,15 @@ export default function Dashboard() {
   });
   const [recentDons, setRecentDons] = useState([]);
   const [recentMembers, setRecentMembers] = useState([]);
+  const [activeProjectsList, setActiveProjectsList] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const currentDate = new Date().toLocaleDateString('fr-FR', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
 
   useEffect(() => {
     async function fetchDashboardData() {
@@ -45,20 +64,21 @@ export default function Dashboard() {
         const totalDonations = donations
           .filter(d => d.status === 'paye')
           .reduce((sum, d) => sum + parseFloat(d.amount), 0);
-        const activeProjects = projects.filter(p => p.status === 'collecte').length;
+        const activeProjectsCount = projects.filter(p => p.status === 'collecte').length;
         const totalCandidatures = candidatures.filter(c => c.status === 'en_cours').length;
 
         setStats({
           totalMembers,
           pendingMembers,
           totalDonations,
-          activeProjects,
+          activeProjects: activeProjectsCount,
           totalCandidatures
         });
 
         // Set recent lists
         setRecentDons(donations.slice(0, 5));
         setRecentMembers(members.slice(0, 5));
+        setActiveProjectsList(projects.filter(p => p.status === 'collecte').slice(0, 3));
       } catch (err) {
         console.error("Erreur lors de la récupération des statistiques.", err);
       } finally {
@@ -72,8 +92,8 @@ export default function Dashboard() {
   if (loading) {
     return (
       <div className="h-[60vh] flex flex-col items-center justify-center gap-3">
-        <Loader2 className="w-8 h-8 text-primary-600 animate-spin" />
-        <span className="text-sm font-semibold text-slate-500">Calcul des données en cours…</span>
+        <Loader2 className="w-10 h-10 text-primary-600 animate-spin" />
+        <p className="text-sm font-semibold text-slate-500">Calcul des données en cours…</p>
       </div>
     );
   }
@@ -84,54 +104,101 @@ export default function Dashboard() {
       value: stats.totalMembers,
       subtitle: `${stats.pendingMembers} en attente de validation`,
       icon: Users,
-      color: 'bg-blue-500/10 text-blue-600 border-blue-100',
+      color: 'bg-emerald-50 text-emerald-700 border-emerald-200',
     },
     {
       title: 'Dons collectés',
       value: `${stats.totalDonations.toLocaleString()} FCFA`,
       subtitle: 'Cumulé KKiaPay & PayPal',
       icon: HandCoins,
-      color: 'bg-emerald-500/10 text-emerald-600 border-emerald-100',
+      color: 'bg-primary-50 text-primary-700 border-primary-200',
     },
     {
       title: 'Campagnes actives',
       value: stats.activeProjects,
       subtitle: 'Projets de dons en cours',
       icon: FileBadge,
-      color: 'bg-amber-500/10 text-amber-600 border-amber-100',
+      color: 'bg-blue-50 text-blue-700 border-blue-200',
     },
     {
-      title: 'Nouvelles candidatures',
+      title: 'Candidatures en cours',
       value: stats.totalCandidatures,
-      subtitle: 'Recrutements, bénévoles, stages',
+      subtitle: 'Bénévoles, stages & emplois',
       icon: Send,
-      color: 'bg-purple-500/10 text-purple-600 border-purple-100',
+      color: 'bg-indigo-50 text-indigo-700 border-indigo-200',
     },
   ];
 
   return (
     <div className="space-y-8">
-      {/* Title */}
-      <div>
-        <h1 className="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight font-title">Tableau de bord</h1>
-        <p className="text-slate-500 text-sm mt-1">
-          Aperçu global de l'activité, des adhésions et du statut des financements.
-        </p>
+      {/* Welcome Banner */}
+      <div className="bg-gradient-to-r from-primary-600 via-primary-700 to-secondary-700 text-white rounded-3xl p-6 md:p-8 shadow-md relative overflow-hidden">
+        {/* Background decorative vector shapes */}
+        <div className="absolute -top-10 -right-10 w-48 h-48 bg-white/10 rounded-full blur-2xl pointer-events-none" />
+        <div className="absolute -bottom-10 -left-10 w-48 h-48 bg-secondary-500/20 rounded-full blur-2xl pointer-events-none" />
+
+        <div className="relative z-10 space-y-2">
+          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 text-white text-xs font-semibold backdrop-blur-md">
+            <Activity className="w-3.5 h-3.5" />
+            Espace d'administration actif
+          </span>
+          <h1 className="text-2xl md:text-3xl font-extrabold font-title tracking-tight">
+            Bonjour, {user?.first_name || 'Administrateur'} 👋
+          </h1>
+          <p className="text-white/80 text-sm max-w-xl font-medium">
+            Ravi de vous revoir. Nous sommes le <span className="text-white font-bold">{currentDate}</span>. Voici un aperçu rapide de l'activité de la Fondation les Amis de A à Z.
+          </p>
+        </div>
+      </div>
+
+      {/* Quick Actions */}
+      <div className="bg-white border border-slate-200/80 rounded-3xl p-6 shadow-sm">
+        <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wider mb-4">Actions rapides</h3>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <Link
+            to="/projects"
+            className="flex items-center gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-100 hover:border-primary-200 hover:bg-primary-50/30 text-slate-700 hover:text-primary-700 font-bold text-sm transition"
+          >
+            <PlusCircle className="w-5 h-5 text-primary-600" />
+            <span>Nouveau projet</span>
+          </Link>
+          <Link
+            to="/members"
+            className="flex items-center gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-100 hover:border-primary-200 hover:bg-primary-50/30 text-slate-700 hover:text-primary-700 font-bold text-sm transition"
+          >
+            <UserCheck className="w-5 h-5 text-primary-600" />
+            <span>Valider membres</span>
+          </Link>
+          <Link
+            to="/cms"
+            className="flex items-center gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-100 hover:border-primary-200 hover:bg-primary-50/30 text-slate-700 hover:text-primary-700 font-bold text-sm transition"
+          >
+            <Newspaper className="w-5 h-5 text-primary-600" />
+            <span>Éditer le CMS</span>
+          </Link>
+          <Link
+            to="/recruitment"
+            className="flex items-center gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-100 hover:border-primary-200 hover:bg-primary-50/30 text-slate-700 hover:text-primary-700 font-bold text-sm transition"
+          >
+            <Settings className="w-5 h-5 text-primary-600" />
+            <span>Recrutements</span>
+          </Link>
+        </div>
       </div>
 
       {/* Grid Stats */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {statCards.map(({ title, value, subtitle, icon: Icon, color }) => (
-          <div key={title} className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm hover:shadow-md transition">
+          <div key={title} className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm hover:shadow-md transition duration-200">
             <div className="flex items-center justify-between">
-              <span className="text-sm font-semibold text-slate-400">{title}</span>
-              <div className={`p-2.5 rounded-2xl border ${color.split(' ')[0]} ${color.split(' ')[2]}`}>
+              <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">{title}</span>
+              <div className={`p-2.5 rounded-2xl border ${color.split(' ')[0]} ${color.split(' ')[2]} ${color.split(' ')[1]}`}>
                 <Icon className="w-5 h-5" />
               </div>
             </div>
             <div className="mt-4">
               <h2 className="text-2xl font-bold text-slate-900 tracking-tight font-title">{value}</h2>
-              <p className="text-xs text-slate-400 font-semibold mt-1.5 flex items-center gap-1">
+              <p className="text-xs text-slate-400 font-semibold mt-1.5 flex items-center gap-1.5">
                 <Activity className="w-3.5 h-3.5 text-slate-400" />
                 <span>{subtitle}</span>
               </p>
@@ -140,88 +207,173 @@ export default function Dashboard() {
         ))}
       </div>
 
-      {/* Two columns layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Recent Members */}
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-lg font-bold text-slate-900 font-title">Dernières adhésions</h2>
-            <Clock className="w-5 h-5 text-slate-400" />
-          </div>
-
-          {recentMembers.length === 0 ? (
-            <div className="flex-1 flex flex-col items-center justify-center py-10 text-slate-400 text-sm">
-              <Users className="w-10 h-10 mb-2 opacity-45" />
-              <span>Aucune demande d'adhésion enregistrée.</span>
+      {/* Main Grid Content */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        
+        {/* Left column: Campaign progresses */}
+        <div className="lg:col-span-1 bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-lg font-bold text-slate-900 font-title">Campagnes de dons</h2>
+              <Heart className="w-5 h-5 text-primary-500 fill-primary-500/10" />
             </div>
-          ) : (
-            <div className="divide-y divide-slate-100 flex-1">
-              {recentMembers.map((member) => (
-                <div key={member.id} className="py-4 first:pt-0 last:pb-0 flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-bold text-slate-800">
-                      {member.first_name} {member.last_name}
-                    </p>
-                    <p className="text-xs text-slate-400 font-medium mt-0.5">{member.email} · {member.profession}</p>
-                  </div>
-                  <div>
-                    <span
-                      className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold ${
-                        member.membership_status === 'valide'
-                          ? 'bg-emerald-50 text-emerald-700'
+
+            {activeProjectsList.length === 0 ? (
+              <div className="py-10 text-center text-slate-400 text-sm">
+                <FileBadge className="w-10 h-10 mx-auto mb-2 opacity-45" />
+                <span>Aucune campagne de don active.</span>
+              </div>
+            ) : (
+              <div className="space-y-6">
+                {activeProjectsList.map((project) => {
+                  const target = parseFloat(project.target_amount) || 1;
+                  const collected = parseFloat(project.collected_amount) || 0;
+                  const percent = Math.min(Math.round((collected / target) * 100), 100);
+                  
+                  return (
+                    <div key={project.id} className="space-y-2">
+                      <div className="flex justify-between items-start">
+                        <span className="text-sm font-bold text-slate-800 line-clamp-1">{project.title}</span>
+                        <span className="text-xs font-extrabold text-primary-700 bg-primary-50 px-2 py-0.5 rounded-md">{percent}%</span>
+                      </div>
+                      
+                      {/* Progress Bar */}
+                      <div className="w-full bg-slate-100 rounded-full h-2">
+                        <div
+                          className="bg-primary-600 h-2 rounded-full transition-all duration-500"
+                          style={{ width: `${percent}%` }}
+                        />
+                      </div>
+                      
+                      <div className="flex justify-between text-[11px] font-bold text-slate-400">
+                        <span>{collected.toLocaleString()} FCFA</span>
+                        <span>Objectif : {target.toLocaleString()} FCFA</span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+          
+          {activeProjectsList.length > 0 && (
+            <Link to="/projects" className="mt-6 flex items-center justify-center gap-1.5 py-3 border border-slate-100 bg-slate-50 hover:bg-slate-100/70 text-slate-600 hover:text-slate-900 text-xs font-bold rounded-2xl transition">
+              <span>Gérer toutes les campagnes</span>
+              <ChevronRight className="w-3.5 h-3.5" />
+            </Link>
+          )}
+        </div>
+
+        {/* Center column: Recent members requests */}
+        <div className="lg:col-span-1 bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-lg font-bold text-slate-900 font-title">Dernières adhésions</h2>
+              <Clock className="w-5 h-5 text-slate-400" />
+            </div>
+
+            {recentMembers.length === 0 ? (
+              <div className="py-10 text-center text-slate-400 text-sm">
+                <Users className="w-10 h-10 mx-auto mb-2 opacity-45" />
+                <span>Aucune demande d'adhésion.</span>
+              </div>
+            ) : (
+              <div className="divide-y divide-slate-100">
+                {recentMembers.map((member) => (
+                  <div key={member.id} className="py-3.5 first:pt-0 last:pb-0 flex items-center justify-between">
+                    <div className="min-w-0">
+                      <p className="text-sm font-bold text-slate-800 truncate">
+                        {member.first_name} {member.last_name}
+                      </p>
+                      <p className="text-[11px] text-slate-400 font-semibold truncate mt-0.5">{member.email}</p>
+                    </div>
+                    <div>
+                      <span
+                        className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold ${
+                          member.membership_status === 'valide'
+                            ? 'bg-emerald-50 text-emerald-700'
+                            : member.membership_status === 'rejete'
+                            ? 'bg-red-50 text-red-700'
+                            : 'bg-amber-50 text-amber-700'
+                        }`}
+                      >
+                        {member.membership_status === 'valide'
+                          ? 'Validé'
                           : member.membership_status === 'rejete'
-                          ? 'bg-red-50 text-red-700'
-                          : 'bg-amber-50 text-amber-700'
-                      }`}
-                    >
-                      {member.membership_status === 'valide'
-                        ? 'Validé'
-                        : member.membership_status === 'rejete'
-                        ? 'Rejeté'
-                        : 'En attente'}
-                    </span>
+                          ? 'Rejeté'
+                          : 'En attente'}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Recent Donations */}
-        <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-lg font-bold text-slate-900 font-title">Dons récents</h2>
-            <TrendingUp className="w-5 h-5 text-slate-400" />
+                ))}
+              </div>
+            )}
           </div>
 
-          {recentDons.length === 0 ? (
-            <div className="flex-1 flex flex-col items-center justify-center py-10 text-slate-400 text-sm">
-              <HandCoins className="w-10 h-10 mb-2 opacity-45" />
-              <span>Aucun don reçu pour le moment.</span>
-            </div>
-          ) : (
-            <div className="divide-y divide-slate-100 flex-1">
-              {recentDons.map((don) => (
-                <div key={don.id} className="py-4 first:pt-0 last:pb-0 flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-bold text-slate-800">
-                      {don.is_anonymous ? 'Donateur anonyme' : (don.donor_name || 'Invité')}
-                    </p>
-                    <p className="text-xs text-slate-400 font-medium mt-0.5">
-                      {don.project_title || 'Soutien général'} · {don.payment_channel}
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-sm font-bold text-slate-900">{parseFloat(don.amount).toLocaleString()} {don.currency}</p>
-                    <span className="text-[10px] text-slate-400 font-bold block mt-0.5">
-                      {new Date(don.created_at).toLocaleDateString()}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
+          {recentMembers.length > 0 && (
+            <Link to="/members" className="mt-6 flex items-center justify-center gap-1.5 py-3 border border-slate-100 bg-slate-50 hover:bg-slate-100/70 text-slate-600 hover:text-slate-900 text-xs font-bold rounded-2xl transition">
+              <span>Gérer les membres</span>
+              <ChevronRight className="w-3.5 h-3.5" />
+            </Link>
           )}
         </div>
+
+        {/* Right column: Recent donations */}
+        <div className="lg:col-span-1 bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-lg font-bold text-slate-900 font-title">Flux des dons</h2>
+              <TrendingUp className="w-5 h-5 text-slate-400" />
+            </div>
+
+            {recentDons.length === 0 ? (
+              <div className="py-10 text-center text-slate-400 text-sm">
+                <HandCoins className="w-10 h-10 mx-auto mb-2 opacity-45" />
+                <span>Aucun don reçu pour le moment.</span>
+              </div>
+            ) : (
+              <div className="divide-y divide-slate-100">
+                {recentDons.map((don) => (
+                  <div key={don.id} className="py-3.5 first:pt-0 last:pb-0 flex items-center justify-between">
+                    <div className="min-w-0">
+                      <p className="text-sm font-bold text-slate-800 truncate">
+                        {don.is_anonymous ? 'Donateur anonyme' : (don.donor_name || 'Invité')}
+                      </p>
+                      <p className="text-[11px] text-slate-400 font-semibold truncate mt-0.5">
+                        {don.project_title || 'Soutien général'}
+                      </p>
+                    </div>
+                    <div className="text-right flex-shrink-0">
+                      <p className="text-sm font-bold text-slate-900">
+                        {parseFloat(don.amount).toLocaleString()} {don.currency}
+                      </p>
+                      <span className="inline-flex items-center gap-1 mt-0.5">
+                        {don.status === 'paye' ? (
+                          <CheckCircle2 className="w-3 h-3 text-emerald-500" />
+                        ) : don.status === 'echoue' ? (
+                          <XCircle className="w-3 h-3 text-red-500" />
+                        ) : (
+                          <AlertCircle className="w-3 h-3 text-amber-500" />
+                        )}
+                        <span className="text-[9px] font-bold uppercase text-slate-400">
+                          {don.status === 'paye' ? 'Payé' : don.status === 'echoue' ? 'Échoué' : 'Créé'}
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {recentDons.length > 0 && (
+            <Link to="/donations" className="mt-6 flex items-center justify-center gap-1.5 py-3 border border-slate-100 bg-slate-50 hover:bg-slate-100/70 text-slate-600 hover:text-slate-900 text-xs font-bold rounded-2xl transition">
+              <span>Voir tous les dons</span>
+              <ChevronRight className="w-3.5 h-3.5" />
+            </Link>
+          )}
+        </div>
+
       </div>
     </div>
   );

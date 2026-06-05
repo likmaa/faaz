@@ -1,0 +1,8 @@
+{
+    "python.defaultInterpreterPath": "/Users/yupiglobal/Documents/Documents - Mac mini de YUPI/MALIK/Ancien code/Lafaaz/backend/venv/bin/python",
+    "python.venvPath": "/Users/yupiglobal/Documents/Documents - Mac mini de YUPI/MALIK/Ancien code/Lafaaz/backend",
+    "python.analysis.extraPaths": [
+        "/Users/yupiglobal/Documents/Documents - Mac mini de YUPI/MALIK/Ancien code/Lafaaz/backend",
+        "/Users/yupiglobal/Documents/Documents - Mac mini de YUPI/MALIK/Ancien code/Lafaaz/backend/venv/lib/python3.14/site-packages"
+    ]
+}

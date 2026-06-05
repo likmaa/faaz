@@ -123,15 +123,18 @@ class CandidatureSerializer(serializers.ModelSerializer):
         model = Candidature
         fields = '__all__'
 
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.tokens import RefreshToken
 
-class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
-    username_field = User.EMAIL_FIELD
+class CustomTokenObtainPairSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField(write_only=True)
 
     def validate(self, attrs):
-        # simplejwt's default expects username in password credentials. We intercept it
-        email = attrs.get('username') or attrs.get('email')
+        email = attrs.get('email')
         password = attrs.get('password')
+
+        if not email or not password:
+            raise serializers.ValidationError("Veuillez fournir un e-mail et un mot de passe.")
 
         try:
             user = User.objects.get(email=email)
@@ -144,10 +147,15 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         if not user.is_active:
             raise serializers.ValidationError("Ce compte est désactivé.")
 
-        # Re-map attributes to what simplejwt parent validate expects
-        attrs['username'] = user.username
-        data = super().validate(attrs)
-        
-        # Format key as access_token for frontend compatibility
-        data['access_token'] = data.pop('access')
-        return data
+        # Générer manuellement les tokens JWT
+        refresh = RefreshToken.for_user(user)
+
+        # Mettre à jour la date de dernière connexion
+        from django.contrib.auth.models import update_last_login
+        update_last_login(None, user)
+
+        return {
+            'refresh': str(refresh),
+            'access_token': str(refresh.access_token),
+            'user': UserSerializer(user).data
+        }
