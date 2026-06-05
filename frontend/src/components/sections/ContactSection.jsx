@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Phone, Mail, MapPin, Clock, Send, CheckCircle2, ShieldAlert } from 'lucide-react';
+import { Phone, Mail, MapPin, Clock, Send, CheckCircle2, ShieldAlert, Loader2 } from 'lucide-react';
+import api from '../../services/api';
 
 export default function ContactSection() {
   const [formData, setFormData] = useState({
@@ -17,8 +18,7 @@ export default function ContactSection() {
     setLoading(true);
     setError(null);
     try {
-      // Simulate sending API request
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      await api.post('/contact/', formData);
       setSuccess(true);
       setFormData({ name: '', email: '', subject: '', message: '' });
     } catch (err) {

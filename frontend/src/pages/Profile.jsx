@@ -12,6 +12,7 @@ export default function Profile() {
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState(null);
   const [kkiapayKey, setKkiapayKey] = useState('');
+  const [annualFee, setAnnualFee] = useState(25000);
   const [paymentLoading, setPaymentLoading] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [error, setError] = useState(null);
@@ -44,16 +45,16 @@ export default function Profile() {
     script.async = true;
     document.body.appendChild(script);
 
-    // Load KKiaPay public key
+    // Load KKiaPay public key + annual fee from CMS settings
     api.get('/cms/')
       .then(res => {
         const list = Array.isArray(res.data) ? res.data : (res.data?.results || []);
         const keySetting = list.find(item => item.key === 'kkiapay_key');
-        if (keySetting && keySetting.value) {
-          setKkiapayKey(keySetting.value);
-        }
+        const feeSetting = list.find(item => item.key === 'annual_fee');
+        if (keySetting?.value) setKkiapayKey(keySetting.value);
+        if (feeSetting?.value) setAnnualFee(parseInt(feeSetting.value, 10) || 25000);
       })
-      .catch(err => console.warn("Could not load KKiaPay key from settings", err));
+      .catch(err => console.warn('Could not load CMS settings', err));
 
     return () => {
       if (document.body.contains(script)) {
@@ -82,7 +83,7 @@ export default function Profile() {
     const currentYear = new Date().getFullYear();
 
     window.openKkiapayWidget({
-      amount: 25000,
+      amount: annualFee,
       position: "center",
       sandbox: true,
       key: kkiapayKey || "dd4b92b67f10b25e1c01e6e969d2f2db6bbcf79c",
@@ -96,7 +97,7 @@ export default function Profile() {
         const payload = {
           payment_type: "cotisation",
           year: currentYear,
-          amount: 25000,
+          amount: annualFee,
           payment_channel: "kkiapay",
           transaction_reference: response.transactionId,
           status: "paye"
@@ -264,7 +265,7 @@ export default function Profile() {
                     <div className="text-center md:text-left space-y-2">
                       <h4 className="font-bold text-emerald-950 text-base">Votre cotisation est à jour</h4>
                       <p className="text-sm text-emerald-800">
-                        Merci pour votre soutien continu à la Fondation FAAZ. Votre cotisation annuelle est réglée. Vos contributions aident à soutenir nos axes stratégiques pour l'enfance, la jeunesse, et l'excellence.
+                        Merci pour votre soutien continu à la Fondation FAAZ. Votre cotisation annuelle de {annualFee.toLocaleString('fr-FR')} FCFA est réglée. Vos contributions aident à soutenir nos axes stratégiques pour l'enfance, la jeunesse, et l'excellence.
                       </p>
                     </div>
                   </div>
@@ -285,7 +286,7 @@ export default function Profile() {
                     <div className="border border-gray-100 rounded-2xl p-6 bg-slate-50 flex flex-col md:flex-row justify-between items-center gap-5">
                       <div>
                         <p className="text-xs text-gray-400 font-bold uppercase tracking-wider mb-1">Montant annuel</p>
-                        <p className="text-2xl font-black text-gray-900">25 000 FCFA</p>
+                        <p className="text-2xl font-black text-gray-900">{annualFee.toLocaleString('fr-FR')} FCFA</p>
                         <p className="text-xs text-gray-500 mt-1">Paiement sécurisé via Mobile Money (MoMo) ou Carte</p>
                       </div>
                       <button

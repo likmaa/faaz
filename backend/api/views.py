@@ -174,6 +174,44 @@ def send_reset_password_email(user):
     send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [user.email], fail_silently=False, html_message=html_message)
 
 
+class ContactView(APIView):
+    """
+    POST /api/contact/ — Formulaire de contact public.
+    Envoie un e-mail à l'adresse DEFAULT_FROM_EMAIL de la fondation.
+    """
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        name    = request.data.get('name', '').strip()
+        email   = request.data.get('email', '').strip()
+        subject = request.data.get('subject', '').strip()
+        message = request.data.get('message', '').strip()
+
+        if not all([name, email, subject, message]):
+            return Response({'error': 'Tous les champs sont obligatoires.'}, status=status.HTTP_400_BAD_REQUEST)
+
+        full_subject = f"[Contact FAAZ] {subject}"
+        body = (
+            f"Nouveau message depuis le formulaire de contact du site FAAZ.\n\n"
+            f"Nom       : {name}\n"
+            f"E-mail    : {email}\n"
+            f"Sujet     : {subject}\n\n"
+            f"Message :\n{message}\n"
+        )
+        try:
+            send_mail(
+                subject=full_subject,
+                message=body,
+                from_email=settings.DEFAULT_FROM_EMAIL,
+                recipient_list=[settings.DEFAULT_FROM_EMAIL],
+                fail_silently=False,
+                reply_to=[email],
+            )
+            return Response({'message': 'Message envoyé avec succès.'}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'error': 'Erreur lors de l\'envoi. Veuillez réessayer.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
 class RoleBasedPermission(permissions.BasePermission):
     def has_permission(self, request, view):
         view_name = view.__class__.__name__
