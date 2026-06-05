@@ -68,8 +68,17 @@ class MemberViewSet(viewsets.ModelViewSet):
         # Allow anyone to register (create) a member profile
         if self.action == 'create':
             return [permissions.AllowAny()]
+        # Only admin/staff can delete a member profile
+        if self.action == 'destroy':
+            return [permissions.IsAdminUser()]
         # Allow authenticated users to view/edit their own profile
         return [permissions.IsAuthenticated()]
+
+    def perform_destroy(self, instance):
+        user = instance.user
+        instance.delete()
+        if user:
+            user.delete()
 
     def list(self, request, *args, **kwargs):
         # Only admin/staff can list all members

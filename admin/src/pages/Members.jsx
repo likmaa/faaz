@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import api from '../services/api';
-import { Users, Check, X, Search, Loader2, Phone, Mail, UserCheck, Plus } from 'lucide-react';
+import { Users, Check, X, Search, Loader2, Phone, Mail, UserCheck, Plus, Trash2 } from 'lucide-react';
 
 export default function Members() {
   const [members, setMembers] = useState([]);
@@ -80,6 +80,18 @@ export default function Members() {
       setMembers(members.map(m => m.id === id ? res.data : m));
     } catch (err) {
       alert("Erreur lors du traitement de l'adhésion.");
+    }
+  }
+
+  async function handleDelete(id, name) {
+    if (window.confirm(`Êtes-vous sûr de vouloir supprimer le membre "${name}" ? Cette action est irréversible et supprimera également son compte utilisateur s'il existe.`)) {
+      try {
+        await api.delete(`/members/${id}/`);
+        setMembers(members.filter(m => m.id !== id));
+      } catch (err) {
+        console.error(err);
+        alert(err.response?.data?.detail || "Erreur lors de la suppression du membre.");
+      }
     }
   }
 
@@ -229,29 +241,38 @@ export default function Members() {
                       </span>
                     </td>
                     <td className="px-6 py-5 text-right">
-                      {member.membership_status === 'en_attente' ? (
-                        <div className="flex justify-end gap-2">
-                          <button
-                            onClick={() => handleAction(member.id, 'valide')}
-                            className="p-2 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 rounded-xl transition"
-                            title="Valider l'adhésion"
-                          >
-                            <Check className="w-4 h-4" />
-                          </button>
-                          <button
-                            onClick={() => handleAction(member.id, 'rejete')}
-                            className="p-2 bg-red-50 text-red-600 hover:bg-red-100 rounded-xl transition"
-                            title="Rejeter"
-                          >
-                            <X className="w-4 h-4" />
-                          </button>
-                        </div>
-                      ) : (
-                        <span className="text-xs font-bold text-slate-300 flex items-center justify-end gap-1">
-                          <UserCheck className="w-3.5 h-3.5" />
-                          Traité
-                        </span>
-                      )}
+                      <div className="flex justify-end items-center gap-3">
+                        {member.membership_status === 'en_attente' ? (
+                          <div className="flex gap-2">
+                            <button
+                              onClick={() => handleAction(member.id, 'valide')}
+                              className="p-2 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 rounded-xl transition"
+                              title="Valider l'adhésion"
+                            >
+                              <Check className="w-4 h-4" />
+                            </button>
+                            <button
+                              onClick={() => handleAction(member.id, 'rejete')}
+                              className="p-2 bg-red-50 text-red-600 hover:bg-red-100 rounded-xl transition"
+                              title="Rejeter"
+                            >
+                              <X className="w-4 h-4" />
+                            </button>
+                          </div>
+                        ) : (
+                          <span className="text-xs font-bold text-slate-400 inline-flex items-center gap-1">
+                            <UserCheck className="w-3.5 h-3.5" />
+                            Traité
+                          </span>
+                        )}
+                        <button
+                          onClick={() => handleDelete(member.id, `${member.first_name} ${member.last_name}`)}
+                          className="p-2 bg-rose-50 text-rose-600 hover:bg-rose-100 hover:text-rose-700 rounded-xl transition"
+                          title="Supprimer le membre"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
