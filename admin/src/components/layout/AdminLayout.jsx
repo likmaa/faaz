@@ -88,7 +88,7 @@ export function SiteLogo({ className = '' }) {
       <img
         src="/assets/img/logo.png"
         alt="Fondation FAAZ"
-        className="h-9 w-auto object-contain"
+        className="h-12 w-auto object-contain"
       />
     </div>
   );
@@ -136,7 +136,7 @@ export default function AdminLayout() {
   const SidebarContent = () => (
     <div className="flex flex-col h-full">
       {/* ── Logo ── */}
-      <div className="h-16 px-5 border-b border-slate-200 flex items-center justify-between flex-shrink-0">
+      <div className="h-20 px-5 border-b border-slate-200 flex items-center justify-between flex-shrink-0">
         <SiteLogo />
         <button
           onClick={() => setSidebarOpen(false)}
@@ -233,7 +233,7 @@ export default function AdminLayout() {
       {/* Main content */}
       <div className="flex-1 lg:pl-60 flex flex-col min-h-screen">
         {/* ── Topbar ── */}
-        <header className="h-16 bg-white border-b border-slate-200 sticky top-0 z-10 px-5 flex items-center gap-4 shadow-sm">
+        <header className="h-20 bg-white border-b border-slate-200 sticky top-0 z-10 px-5 flex items-center gap-4 shadow-sm">
           <button
             onClick={() => setSidebarOpen(true)}
             className="lg:hidden p-1.5 rounded-lg text-slate-500 hover:bg-slate-100 transition"
@@ -288,7 +288,7 @@ export default function AdminLayout() {
         </header>
 
         {/* Content */}
-        <main className="flex-1 p-5 md:p-8 w-full">
+        <main className="flex-1 p-5 md:p-8 max-w-screen-2xl w-full mx-auto">
           <Breadcrumb />
           <Outlet />
         </main>
