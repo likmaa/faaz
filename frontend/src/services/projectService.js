@@ -1,6 +1,15 @@
 import api from './api';
 import mockData from '../mocks/projects.json';
 
+const matchAxeName = (axeName, searchAxe) => {
+  if (!axeName || !searchAxe) return false;
+  const name = axeName.toLowerCase();
+  const search = searchAxe.toLowerCase();
+  if (name.includes(search)) return true;
+  if (search === 'ages' && (name.includes('âge') || name.includes('3'))) return true;
+  return false;
+};
+
 export const projectService = {
   async getAll({ axe } = {}) {
     try {
@@ -8,7 +17,7 @@ export const projectService = {
       if (res.data && res.data.length > 0) {
         let data = res.data;
         if (axe && axe !== 'tous') {
-          data = data.filter(p => String(p.axe) === String(axe) || p.axe_name?.toLowerCase().includes(axe.toLowerCase()));
+          data = data.filter(p => String(p.axe) === String(axe) || matchAxeName(p.axe_name, axe));
         }
         return data;
       }

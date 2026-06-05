@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Heart, GraduationCap, Users, Clock, Handshake } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import api from '../../services/api';
 
 // Icônes Lucide par cause — style professionnel, cohérent
 const CAUSE_ICONS = {
@@ -61,6 +63,40 @@ export const CAUSES = [
 ];
 
 export default function CausesSection() {
+  const { data: backendAxes = [] } = useQuery({
+    queryKey: ['backend-axes'],
+    queryFn: async () => {
+      try {
+        const res = await api.get('/axes/');
+        return Array.isArray(res.data) ? res.data : [];
+      } catch (err) {
+        console.warn("Erreur lors de la récupération des axes depuis le backend", err);
+        return [];
+      }
+    },
+    staleTime: 1000 * 60 * 5 // 5 minutes
+  });
+
+  const dynamicCauses = CAUSES.map(cause => {
+    // Trouver l'axe correspondant dans la base de données par titre
+    const matchedAxe = backendAxes.find(axe => {
+      const bName = axe.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+      const cTitle = cause.title.toLowerCase().replace(/[^a-z0-9]/g, '');
+      return bName === cTitle || bName.includes(cTitle) || cTitle.includes(bName);
+    });
+
+    if (matchedAxe) {
+      // Dans le backend: status 'actif' ou 'a_venir'
+      // Dans CAUSES: statut 'actif' ou 'bientot'
+      const mappedStatut = matchedAxe.status === 'actif' ? 'actif' : 'bientot';
+      return {
+        ...cause,
+        statut: mappedStatut
+      };
+    }
+    return cause;
+  });
+
   return (
     <section className="py-24 bg-[#0284c7]">
       <div className="mx-auto max-w-[1400px] px-6 sm:px-10 lg:px-20">
@@ -96,7 +132,7 @@ export default function CausesSection() {
 
           {/* Grille 5 causes */}
           <div className="lg:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-4">
-            {CAUSES.map((cause, idx) => {
+            {dynamicCauses.map((cause, idx) => {
               const Icon = CAUSE_ICONS[cause.slug];
               return (
                 <div

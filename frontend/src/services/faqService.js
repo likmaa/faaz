@@ -2,6 +2,15 @@ import api from './api';
 import mockData from '../mocks/faq.json';
 import achievementsMock from '../mocks/achievements.json';
 
+const matchAxeName = (axeName, searchAxe) => {
+  if (!axeName || !searchAxe) return false;
+  const name = axeName.toLowerCase();
+  const search = searchAxe.toLowerCase();
+  if (name.includes(search)) return true;
+  if (search === 'ages' && (name.includes('âge') || name.includes('3'))) return true;
+  return false;
+};
+
 export const faqService = {
   async getAll() {
     try {
@@ -26,7 +35,7 @@ export const achievementService = {
       const res = await api.get('/realisations/');
       if (res.data && res.data.length > 0) {
         let data = res.data.sort((a, b) => new Date(b.date) - new Date(a.date));
-        if (axe && axe !== 'tous') data = data.filter(a => String(a.axe) === String(axe) || a.axe_name?.toLowerCase().includes(axe.toLowerCase()));
+        if (axe && axe !== 'tous') data = data.filter(a => String(a.axe) === String(axe) || matchAxeName(a.axe_name, axe));
         return data;
       }
     } catch (err) {
