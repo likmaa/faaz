@@ -19,6 +19,8 @@ import InternshipDetail from '../pages/InternshipDetail.jsx';
 import JoinUs from '../pages/JoinUs.jsx';
 import Login from '../pages/Login.jsx';
 import Register from '../pages/Register.jsx';
+import ResetPassword from '../pages/ResetPassword.jsx';
+import Profile from '../pages/Profile.jsx';
 import NotFound from '../pages/NotFound.jsx';
 
 export default function RoutesIndex() {
@@ -43,7 +45,11 @@ export default function RoutesIndex() {
   <Route path="/join-us" element={<JoinUs />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
+      <Route path="/profile" element={<Profile />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }
+
+

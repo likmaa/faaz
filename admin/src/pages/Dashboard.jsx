@@ -165,34 +165,42 @@ export default function Dashboard() {
       <div className="bg-white border border-slate-200/80 rounded-3xl p-6 shadow-sm">
         <h3 className="text-sm font-bold text-slate-800 uppercase tracking-wider mb-4">Actions rapides</h3>
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-          <Link
-            to="/projects"
-            className="flex items-center gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-100 hover:border-primary-200 hover:bg-primary-50/30 text-slate-700 hover:text-primary-700 font-bold text-sm transition"
-          >
-            <PlusCircle className="w-5 h-5 text-primary-600" />
-            <span>Nouveau projet</span>
-          </Link>
-          <Link
-            to="/members"
-            className="flex items-center gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-100 hover:border-primary-200 hover:bg-primary-50/30 text-slate-700 hover:text-primary-700 font-bold text-sm transition"
-          >
-            <UserCheck className="w-5 h-5 text-primary-600" />
-            <span>Valider membres</span>
-          </Link>
-          <Link
-            to="/cms"
-            className="flex items-center gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-100 hover:border-primary-200 hover:bg-primary-50/30 text-slate-700 hover:text-primary-700 font-bold text-sm transition"
-          >
-            <Newspaper className="w-5 h-5 text-primary-600" />
-            <span>Éditer le CMS</span>
-          </Link>
-          <Link
-            to="/recruitment"
-            className="flex items-center gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-100 hover:border-primary-200 hover:bg-primary-50/30 text-slate-700 hover:text-primary-700 font-bold text-sm transition"
-          >
-            <Settings className="w-5 h-5 text-primary-600" />
-            <span>Recrutements</span>
-          </Link>
+          {['admin_principal', 'tresorier', 'editeur_contenu'].includes(user?.role) && (
+            <Link
+              to="/projects"
+              className="flex items-center gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-100 hover:border-primary-200 hover:bg-primary-50/30 text-slate-700 hover:text-primary-700 font-bold text-sm transition"
+            >
+              <PlusCircle className="w-5 h-5 text-primary-600" />
+              <span>Nouveau projet</span>
+            </Link>
+          )}
+          {['admin_principal', 'gestionnaire_communaute'].includes(user?.role) && (
+            <Link
+              to="/members"
+              className="flex items-center gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-100 hover:border-primary-200 hover:bg-primary-50/30 text-slate-700 hover:text-primary-700 font-bold text-sm transition"
+            >
+              <UserCheck className="w-5 h-5 text-primary-600" />
+              <span>Valider membres</span>
+            </Link>
+          )}
+          {['admin_principal', 'editeur_contenu'].includes(user?.role) && (
+            <Link
+              to="/realisations"
+              className="flex items-center gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-100 hover:border-primary-200 hover:bg-primary-50/30 text-slate-700 hover:text-primary-700 font-bold text-sm transition"
+            >
+              <Newspaper className="w-5 h-5 text-primary-600" />
+              <span>Éditer le CMS</span>
+            </Link>
+          )}
+          {['admin_principal', 'gestionnaire_communaute', 'editeur_contenu'].includes(user?.role) && (
+            <Link
+              to="/recruitment"
+              className="flex items-center gap-3 p-4 rounded-2xl bg-slate-50 border border-slate-100 hover:border-primary-200 hover:bg-primary-50/30 text-slate-700 hover:text-primary-700 font-bold text-sm transition"
+            >
+              <Settings className="w-5 h-5 text-primary-600" />
+              <span>Recrutements</span>
+            </Link>
+          )}
         </div>
       </div>
 

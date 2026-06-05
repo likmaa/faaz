@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import api from '../services/api';
 import { Users, Check, X, Search, Loader2, Phone, Mail, UserCheck, Plus, Trash2 } from 'lucide-react';
+import { useAuthStore } from '../store/auth';
 
 export default function Members() {
+  const { user } = useAuthStore();
+  const isReadOnly = user?.role === 'tresorier';
   const [members, setMembers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -113,13 +116,15 @@ export default function Members() {
           <h1 className="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight font-title">Membres & Adhésions</h1>
           <p className="text-slate-500 text-sm mt-1">Validez les demandes d'adhésion et suivez le paiement des cotisations.</p>
         </div>
-        <button
-          onClick={handleOpenCreate}
-          className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-full font-bold text-sm shadow-md shadow-primary-600/15 active:scale-[0.98] transition self-start sm:self-auto"
-        >
-          <Plus className="w-4 h-4" />
-          Nouveau membre
-        </button>
+        {!isReadOnly && (
+          <button
+            onClick={handleOpenCreate}
+            className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-full font-bold text-sm shadow-md shadow-primary-600/15 active:scale-[0.98] transition self-start sm:self-auto"
+          >
+            <Plus className="w-4 h-4" />
+            Nouveau membre
+          </button>
+        )}
       </div>
 
       {/* Filters and search */}
@@ -243,35 +248,43 @@ export default function Members() {
                     <td className="px-6 py-5 text-right">
                       <div className="flex justify-end items-center gap-3">
                         {member.membership_status === 'en_attente' ? (
-                          <div className="flex gap-2">
-                            <button
-                              onClick={() => handleAction(member.id, 'valide')}
-                              className="p-2 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 rounded-xl transition"
-                              title="Valider l'adhésion"
-                            >
-                              <Check className="w-4 h-4" />
-                            </button>
-                            <button
-                              onClick={() => handleAction(member.id, 'rejete')}
-                              className="p-2 bg-red-50 text-red-600 hover:bg-red-100 rounded-xl transition"
-                              title="Rejeter"
-                            >
-                              <X className="w-4 h-4" />
-                            </button>
-                          </div>
+                          isReadOnly ? (
+                            <span className="text-xs font-bold text-slate-400 inline-flex items-center gap-1">
+                              En attente
+                            </span>
+                          ) : (
+                            <div className="flex gap-2">
+                              <button
+                                onClick={() => handleAction(member.id, 'valide')}
+                                className="p-2 bg-emerald-50 text-emerald-600 hover:bg-emerald-100 rounded-xl transition"
+                                title="Valider l'adhésion"
+                              >
+                                <Check className="w-4 h-4" />
+                              </button>
+                              <button
+                                onClick={() => handleAction(member.id, 'rejete')}
+                                className="p-2 bg-red-50 text-red-600 hover:bg-red-100 rounded-xl transition"
+                                title="Rejeter"
+                              >
+                                <X className="w-4 h-4" />
+                              </button>
+                            </div>
+                          )
                         ) : (
                           <span className="text-xs font-bold text-slate-400 inline-flex items-center gap-1">
                             <UserCheck className="w-3.5 h-3.5" />
                             Traité
                           </span>
                         )}
-                        <button
-                          onClick={() => handleDelete(member.id, `${member.first_name} ${member.last_name}`)}
-                          className="p-2 bg-rose-50 text-rose-600 hover:bg-rose-100 hover:text-rose-700 rounded-xl transition"
-                          title="Supprimer le membre"
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </button>
+                        {!isReadOnly && (
+                          <button
+                            onClick={() => handleDelete(member.id, `${member.first_name} ${member.last_name}`)}
+                            className="p-2 bg-rose-50 text-rose-600 hover:bg-rose-100 hover:text-rose-700 rounded-xl transition"
+                            title="Supprimer le membre"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        )}
                       </div>
                     </td>
                   </tr>

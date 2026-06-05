@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-6o__j110w97younza#m5vmon#8h(euepr6op!_(y&(&y@7d#jq
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -196,3 +196,14 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default auto field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Email Configuration
+EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend')
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
+DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'Fondation FAAZ <noreply@lafaaz.org>')
+FRONTEND_URL = os.environ.get('FRONTEND_URL', 'http://localhost:3000')
+

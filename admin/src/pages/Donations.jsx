@@ -5,6 +5,7 @@ import {
 import api from '../services/api';
 import StatusBadge from '../components/ui/StatusBadge';
 import { toast } from '../store/toast';
+import { useAuthStore } from '../store/auth';
 
 function formatFCFA(n) {
   return Number(n).toLocaleString('fr-FR') + ' FCFA';
@@ -18,6 +19,8 @@ function formatDate(iso) {
 const CHANNEL_LABELS = { kkiapay: 'KKiaPay', paypal: 'PayPal', momo: 'MoMo Pay', bank: 'Virement' };
 
 export default function Donations() {
+  const { user } = useAuthStore();
+  const isReadOnly = user?.role === 'gestionnaire_communaute';
   const [donations, setDonations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState('');
@@ -132,12 +135,14 @@ export default function Donations() {
           <h1 className="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight font-title">Dons</h1>
           <p className="text-slate-500 text-sm mt-1">Tableau de bord de transparence — toutes les donations reçues</p>
         </div>
-        <button
-          onClick={exportCSV}
-          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-sm font-bold text-slate-600 hover:bg-slate-50 transition shadow-sm"
-        >
-          <Download className="w-4 h-4" /> Exporter CSV
-        </button>
+        {!isReadOnly && (
+          <button
+            onClick={exportCSV}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-sm font-bold text-slate-600 hover:bg-slate-50 transition shadow-sm"
+          >
+            <Download className="w-4 h-4" /> Exporter CSV
+          </button>
+        )}
       </div>
 
       {/* Totaux KPI */}

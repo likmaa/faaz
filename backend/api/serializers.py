@@ -3,7 +3,8 @@ from django.contrib.auth.models import User
 from .models import (
     CMSSetting, TeamMember, Partner, FAQItem,
     Member, MembershipPayment, Axe, Project,
-    Donation, Realisation, News, RecruitmentOffer, Candidature, Testimonial
+    Donation, Realisation, News, RecruitmentOffer, Candidature, Testimonial,
+    UserProfile
 )
 
 # =====================================================================
@@ -11,10 +12,82 @@ from .models import (
 # =====================================================================
 
 class UserSerializer(serializers.ModelSerializer):
+    role = serializers.SerializerMethodField()
+
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'is_staff']
+        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'is_staff', 'role']
         read_only_fields = ['id']
+
+    def get_role(self, obj):
+        try:
+            return obj.profile.role
+        except Exception:
+            return 'admin_principal' if obj.is_superuser else 'editeur_contenu'
+
+
+class StaffUserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True, required=False)
+    role = serializers.CharField(required=False)
+
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'is_staff', 'is_superuser', 'role', 'password']
+        read_only_fields = ['id']
+
+    def create(self, validated_data):
+        password = validated_data.pop('password', None)
+        role = validated_data.pop('role', 'editeur_contenu')
+        is_superuser = validated_data.get('is_superuser', False)
+        if is_superuser:
+            role = 'admin_principal'
+        validated_data['is_staff'] = validated_data.get('is_staff', True) or is_superuser
+        
+        # Generate username if not provided or empty
+        if not validated_data.get('username'):
+            email = validated_data.get('email', '')
+            username = email.split('@')[0] if email else 'staff'
+            base_username = username
+            counter = 1
+            while User.objects.filter(username=username).exists():
+                username = f"{base_username}_{counter}"
+                counter += 1
+            validated_data['username'] = username
+
+        user = User.objects.create_user(**validated_data)
+        if password:
+            user.set_password(password)
+            user.save()
+            
+        UserProfile.objects.update_or_create(user=user, defaults={'role': role})
+        return user
+
+    def update(self, instance, validated_data):
+        password = validated_data.pop('password', None)
+        role = validated_data.pop('role', None)
+        is_superuser = validated_data.get('is_superuser', instance.is_superuser)
+        if is_superuser:
+            role = 'admin_principal'
+        validated_data['is_staff'] = validated_data.get('is_staff', instance.is_staff) or is_superuser
+
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        if password:
+            instance.set_password(password)
+        instance.save()
+        
+        if role:
+            UserProfile.objects.update_or_create(user=instance, defaults={'role': role})
+        return instance
+
+    def to_representation(self, instance):
+        ret = super().to_representation(instance)
+        try:
+            ret['role'] = instance.profile.role
+        except Exception:
+            ret['role'] = 'admin_principal' if instance.is_superuser else 'editeur_contenu'
+        return ret
+
 
 
 # =====================================================================
@@ -77,6 +150,8 @@ class FAQItemSerializer(serializers.ModelSerializer):
 # =====================================================================
 
 class MembershipPaymentSerializer(serializers.ModelSerializer):
+    member = serializers.PrimaryKeyRelatedField(queryset=Member.objects.all(), required=False)
+
     class Meta:
         model = MembershipPayment
         fields = '__all__'

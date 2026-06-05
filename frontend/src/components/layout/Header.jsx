@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { useAuthStore } from '../../store/auth';
 
 // Navigation alignée sur le PRD FAAZ
 const nav = [
@@ -28,7 +29,9 @@ const nav = [
 
 const DONATE_PRESETS = [5000, 10000, 25000];
 
+
 export default function Header() {
+  const { token } = useAuthStore();
   const [scrolled,       setScrolled]       = useState(false);
   const [openIndex,      setOpenIndex]      = useState(null);
   const [hovered,        setHovered]        = useState(false);
@@ -165,14 +168,15 @@ export default function Header() {
           {/* ── Actions desktop (≥ lg) ── */}
           <div className="hidden lg:flex items-center gap-3 flex-shrink-0">
             <NavLink
-              to="/login"
-              className={`btn-icon ${hasSolidBg ? 'btn-icon-solid' : 'btn-icon-transparent'}`}
-              title="Se connecter"
+              to={token ? "/profile" : "/login"}
+              className={`btn-icon relative ${hasSolidBg ? 'btn-icon-solid' : 'btn-icon-transparent'} ${token ? 'text-primary-600 border-primary-500' : ''}`}
+              title={token ? "Mon Espace Membre" : "Se connecter"}
             >
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
                 <circle cx="12" cy="7" r="4"/>
               </svg>
+              {token && <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-green-500 rounded-full border border-white animate-pulse"></span>}
             </NavLink>
             <NavLink
               to="/join-us"
@@ -317,7 +321,7 @@ export default function Header() {
         {/* Actions en bas du panel */}
         <div className="p-6 border-t border-slate-100 space-y-3">
           <NavLink
-            to="/login"
+            to={token ? "/profile" : "/login"}
             className="flex items-center gap-3 text-slate-700 font-semibold py-2 hover:text-primary-600 transition-colors"
             onClick={closeMobile}
           >
@@ -325,7 +329,7 @@ export default function Header() {
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
               <circle cx="12" cy="7" r="4"/>
             </svg>
-            Se connecter
+            {token ? "Mon Espace Membre" : "Se connecter"}
           </NavLink>
           <NavLink
             to="/join-us"

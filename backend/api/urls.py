@@ -5,7 +5,8 @@ from .views import (
     MemberViewSet, MembershipPaymentViewSet, AxeViewSet, ProjectViewSet,
     DonationViewSet, RealisationViewSet, NewsViewSet, RecruitmentOfferViewSet,
     CandidatureViewSet, CustomTokenObtainPairView, RegisterView, UserProfileView,
-    KKiaPayWebhookView, TestimonialViewSet
+    KKiaPayWebhookView, TestimonialViewSet, PasswordResetRequestView, PasswordResetConfirmView,
+    StaffViewSet
 )
 
 router = DefaultRouter()
@@ -23,11 +24,15 @@ router.register(r'news', NewsViewSet, basename='news')
 router.register(r'recruitment', RecruitmentOfferViewSet, basename='recruitment')
 router.register(r'candidatures', CandidatureViewSet, basename='candidatures')
 router.register(r'temoignages', TestimonialViewSet, basename='temoignages')
+router.register(r'users', StaffViewSet, basename='users')
 
 urlpatterns = [
     path('login', CustomTokenObtainPairView.as_view(), name='login'),
     path('register', RegisterView.as_view(), name='register'),
     path('user', UserProfileView.as_view(), name='user'),
+    path('password-reset/', PasswordResetRequestView.as_view(), name='password_reset'),
+    path('password-reset/confirm/', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('webhooks/kkiapay', KKiaPayWebhookView.as_view(), name='kkiapay_webhook'),
     path('', include(router.urls)),
 ]
+

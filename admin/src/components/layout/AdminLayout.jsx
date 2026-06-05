@@ -9,6 +9,30 @@ import {
   Bell, FileText, Heart
 } from 'lucide-react';
 
+const ROLE_LABELS = {
+  admin_principal: 'Admin principal',
+  gestionnaire_communaute: 'Gestionnaire communauté',
+  tresorier: 'Trésorier',
+  editeur_contenu: 'Éditeur contenu',
+};
+
+const ITEM_ROLES = {
+  '/': ['admin_principal', 'gestionnaire_communaute', 'tresorier', 'editeur_contenu'],
+  '/members': ['admin_principal', 'gestionnaire_communaute', 'tresorier'],
+  '/cotisations': ['admin_principal', 'gestionnaire_communaute', 'tresorier'],
+  '/donations': ['admin_principal', 'gestionnaire_communaute', 'tresorier'],
+  '/projects': ['admin_principal', 'tresorier', 'editeur_contenu'],
+  '/axes': ['admin_principal', 'tresorier', 'editeur_contenu'],
+  '/realisations': ['admin_principal', 'editeur_contenu'],
+  '/actualites': ['admin_principal', 'editeur_contenu'],
+  '/partenaires': ['admin_principal', 'editeur_contenu'],
+  '/equipe': ['admin_principal', 'editeur_contenu'],
+  '/temoignages': ['admin_principal', 'editeur_contenu'],
+  '/faq': ['admin_principal', 'editeur_contenu'],
+  '/recruitment': ['admin_principal', 'gestionnaire_communaute', 'editeur_contenu'],
+  '/parametres': ['admin_principal', 'tresorier'],
+};
+
 const NAV_GROUPS = [
   {
     label: null,
@@ -136,6 +160,17 @@ export default function AdminLayout() {
     );
   }
 
+  const role = user?.role;
+  const filteredNavGroups = NAV_GROUPS.map(group => {
+    const items = group.items.filter(item => {
+      const allowedRoles = ITEM_ROLES[item.to];
+      return !allowedRoles || allowedRoles.includes(role);
+    });
+    return { ...group, items };
+  }).filter(group => group.items.length > 0);
+
+  const isAuthorized = !ITEM_ROLES[location.pathname] || ITEM_ROLES[location.pathname].includes(role);
+
   const SidebarContent = () => (
     <div className="flex flex-col h-full">
       {/* ── Logo ── */}
@@ -151,7 +186,7 @@ export default function AdminLayout() {
 
       {/* ── Nav ── */}
       <nav className="flex-1 px-3 py-5 overflow-y-auto space-y-5">
-        {NAV_GROUPS.map((group, gi) => (
+        {filteredNavGroups.map((group, gi) => (
           <div key={gi}>
             {group.label && (
               <button
@@ -197,9 +232,10 @@ export default function AdminLayout() {
           <div className="w-8 h-8 rounded-lg bg-primary-50 border border-primary-200 flex items-center justify-center flex-shrink-0">
             <UserIcon className="w-4 h-4 text-primary-600" />
           </div>
-          <div className="min-w-0">
+          <div className="min-w-0 flex-1">
             <p className="text-xs font-bold text-slate-800 truncate">{user?.first_name} {user?.last_name}</p>
-            <p className="text-[10px] text-slate-400 font-medium truncate">{user?.email}</p>
+            <p className="text-[10px] text-slate-500 font-bold truncate">{ROLE_LABELS[user?.role] || 'Administrateur'}</p>
+            <p className="text-[9px] text-slate-400 font-medium truncate">{user?.email}</p>
           </div>
         </div>
         <button
@@ -267,15 +303,17 @@ export default function AdminLayout() {
             </button>
 
             {/* CMS shortcut */}
-            <NavLink
-              to="/cms"
-              className={({ isActive }) =>
-                `p-2 rounded-xl transition ${isActive ? 'bg-primary-50 text-primary-700' : 'text-slate-500 hover:bg-slate-100'}`
-              }
-              title="Gestion CMS"
-            >
-              <FileText className="w-5 h-5" />
-            </NavLink>
+            {['admin_principal', 'editeur_contenu'].includes(user?.role) && (
+              <NavLink
+                to="/realisations"
+                className={({ isActive }) =>
+                  `p-2 rounded-xl transition ${isActive ? 'bg-primary-50 text-primary-700' : 'text-slate-500 hover:bg-slate-100'}`
+                }
+                title="Gestion CMS"
+              >
+                <FileText className="w-5 h-5" />
+              </NavLink>
+            )}
 
             {/* User chip */}
             <div className="flex items-center gap-2.5 pl-3 ml-1 border-l border-slate-200">
@@ -284,7 +322,9 @@ export default function AdminLayout() {
               </div>
               <div className="hidden sm:block">
                 <p className="text-xs font-bold text-slate-800 leading-tight">{user?.first_name} {user?.last_name}</p>
-                <p className="text-[10px] text-slate-400 font-medium">Administrateur</p>
+                <p className="text-[10px] text-slate-400 font-medium">
+                  {ROLE_LABELS[user?.role] || 'Administrateur'}
+                </p>
               </div>
             </div>
           </div>
@@ -293,7 +333,27 @@ export default function AdminLayout() {
         {/* Content */}
         <main className="flex-1 p-5 md:p-8 max-w-screen-2xl w-full mx-auto">
           <Breadcrumb />
-          <Outlet />
+          {isAuthorized ? (
+            <Outlet />
+          ) : (
+            <div className="bg-white border border-slate-200 rounded-3xl p-8 md:p-12 text-center shadow-sm max-w-lg mx-auto mt-12 animate-in fade-in duration-200">
+              <div className="w-16 h-16 bg-red-50 border border-red-200 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                <svg className="w-8 h-8 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                </svg>
+              </div>
+              <h2 className="text-xl font-bold text-slate-800 font-title">Accès Restreint</h2>
+              <p className="text-slate-500 text-sm mt-2 mb-6">
+                Vous n'avez pas les autorisations nécessaires pour accéder à cette rubrique. Si vous pensez qu'il s'agit d'une erreur, veuillez contacter l'administrateur principal.
+              </p>
+              <Link
+                to="/"
+                className="inline-flex items-center justify-center px-6 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold text-sm transition"
+              >
+                Retour au tableau de bord
+              </Link>
+            </div>
+          )}
         </main>
       </div>
     </div>
