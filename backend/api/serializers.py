@@ -211,9 +211,47 @@ class NewsSerializer(serializers.ModelSerializer):
 # =====================================================================
 
 class RecruitmentOfferSerializer(serializers.ModelSerializer):
+    titre = serializers.CharField(source='title', read_only=True)
+    type_contrat = serializers.SerializerMethodField(read_only=True)
+    localisation = serializers.SerializerMethodField(read_only=True)
+    description = serializers.SerializerMethodField(read_only=True)
+    date_limite = serializers.SerializerMethodField(read_only=True)
+    duree = serializers.SerializerMethodField(read_only=True)
+    indemnite = serializers.SerializerMethodField(read_only=True)
+    engagement = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = RecruitmentOffer
         fields = '__all__'
+
+    def get_type_contrat(self, obj):
+        if obj.offer_type == 'emploi':
+            return 'CDI'
+        return None
+
+    def get_localisation(self, obj):
+        return 'Cotonou, Bénin'
+
+    def get_description(self, obj):
+        return "Cette opportunité a été publiée par la fondation. Veuillez consulter la fiche descriptive jointe au format PDF pour prendre connaissance de tous les détails (missions, compétences, profil recherché)."
+
+    def get_date_limite(self, obj):
+        return None
+
+    def get_duree(self, obj):
+        if obj.offer_type == 'stage':
+            return '3 à 6 mois'
+        return None
+
+    def get_indemnite(self, obj):
+        if obj.offer_type == 'stage':
+            return 'Indemnité de stage selon barème'
+        return None
+
+    def get_engagement(self, obj):
+        if obj.offer_type == 'bénévolat':
+            return 'Engagement bénévole'
+        return None
 
 
 class CandidatureSerializer(serializers.ModelSerializer):

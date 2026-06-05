@@ -69,11 +69,11 @@ export default function ProjectDetail() {
                 </span>
               )}
               <span className={`text-xs font-extrabold uppercase tracking-widest px-3.5 py-1.5 rounded-full shadow-sm ${
-                project.statut === 'actif' 
+                project.statut === 'actif' || project.statut === 'collecte'
                   ? 'bg-emerald-50 text-emerald-700 border border-emerald-100' 
                   : 'bg-slate-100 text-slate-600 border border-slate-200'
               }`}>
-                {project.statut === 'actif' ? 'En cours' : 'Terminé'}
+                {project.statut === 'actif' || project.statut === 'collecte' ? 'En cours' : 'Terminé'}
               </span>
             </div>
             

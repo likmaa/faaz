@@ -96,9 +96,3 @@ export default function BackgroundVideo({
     </div>
   );
 }
-
-<BackgroundVideo
-  webmSrc="/video/kk1_1280.webm"
-  mp4Src="/video/kk1_960.mp4"
-  poster={null}
-/>

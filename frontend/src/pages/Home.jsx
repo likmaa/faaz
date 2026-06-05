@@ -12,6 +12,20 @@ import PartnersSection from '../components/sections/PartnersSection';
 import ContactSection from '../components/sections/ContactSection';
 
 export default function Home() {
+  const [showScrollArrow, setShowScrollArrow] = React.useState(true);
+
+  React.useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 80) {
+        setShowScrollArrow(false);
+      } else {
+        setShowScrollArrow(true);
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const { data: cmsSettings = {} } = useQuery({
     queryKey: ['cms-settings'],
     queryFn: async () => {
@@ -38,7 +52,7 @@ export default function Home() {
   return (
     <>
       {/* ── Hero ─────────────────────────────────────────────── */}
-      <div className="relative w-full" style={{ minHeight: '100vh' }}>
+      <div className="relative w-full h-screen min-h-[600px] overflow-hidden">
 
         {/* Vidéo fond */}
         <BackgroundVideo
@@ -59,8 +73,7 @@ export default function Home() {
         />
 
         {/* Contenu ancré dans le bas du hero — laisse la vidéo respirer en haut */}
-        <div className="relative z-10 flex flex-col items-center justify-end text-center"
-             style={{ minHeight: '100vh', paddingBottom: '8vh' }}>
+        <div className="relative z-10 flex flex-col items-center justify-end text-center h-full pb-20 sm:pb-28">
 
           <div className="w-full max-w-4xl mx-auto px-6 sm:px-10">
 
@@ -114,7 +127,7 @@ export default function Home() {
         </div>
 
         {/* Bouton flèche pour défiler vers le bas (contact) */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20">
+        <div className={`fixed bottom-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ${showScrollArrow ? 'opacity-100 translate-y-0 pointer-events-auto' : 'opacity-0 translate-y-4 pointer-events-none'}`}>
           <button
             onClick={() => {
               const contactSec = document.getElementById('contact');
@@ -127,7 +140,7 @@ export default function Home() {
                 });
               }
             }}
-            className="w-10 h-10 rounded-full border border-white/30 flex items-center justify-center text-white/70 hover:text-white hover:border-white bg-black/10 hover:bg-black/25 backdrop-blur-sm transition-all duration-300 animate-bounce cursor-pointer"
+            className="p-0 w-10 h-10 rounded-full border border-white/30 flex items-center justify-center text-white/70 hover:text-white hover:border-white bg-black/10 hover:bg-black/25 backdrop-blur-sm transition-all duration-300 animate-bounce cursor-pointer"
             title="Défiler vers le bas"
           >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">

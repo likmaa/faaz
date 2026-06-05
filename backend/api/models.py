@@ -272,7 +272,7 @@ class Candidature(models.Model):
     last_name = models.CharField(max_length=100)
     email = models.EmailField()
     phone = models.CharField(max_length=20)
-    cv_file = models.FileField(upload_to='candidatures/cv/')
+    cv_file = models.FileField(upload_to='candidatures/cv/', blank=True, null=True)
     cover_letter_file = models.FileField(upload_to='candidatures/letters/', blank=True, null=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='en_cours')
     created_at = models.DateTimeField(auto_now_add=True)

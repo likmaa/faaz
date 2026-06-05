@@ -16,6 +16,7 @@ export default function Partenaires() {
   const [drawer, setDrawer] = useState(false);
   const [editing, setEditing] = useState(null);
   const [form, setForm] = useState(EMPTY_FORM);
+  const [logoFile, setLogoFile] = useState(null);
   const [saving, setSaving] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState(null);
 
@@ -33,19 +34,31 @@ export default function Partenaires() {
     }
   }
 
-  function openCreate() { setEditing(null); setForm(EMPTY_FORM); setDrawer(true); }
-  function openEdit(p) { setEditing(p); setForm({ name: p.name, link: p.link || '', logo: p.logo || '', description: p.description || '' }); setDrawer(true); }
+  function openCreate() { setEditing(null); setForm(EMPTY_FORM); setLogoFile(null); setDrawer(true); }
+  function openEdit(p) { setEditing(p); setForm({ name: p.name, link: p.link || '', logo: p.logo || '', description: p.description || '' }); setLogoFile(null); setDrawer(true); }
 
   async function handleSave() {
     if (!form.name.trim()) { toast.warning('Le nom est obligatoire.'); return; }
     setSaving(true);
+    const formData = new FormData();
+    formData.append('name', form.name);
+    formData.append('link', form.link);
+    formData.append('description', form.description);
+    if (logoFile) {
+      formData.append('logo', logoFile);
+    }
+
     try {
       if (editing) {
-        const res = await api.patch(`/partners/${editing.id}/`, form);
+        const res = await api.patch(`/partners/${editing.id}/`, formData, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
         setItems(prev => prev.map(p => p.id === editing.id ? res.data : p));
         toast.success('Partenaire mis à jour.');
       } else {
-        const res = await api.post('/partners/', form);
+        const res = await api.post('/partners/', formData, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
         setItems(prev => [...prev, res.data]);
         toast.success('Partenaire ajouté.');
       }
@@ -167,15 +180,22 @@ export default function Partenaires() {
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 transition" />
               </div>
               <div>
-                <label className="block text-xs font-bold text-slate-600 mb-1.5">Logo (URL)</label>
-                <input type="text" value={form.logo} onChange={e => setForm(f => ({ ...f, logo: e.target.value }))}
-                  placeholder="https://… ou /img/…"
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 transition mb-2" />
-                {getImageUrl(form.logo) && (
-                  <div className="w-20 h-16 rounded-xl border border-slate-200 bg-white flex items-center justify-center p-2 shadow-sm">
-                    <img src={getImageUrl(form.logo)} alt="Aperçu logo" className="max-w-full max-h-full object-contain" onError={e => e.target.style.display = 'none'} />
+                <label className="block text-xs font-bold text-slate-600 mb-1.5">Logo (Fichier image)</label>
+                <input 
+                  type="file" 
+                  accept="image/*"
+                  onChange={e => setLogoFile(e.target.files[0])}
+                  className="w-full text-xs text-slate-500 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200 cursor-pointer mb-2" 
+                />
+                {logoFile ? (
+                  <div className="w-20 h-16 rounded-xl border border-slate-200 bg-white flex items-center justify-center p-2 shadow-sm overflow-hidden">
+                    <img src={URL.createObjectURL(logoFile)} alt="Aperçu logo local" className="max-w-full max-h-full object-contain" />
                   </div>
-                )}
+                ) : getImageUrl(form.logo) ? (
+                  <div className="w-20 h-16 rounded-xl border border-slate-200 bg-white flex items-center justify-center p-2 shadow-sm overflow-hidden">
+                    <img src={getImageUrl(form.logo)} alt="Aperçu logo" className="max-w-full max-h-full object-contain" />
+                  </div>
+                ) : null}
               </div>
               <div>
                 <label className="block text-xs font-bold text-slate-600 mb-1.5">Lien (URL)</label>

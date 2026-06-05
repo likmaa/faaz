@@ -123,7 +123,7 @@ export default function ProjectsSection() {
   const { data: projects } = useProjects();
   const [activeFilter, setActiveFilter] = useState('tous');
 
-  const actifs = projects?.filter(p => p.statut === 'actif') ?? [];
+  const actifs = projects?.filter(p => p.statut === 'actif' || p.statut === 'collecte') ?? [];
   if (!actifs.length) return null;
 
   // Filtrer par axe_slug

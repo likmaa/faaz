@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PageHero from '../components/ui/PageHero';
 import { Vote, BarChart3, Handshake } from 'lucide-react';
+import api from '../services/api';
 
 const FIELDS = [
   { name: 'prenom',       label: 'Prénom',          type: 'text',  required: true,  col: 1 },
@@ -21,13 +22,44 @@ export default function JoinUs() {
   const [form, setForm] = useState({ pays: 'Bénin' });
   const [contactMode, setContactMode] = useState('E-mail');
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const update = (k, v) => setForm(f => ({ ...f, [k]: v }));
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    setLoading(true);
+    setError(null);
+
+    const payload = {
+      first_name: form.prenom || '',
+      last_name: form.nom || '',
+      email: form.email || '',
+      phone: form.telephone || '',
+      birth_date: form.date_naissance || '',
+      profession: form.profession || '',
+      address: form.adresse || '',
+      city: form.ville || '',
+      zip_code: form.code_postal || '',
+      country: form.pays || 'Bénin',
+      contact_method: contactMode === 'E-mail' ? 'email' : (contactMode === 'Téléphone' ? 'phone' : 'whatsapp')
+    };
+
+    try {
+      await api.post('/members/', payload);
+      setSubmitted(true);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (err) {
+      console.error(err);
+      setError(
+        err.response?.data?.email?.[0] || 
+        err.response?.data?.message || 
+        "Une erreur est survenue lors de la soumission de votre demande d'adhésion. Veuillez réessayer."
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (submitted) {
@@ -79,6 +111,12 @@ export default function JoinUs() {
         {/* Formulaire */}
         <form onSubmit={handleSubmit} className="space-y-6">
           <h2 className="text-xl font-bold text-gray-900">Informations personnelles</h2>
+
+          {error && (
+            <div className="bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3 rounded-xl">
+              {error}
+            </div>
+          )}
 
           <div className="grid sm:grid-cols-2 gap-5">
             {FIELDS.map(f => (
@@ -133,9 +171,10 @@ export default function JoinUs() {
 
           <button
             type="submit"
-            className="w-full py-4 bg-primary-600 text-white rounded-full font-bold text-base hover:bg-primary-700 transition shadow-md"
+            disabled={loading}
+            className="w-full py-4 bg-primary-600 text-white rounded-full font-bold text-base hover:bg-primary-700 transition shadow-md disabled:opacity-60"
           >
-            Soumettre ma demande d'adhésion →
+            {loading ? 'Soumission...' : 'Soumettre ma demande d\'adhésion →'}
           </button>
           <p className="text-xs text-gray-400 text-center">Votre adhésion sera activée après validation de votre dossier et règlement de la cotisation.</p>
         </form>

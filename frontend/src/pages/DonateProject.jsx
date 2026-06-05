@@ -1,24 +1,51 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import PageHero from '../components/ui/PageHero';
 import { useProject } from '../hooks/useProjects';
 import Loading from '../components/ui/Loading';
 import { Lock, User } from 'lucide-react';
+import api from '../services/api';
 
 const PRESETS = [5000, 10000, 25000, 50000];
 
 export default function DonateProject() {
   const { id } = useParams();
-  const { data: project, isLoading, error } = useProject(id);
+  const { data: project, isLoading, error: projectError } = useProject(id);
   const [amount, setAmount] = useState(10000);
   const [anonymous, setAnonymous] = useState(false);
-  const [form, setForm] = useState({ prenom: '', nom: '', email: '' });
+  const [form, setForm] = useState({ prenom: '', nom: '', email: '', phone: '' });
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [kkiapayKey, setKkiapayKey] = useState('');
+
+  useEffect(() => {
+    // Inject KKiaPay script
+    const script = document.createElement('script');
+    script.src = "https://cdn.kkiapay.me/k.js";
+    script.async = true;
+    document.body.appendChild(script);
+
+    // Fetch public KKiaPay key from backend settings
+    api.get('/cms/')
+      .then(res => {
+        const list = Array.isArray(res.data) ? res.data : (res.data?.results || []);
+        const keySetting = list.find(item => item.key === 'kkiapay_key');
+        if (keySetting && keySetting.value) {
+          setKkiapayKey(keySetting.value);
+        }
+      })
+      .catch(err => console.warn("Could not load KKiaPay key from settings", err));
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
 
   const update = (k, v) => setForm(f => ({ ...f, [k]: v }));
 
   if (isLoading) return <Loading />;
-  if (error) return (
+  if (projectError) return (
     <div className="text-center py-20">
       <p className="text-gray-500 mb-4">Projet introuvable.</p>
       <Link to="/projects" className="text-primary-600 text-sm">← Retour aux projets</Link>
@@ -72,7 +99,59 @@ export default function DonateProject() {
           <p className="text-xs text-gray-400">Objectif : {project.montant_cible.toLocaleString('fr-FR')} FCFA</p>
         </div>
 
-        <form onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }} className="space-y-6">
+        <form onSubmit={(e) => {
+          e.preventDefault();
+          setLoading(true);
+          setError(null);
+
+          if (typeof window.openKkiapayWidget === 'undefined') {
+            setError("Le service de paiement est en cours de chargement. Veuillez patienter.");
+            setLoading(false);
+            return;
+          }
+
+          // Launch KKiaPay Widget
+          window.openKkiapayWidget({
+            amount: amount,
+            position: "center",
+            sandbox: true,
+            key: kkiapayKey || "dd4b92b67f10b25e1c01e6e969d2f2db6bbcf79c",
+            phone: form.phone || "",
+            email: form.email || "",
+            name: anonymous ? "Donateur Anonyme" : `${form.prenom} ${form.nom}`.trim()
+          });
+
+          const handleSuccess = async (response) => {
+            try {
+              const payload = {
+                project: project.id, // Linked project
+                amount: amount,
+                payment_channel: "kkiapay",
+                transaction_reference: response.transactionId,
+                status: "paye",
+                is_anonymous: anonymous,
+                donor_name: anonymous ? "" : `${form.prenom} ${form.nom}`.trim(),
+                donor_email: anonymous ? "" : form.email,
+                donor_phone: anonymous ? "" : form.phone
+              };
+
+              await api.post('/donations/', payload);
+              setSubmitted(true);
+            } catch (err) {
+              console.error(err);
+              setError("Erreur lors de l'enregistrement du don. Veuillez contacter le support.");
+            } finally {
+              setLoading(false);
+            }
+          };
+
+          const handleClose = () => {
+            setLoading(false);
+          };
+
+          window.addKkiapayListener('success', handleSuccess);
+          window.addKkiapayListener('close', handleClose);
+        }} className="space-y-6">
           {/* Montant */}
           <div>
             <label className="block text-sm font-bold text-gray-900 mb-3">Votre contribution (FCFA)</label>
@@ -113,6 +192,12 @@ export default function DonateProject() {
             </div>
           </div>
 
+          {error && (
+            <div className="bg-red-50 border border-red-200 text-red-700 text-sm px-4 py-3 rounded-xl">
+              {error}
+            </div>
+          )}
+
           {/* Infos si identifié */}
           {!anonymous && (
             <div className="grid sm:grid-cols-2 gap-4">
@@ -128,13 +213,21 @@ export default function DonateProject() {
                 <label className="block text-sm font-medium text-gray-700 mb-1.5">E-mail (reçu)</label>
                 <input required type="email" value={form.email} onChange={e => update('email', e.target.value)} className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500" />
               </div>
+              <div className="sm:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1.5">Téléphone (Momo)</label>
+                <input required type="tel" value={form.phone} onChange={e => update('phone', e.target.value)} className="w-full border border-gray-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500" placeholder="Ex: +229 97 00 00 00" />
+              </div>
             </div>
           )}
 
-          <button type="submit" className="w-full py-4 bg-primary-600 text-white rounded-full font-bold text-base hover:bg-primary-700 transition shadow-md">
-            Donner {amount.toLocaleString('fr-FR')} FCFA pour ce projet →
+          <button 
+            type="submit" 
+            disabled={loading}
+            className="w-full py-4 bg-primary-600 text-white rounded-full font-bold text-base hover:bg-primary-700 transition shadow-md disabled:opacity-60"
+          >
+            {loading ? 'Redirection vers le paiement...' : `Donner ${amount.toLocaleString('fr-FR')} FCFA pour ce projet →`}
           </button>
-          <p className="text-xs text-gray-400 text-center">Paiement via KKiaPay (mobile money) ou PayPal — intégration à venir.</p>
+          <p className="text-xs text-gray-400 text-center">Paiement sécurisé via KKiaPay (mobile money) ou cartes bancaires.</p>
         </form>
       </div>
     </div>

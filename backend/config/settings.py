@@ -186,8 +186,9 @@ SIMPLE_JWT = {
 
 # CORS configuration
 # En production : définir DB_ENGINE=mysql et ajouter vos origines
-_cors_origins = os.environ.get('CORS_ORIGINS', 'http://localhost:3000,http://localhost:3001')
+_cors_origins = os.environ.get('CORS_ORIGINS', 'http://localhost:3000,http://localhost:3001,http://127.0.0.1:3000,http://127.0.0.1:3001')
 CORS_ALLOWED_ORIGINS = [origin.strip() for origin in _cors_origins.split(',') if origin.strip()]
+CORS_ALLOW_CREDENTIALS = True
 
 # Media files config
 MEDIA_URL = '/media/'
