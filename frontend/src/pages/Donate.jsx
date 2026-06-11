@@ -5,10 +5,15 @@ import { useProjects } from '../hooks/useProjects';
 import Loading from '../components/ui/Loading';
 import { Lock, User } from 'lucide-react';
 import api from '../services/api';
+import { useSeo } from '../hooks/useSeo';
 
 const PRESETS = [5000, 10000, 25000, 50000];
 
 export default function Donate() {
+  useSeo({
+    title: "Faire un Don",
+    description: "Soutenez la Fondation FAAZ et nos projets sur le terrain en faisant un don en ligne sécurisé via KKiaPay."
+  });
   const [tab, setTab] = useState('general'); // 'general' | 'project'
   const [amount, setAmount] = useState(10000);
   const [anonymous, setAnonymous] = useState(false);
@@ -60,8 +65,8 @@ export default function Donate() {
     window.openKkiapayWidget({
       amount: amount,
       position: "center",
-      sandbox: true,
-      key: kkiapayKey || "dd4b92b67f10b25e1c01e6e969d2f2db6bbcf79c",
+      sandbox: import.meta.env.VITE_KKIAPAY_SANDBOX !== 'false',
+      key: kkiapayKey || import.meta.env.VITE_KKIAPAY_KEY || "dd4b92b67f10b25e1c01e6e969d2f2db6bbcf79c",
       phone: form.phone || "",
       email: form.email || "",
       name: anonymous ? "Donateur Anonyme" : `${form.prenom} ${form.nom}`.trim()
@@ -143,10 +148,10 @@ export default function Donate() {
               {projects?.map(p => (
                 <Link key={p.id} to={`/donate/project/${p.id}`} className="flex items-center justify-between bg-white border border-gray-100 rounded-2xl p-5 hover:shadow-md transition-shadow group">
                   <div>
-                    <span className="text-xs text-primary-600 font-semibold">{p.axe}</span>
-                    <h3 className="font-semibold text-gray-900 group-hover:text-primary-600 transition-colors mt-0.5">{p.titre}</h3>
+                    <span className="text-xs text-primary-600 font-semibold">{p.axe_label || p.axe_name}</span>
+                    <h3 className="font-semibold text-gray-900 group-hover:text-primary-600 transition-colors mt-0.5">{p.titre || p.title}</h3>
                     <div className="text-xs text-gray-400 mt-1">
-                      {Math.round((p.montant_collecte / p.montant_cible) * 100)}% financé
+                      {Math.round((parseFloat(p.montant_collecte || p.collected_amount || 0) / parseFloat(p.montant_cible || p.target_amount || 1)) * 100)}% financé
                     </div>
                   </div>
                   <svg className="w-5 h-5 text-gray-300 group-hover:text-primary-500 transition-colors flex-shrink-0 ml-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>

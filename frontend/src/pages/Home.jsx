@@ -10,8 +10,15 @@ import MembershipSection from '../components/sections/MembershipSection';
 import TestimonialsSection from '../components/sections/TestimonialsSection';
 import PartnersSection from '../components/sections/PartnersSection';
 import ContactSection from '../components/sections/ContactSection';
+import NewsSection from '../components/sections/NewsSection';
+import { useSeo } from '../hooks/useSeo';
+
 
 export default function Home() {
+  useSeo({
+    title: "Accueil",
+    description: "Fondation les Amis de A à Z (FAAZ) — ONG béninoise active depuis 2020 : aide à l'enfance, scolarité, coaching jeunesse."
+  });
   const [showScrollArrow, setShowScrollArrow] = React.useState(true);
 
   React.useEffect(() => {
@@ -153,6 +160,7 @@ export default function Home() {
       {/* ── Sections ─────────────────────────────────────────── */}
       <CausesSection />
       <ProjectsSection />
+      <NewsSection />
       <ImpactSection />
       <TestimonialsSection />
       <MembershipSection />

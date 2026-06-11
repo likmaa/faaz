@@ -22,7 +22,24 @@ export const newsService = {
   async getById(id) {
     try {
       const res = await api.get(`/news/${id}/`);
-      return res.data;
+      const item = res.data;
+      try {
+        const listRes = await api.get('/news/');
+        if (listRes.data && listRes.data.length > 0) {
+          const sorted = listRes.data.sort((a, b) => new Date(b.created_at || b.date) - new Date(a.created_at || a.date));
+          const idx = sorted.findIndex(n => n.id === Number(id));
+          if (idx !== -1) {
+            return {
+              ...item,
+              previous: sorted[idx + 1] || null,
+              next: sorted[idx - 1] || null,
+            };
+          }
+        }
+      } catch (listErr) {
+        console.warn("Could not load navigation links from backend", listErr);
+      }
+      return item;
     } catch (err) {
       console.warn(`Backend API news detail not found for id ${id}, using mock data.`, err);
     }

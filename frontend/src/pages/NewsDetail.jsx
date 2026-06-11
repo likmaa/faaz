@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useNewsItem } from '../hooks/useNews';
 import PageHero from '../components/ui/PageHero';
 import Loading from '../components/ui/Loading';
+import { useSeo } from '../hooks/useSeo';
 
 const formatDate = (d) =>
   new Date(d).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -18,6 +19,11 @@ const CATEGORIE_COLORS = {
 export default function NewsDetail() {
   const { id } = useParams();
   const { data: article, isLoading, error } = useNewsItem(id);
+
+  useSeo({
+    title: article?.titre || "Chargement de l'actualité...",
+    description: article?.contenu || "Détails de l'article d'actualité de la Fondation FAAZ."
+  });
 
   if (isLoading) return <Loading text="Chargement de l'article…" />;
   if (error) return (

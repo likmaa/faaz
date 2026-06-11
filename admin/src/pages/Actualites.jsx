@@ -23,6 +23,7 @@ export default function Actualites() {
   const [editing, setEditing] = useState(null);
   const [form, setForm] = useState(EMPTY_FORM);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [deleteTarget, setDeleteTarget] = useState(null);
 
   useEffect(() => { fetchItems(); }, []);
@@ -57,6 +58,25 @@ export default function Actualites() {
       status: item.status || 'brouillon',
     });
     setDrawer(true);
+  }
+
+  async function handleImageUpload(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    setUploading(true);
+    const formData = new FormData();
+    formData.append('file', file);
+    try {
+      const res = await api.post('/upload/', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      setForm(f => ({ ...f, cover_image: res.data.url }));
+      toast.success('Image uploadée avec succès.');
+    } catch {
+      toast.error('Erreur lors de l\'upload de l\'image.');
+    } finally {
+      setUploading(false);
+    }
   }
 
   async function handleSave() {
@@ -191,18 +211,24 @@ export default function Actualites() {
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 transition" />
               </div>
               <div>
-                <label className="block text-xs font-bold text-slate-600 mb-1.5">Image de couverture (URL ou chemin)</label>
-                <input type="text" value={form.cover_image} onChange={e => setForm(f => ({ ...f, cover_image: e.target.value }))}
-                  placeholder="Ex: /img/about1.png ou https://..."
-                  className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 transition" />
-                {form.cover_image && getImageUrl(form.cover_image) && (
-                  <div className="mt-2 rounded-xl overflow-hidden border border-slate-200 bg-slate-100 h-40">
+                <label className="block text-xs font-bold text-slate-600 mb-1.5">Image de couverture</label>
+                <div className="flex items-center gap-3">
+                  <input type="file" accept="image/*" onChange={handleImageUpload}
+                    className="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200 cursor-pointer" />
+                  {uploading && <Loader2 className="w-4 h-4 text-primary-600 animate-spin flex-shrink-0" />}
+                </div>
+                {form.cover_image && (
+                  <div className="mt-2 rounded-xl overflow-hidden border border-slate-200 bg-slate-100 h-40 relative group">
                     <img
                       src={getImageUrl(form.cover_image)}
                       alt="Aperçu"
                       className="w-full h-full object-cover"
                       onError={e => { e.target.parentElement.innerHTML = '<div class="w-full h-full flex items-center justify-center text-slate-400 text-xs">Image introuvable</div>'; }}
                     />
+                    <button type="button" onClick={() => setForm(f => ({ ...f, cover_image: '' }))}
+                      className="absolute top-2 right-2 bg-black/60 hover:bg-black/80 text-white rounded-full p-1.5 transition">
+                      ✕
+                    </button>
                   </div>
                 )}
               </div>

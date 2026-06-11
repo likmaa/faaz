@@ -675,3 +675,23 @@ class StaffViewSet(viewsets.ModelViewSet):
     serializer_class = StaffUserSerializer
     permission_classes = [RoleBasedPermission]
 
+
+class ImageUploadView(APIView):
+    permission_classes = [permissions.IsAdminUser]
+    
+    def post(self, request, *args, **kwargs):
+        from rest_framework.parsers import MultiPartParser, FormParser
+        from django.core.files.storage import default_storage
+        import os
+        
+        file_obj = request.FILES.get('file')
+        if not file_obj:
+            return Response({"error": "Aucun fichier fourni."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        # Save file to media/uploads/ using default_storage
+        file_name = default_storage.save(os.path.join('uploads', file_obj.name), file_obj)
+        file_url = default_storage.url(file_name)
+        
+        return Response({"url": file_url}, status=status.HTTP_201_CREATED)
+
+

@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useProject, useRelatedProjects } from '../hooks/useProjects';
 import PageHero from '../components/ui/PageHero';
 import Loading from '../components/ui/Loading';
+import { useSeo } from '../hooks/useSeo';
 
 function ProgressBar({ cible, collecte }) {
   const pct = Math.min(Math.round((collecte / cible) * 100), 100);
@@ -31,6 +32,11 @@ export default function ProjectDetail() {
   const { id } = useParams();
   const { data: project, isLoading, error } = useProject(id);
   const { data: related } = useRelatedProjects(id);
+
+  useSeo({
+    title: project?.titre || "Chargement du projet...",
+    description: project?.description || "Détails du projet soutenu par la Fondation FAAZ."
+  });
 
   if (isLoading) return <Loading text="Chargement du projet…" />;
   if (error) return (

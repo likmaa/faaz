@@ -5,6 +5,7 @@ import { useProject } from '../hooks/useProjects';
 import Loading from '../components/ui/Loading';
 import { Lock, User } from 'lucide-react';
 import api from '../services/api';
+import { useSeo } from '../hooks/useSeo';
 
 const PRESETS = [5000, 10000, 25000, 50000];
 
@@ -18,6 +19,11 @@ export default function DonateProject() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [kkiapayKey, setKkiapayKey] = useState('');
+
+  useSeo({
+    title: project ? `Soutenir ${project.titre}` : "Soutenir un projet",
+    description: project ? `Faire un don pour soutenir le projet : ${project.titre}.` : "Soutenir un projet de la Fondation FAAZ."
+  });
 
   useEffect(() => {
     // Inject KKiaPay script

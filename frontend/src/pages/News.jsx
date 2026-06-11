@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PageHero from '../components/ui/PageHero';
 import { useNews } from '../hooks/useNews';
 import Loading from '../components/ui/Loading';
 import { newsService } from '../services/newsService';
+import Pagination from '../components/ui/Pagination';
+import { useSeo } from '../hooks/useSeo';
 
 const formatDate = (d) =>
   new Date(d).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -17,12 +19,26 @@ const CATEGORIE_COLORS = {
 };
 
 export default function News() {
+  useSeo({
+    title: "Actualités",
+    description: "Restez informé des dernières actualités, activités et événements de la Fondation FAAZ au Bénin."
+  });
   const [categorie, setCategorie] = useState('toutes');
+  const [page, setPage] = useState(1);
   const { data: articles, isLoading } = useNews({ categorie });
   const categories = newsService.getCategories();
 
   const featured = articles?.[0];
   const rest = articles?.slice(1) ?? [];
+
+  useEffect(() => {
+    setPage(1);
+  }, [categorie]);
+
+  const displayArticles = (categorie === 'toutes' ? rest : articles) ?? [];
+  const articlesPerPage = 6;
+  const totalPages = Math.ceil(displayArticles.length / articlesPerPage);
+  const paginatedArticles = displayArticles.slice((page - 1) * articlesPerPage, page * articlesPerPage);
 
   return (
     <div>
@@ -88,7 +104,7 @@ export default function News() {
 
             {/* Grille articles */}
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {(categorie === 'toutes' ? rest : articles ?? []).map(a => (
+              {paginatedArticles.map(a => (
                 <Link key={a.id} to={`/news/${a.id}`} className="group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-shadow overflow-hidden flex flex-col">
                   <div className="aspect-video bg-gray-100 overflow-hidden">
                     {a.image
@@ -110,6 +126,7 @@ export default function News() {
                 </Link>
               ))}
             </div>
+            <Pagination page={page} totalPages={totalPages} onChange={setPage} />
           </>
         )}
       </div>

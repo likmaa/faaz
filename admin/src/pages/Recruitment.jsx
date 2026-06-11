@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import api from '../services/api';
-import { Briefcase, Plus, Trash2, Loader2, Download, Eye, X, Check, FileDown } from 'lucide-react';
+import { Briefcase, Plus, Trash2, Loader2, Download, Eye, X, Check, FileDown, Search } from 'lucide-react';
 import { getImageUrl } from '../utils/imageUrl';
 
 export default function Recruitment() {
@@ -9,6 +9,10 @@ export default function Recruitment() {
   const [selectedOffer, setSelectedOffer] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [offerSearch, setOfferSearch] = useState('');
+  const [offerTypeFilter, setOfferTypeFilter] = useState('all');
+  const [candSearch, setCandSearch] = useState('');
+  const [candStatusFilter, setCandStatusFilter] = useState('all');
   
   // Form fields
   const [form, setForm] = useState({
@@ -98,7 +102,19 @@ export default function Recruitment() {
     }
   }
 
+  const filteredOffers = offers.filter(o => {
+    const matchesSearch = o.title.toLowerCase().includes(offerSearch.toLowerCase());
+    const matchesType = offerTypeFilter === 'all' || o.offer_type === offerTypeFilter;
+    return matchesSearch && matchesType;
+  });
+
   const activeCandidatures = candidatures.filter(c => c.offer === selectedOffer?.id);
+  const filteredCandidatures = activeCandidatures.filter(c => {
+    const name = `${c.first_name} ${c.last_name} ${c.email}`.toLowerCase();
+    const matchesSearch = name.includes(candSearch.toLowerCase());
+    const matchesStatus = candStatusFilter === 'all' || c.status === candStatusFilter;
+    return matchesSearch && matchesStatus;
+  });
 
   if (loading) {
     return (
@@ -130,17 +146,41 @@ export default function Recruitment() {
         {/* Offers List (Left) */}
         <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm flex flex-col">
           <h2 className="text-base font-bold text-slate-900 font-title mb-4">Opportunités</h2>
-          {offers.length === 0 ? (
+          
+          <div className="space-y-2 mb-4">
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Rechercher une offre…"
+                value={offerSearch}
+                onChange={e => setOfferSearch(e.target.value)}
+                className="w-full bg-slate-50 border border-slate-200 text-slate-700 rounded-xl pl-9 pr-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-primary-500 transition"
+              />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
+            </div>
+            <select
+              value={offerTypeFilter}
+              onChange={e => setOfferTypeFilter(e.target.value)}
+              className="w-full bg-white border border-slate-200 text-slate-705 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-primary-500 transition"
+            >
+              <option value="all">Tous les types</option>
+              <option value="emploi">Emploi</option>
+              <option value="bénévolat">Bénévolat</option>
+              <option value="stage">Stage</option>
+            </select>
+          </div>
+
+          {filteredOffers.length === 0 ? (
             <div className="text-center py-8 text-slate-400 text-sm">
               <Briefcase className="w-8 h-8 mx-auto mb-2 opacity-50" />
-              <span>Aucune offre publiée.</span>
+              <span>Aucune offre.</span>
             </div>
           ) : (
             <div className="space-y-2 flex-1 overflow-y-auto max-h-[500px]">
-              {offers.map(offer => (
+              {filteredOffers.map(offer => (
                 <div
                   key={offer.id}
-                  onClick={() => setSelectedOffer(offer)}
+                  onClick={() => { setSelectedOffer(offer); setCandSearch(''); setCandStatusFilter('all'); }}
                   className={`p-4 rounded-2xl border transition cursor-pointer flex items-center justify-between gap-3 ${
                     selectedOffer?.id === offer.id
                       ? 'bg-primary-50 border-primary-200 text-primary-900'
@@ -185,14 +225,39 @@ export default function Recruitment() {
             <div className="flex-1 flex items-center justify-center text-slate-400 text-sm">
               <span>Sélectionnez une opportunité à gauche pour afficher ses candidats.</span>
             </div>
-          ) : activeCandidatures.length === 0 ? (
-            <div className="flex-1 flex flex-col items-center justify-center py-12 text-slate-400 text-sm">
-              <Eye className="w-10 h-10 mb-2 opacity-45" />
-              <span>Aucune candidature reçue pour cette offre.</span>
-            </div>
           ) : (
-            <div className="space-y-4 overflow-y-auto max-h-[500px] flex-1">
-              {activeCandidatures.map(cand => (
+            <>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Rechercher un candidat (nom, e-mail)…"
+                    value={candSearch}
+                    onChange={e => setCandSearch(e.target.value)}
+                    className="w-full bg-slate-50 border border-slate-200 text-slate-700 rounded-xl pl-9 pr-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-primary-500 transition"
+                  />
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-400" />
+                </div>
+                <select
+                  value={candStatusFilter}
+                  onChange={e => setCandStatusFilter(e.target.value)}
+                  className="w-full bg-white border border-slate-200 text-slate-705 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-2 focus:ring-primary-500 transition"
+                >
+                  <option value="all">Tous les statuts</option>
+                  <option value="en_cours">En cours</option>
+                  <option value="retenu">Retenu</option>
+                  <option value="rejete">Rejeté</option>
+                </select>
+              </div>
+
+              {filteredCandidatures.length === 0 ? (
+                <div className="flex-1 flex flex-col items-center justify-center py-12 text-slate-400 text-sm">
+                  <Eye className="w-10 h-10 mb-2 opacity-45" />
+                  <span>Aucun candidat trouvé pour les critères actuels.</span>
+                </div>
+              ) : (
+                <div className="space-y-4 overflow-y-auto max-h-[500px] flex-1">
+                  {filteredCandidatures.map(cand => (
                 <div key={cand.id} className="p-5 border border-slate-100 bg-slate-50/50 rounded-2xl flex flex-col sm:flex-row justify-between gap-4">
                   <div className="space-y-3">
                     <div>
@@ -275,8 +340,10 @@ export default function Recruitment() {
               ))}
             </div>
           )}
-        </div>
-      </div>
+        </>
+      )}
+    </div>
+  </div>
 
       {/* Modal create Offer */}
       {showModal && (

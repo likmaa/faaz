@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import api from '../services/api';
-import { Users, Check, X, Search, Loader2, Phone, Mail, UserCheck, Plus, Trash2 } from 'lucide-react';
+import { Users, Check, X, Search, Loader2, Phone, Mail, UserCheck, Plus, Trash2, Download } from 'lucide-react';
 import { useAuthStore } from '../store/auth';
+import { toast } from '../store/toast';
 
 export default function Members() {
   const { user } = useAuthStore();
@@ -98,6 +99,35 @@ export default function Members() {
     }
   }
 
+  function exportCSV() {
+    const headers = ['Prenom', 'Nom', 'Email', 'Telephone', 'Adresse', 'Ville', 'Pays', 'Profession', 'Statut Adhesion', 'Statut Cotisation', 'Date Inscription'];
+    const rows = [
+      headers,
+      ...filteredMembers.map(m => [
+        m.first_name,
+        m.last_name,
+        m.email,
+        m.phone,
+        m.address,
+        m.city,
+        m.country,
+        m.profession,
+        m.membership_status,
+        m.contribution_status,
+        m.created_at ? new Date(m.created_at).toLocaleDateString('fr-FR') : ''
+      ])
+    ];
+
+    const csv = rows.map(r => r.map(c => `"${c ?? ''}"`).join(',')).join('\n');
+    const blob = new Blob(['\uFEFF' + csv], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'membres.csv';
+    a.click();
+    toast.success('Fichier CSV exporté.');
+  }
+
   const filteredMembers = members.filter(m => {
     const matchesSearch = `${m.first_name} ${m.last_name} ${m.email} ${m.profession}`
       .toLowerCase()
@@ -116,15 +146,24 @@ export default function Members() {
           <h1 className="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight font-title">Membres & Adhésions</h1>
           <p className="text-slate-500 text-sm mt-1">Validez les demandes d'adhésion et suivez le paiement des cotisations.</p>
         </div>
-        {!isReadOnly && (
+        <div className="flex items-center gap-3 self-start sm:self-auto">
           <button
-            onClick={handleOpenCreate}
-            className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-full font-bold text-sm shadow-md shadow-primary-600/15 active:scale-[0.98] transition self-start sm:self-auto"
+            onClick={exportCSV}
+            className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-white border border-slate-200 text-slate-705 hover:bg-slate-50 rounded-full font-bold text-sm shadow-sm transition"
           >
-            <Plus className="w-4 h-4" />
-            Nouveau membre
+            <Download className="w-4 h-4" />
+            Exporter CSV
           </button>
-        )}
+          {!isReadOnly && (
+            <button
+              onClick={handleOpenCreate}
+              className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-primary-600 hover:bg-primary-700 text-white rounded-full font-bold text-sm shadow-md shadow-primary-600/15 active:scale-[0.98] transition"
+            >
+              <Plus className="w-4 h-4" />
+              Nouveau membre
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Filters and search */}

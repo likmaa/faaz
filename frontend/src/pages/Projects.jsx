@@ -3,6 +3,8 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { useProjects } from '../hooks/useProjects';
 import PageHero from '../components/ui/PageHero';
 import Loading from '../components/ui/Loading';
+import Pagination from '../components/ui/Pagination';
+import { useSeo } from '../hooks/useSeo';
 
 const AXES = [
   { slug: 'tous',      label: 'Tous les projets' },
@@ -40,8 +42,13 @@ function ProgressBar({ cible, collecte }) {
 }
 
 export default function Projects() {
+  useSeo({
+    title: "Nos Projets",
+    description: "Découvrez les actions et initiatives de la Fondation FAAZ : aide à l'enfance indigente, excellence scolaire, coaching jeunesse, 3ème âge, coaching conjugal."
+  });
   const [searchParams, setSearchParams] = useSearchParams();
   const [axe, setAxe] = useState(searchParams.get('axe') || 'tous');
+  const [page, setPage] = useState(1);
   const { data: projects, isLoading } = useProjects({ axe });
 
   // Sync axe depuis l'URL (liens depuis CausesSection)
@@ -49,6 +56,14 @@ export default function Projects() {
     const urlAxe = searchParams.get('axe');
     if (urlAxe && urlAxe !== axe) setAxe(urlAxe);
   }, [searchParams]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [axe]);
+
+  const projectsPerPage = 6;
+  const totalPages = Math.ceil((projects || []).length / projectsPerPage);
+  const paginatedProjects = (projects || []).slice((page - 1) * projectsPerPage, page * projectsPerPage);
 
   return (
     <div className="bg-slate-50/30 min-h-screen">
@@ -83,64 +98,67 @@ export default function Projects() {
           <div className="text-center py-20 text-slate-400 font-body border border-dashed border-slate-200 rounded-3xl bg-white/50 w-full">
             Aucun projet pour cet axe pour le moment.
           </div>
-        ) : (
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {projects.map(p => (
-              <div key={p.id} className="bg-white border border-slate-100/80 rounded-3xl overflow-hidden shadow-[0_8px_30px_rgba(15,23,42,0.02)] hover:shadow-xl hover:border-primary-100/80 hover:-translate-y-1.5 transition-all duration-500 ease-out flex flex-col group relative">
-                {/* Cadre de l'image */}
-                <div className="aspect-[16/10] bg-slate-50 overflow-hidden relative border-b border-slate-100">
-                  {p.image ? (
-                    <img 
-                      src={p.image} 
-                      alt={p.titre} 
-                      className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" 
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center text-slate-300">
-                      <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
+                ) : (
+          <>
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+              {paginatedProjects.map(p => (
+                <div key={p.id} className="bg-white border border-slate-100/80 rounded-3xl overflow-hidden shadow-[0_8px_30px_rgba(15,23,42,0.02)] hover:shadow-xl hover:border-primary-100/80 hover:-translate-y-1.5 transition-all duration-500 ease-out flex flex-col group relative">
+                  {/* Cadre de l'image */}
+                  <div className="aspect-[16/10] bg-slate-50 overflow-hidden relative border-b border-slate-100">
+                    {p.image ? (
+                      <img 
+                        src={p.image} 
+                        alt={p.titre} 
+                        className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" 
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-slate-300">
+                        <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                      </div>
+                    )}
+                    {/* Badge de l'axe absolu sur l'image */}
+                    <span className="absolute top-4 left-4 text-[10px] font-extrabold uppercase tracking-wider bg-white/90 backdrop-blur-sm text-secondary-600 px-3 py-1 rounded-full shadow-sm z-10">
+                      {p.axe_label || p.axe_name || p.axe}
+                    </span>
+                  </div>
+
+                  {/* Corps de la carte */}
+                  <div className="p-6 flex flex-col flex-1">
+                    <h3 className="font-extrabold font-heading text-lg text-slate-800 mb-2.5 line-clamp-2 leading-snug group-hover:text-primary-600 transition-colors duration-300">
+                      {p.titre}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-slate-500 leading-relaxed line-clamp-3 mb-5 flex-1 font-body">
+                      {p.description}
+                    </p>
+                    
+                    {/* Barre de progression */}
+                    <div className="mb-6">
+                      <ProgressBar cible={p.montant_cible} collecte={p.montant_collecte} />
                     </div>
-                  )}
-                  {/* Badge de l'axe absolu sur l'image */}
-                  <span className="absolute top-4 left-4 text-[10px] font-extrabold uppercase tracking-wider bg-white/90 backdrop-blur-sm text-secondary-600 px-3 py-1 rounded-full shadow-sm z-10">
-                    {p.axe}
-                  </span>
-                </div>
 
-                {/* Corps de la carte */}
-                <div className="p-6 flex flex-col flex-1">
-                  <h3 className="font-extrabold font-heading text-lg text-slate-800 mb-2.5 line-clamp-2 leading-snug group-hover:text-primary-600 transition-colors duration-300">
-                    {p.titre}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-slate-500 leading-relaxed line-clamp-3 mb-5 flex-1 font-body">
-                    {p.description}
-                  </p>
-                  
-                  {/* Barre de progression */}
-                  <div className="mb-6">
-                    <ProgressBar cible={p.montant_cible} collecte={p.montant_collecte} />
-                  </div>
-
-                  {/* Boutons d'actions */}
-                  <div className="flex items-center gap-3 mt-auto">
-                    <Link 
-                      to={`/projects/${p.id}`} 
-                      className="flex-1 text-center py-2.5 border border-slate-200 text-slate-600 hover:text-primary-600 hover:border-primary-600 rounded-full text-xs sm:text-sm font-bold transition-all duration-300 hover:bg-primary-50/10"
-                    >
-                      En savoir plus
-                    </Link>
-                    <Link 
-                      to={`/donate/project/${p.id}`} 
-                      className="flex-1 text-center py-2.5 bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white rounded-full text-xs sm:text-sm font-bold shadow-md hover:shadow-lg transition-all duration-300 active:scale-98"
-                    >
-                      Soutenir
-                    </Link>
+                    {/* Boutons d'actions */}
+                    <div className="flex items-center gap-3 mt-auto">
+                      <Link 
+                        to={`/projects/${p.id}`} 
+                        className="flex-1 text-center py-2.5 border border-slate-200 text-slate-600 hover:text-primary-600 hover:border-primary-600 rounded-full text-xs sm:text-sm font-bold transition-all duration-300 hover:bg-primary-50/10"
+                      >
+                        En savoir plus
+                      </Link>
+                      <Link 
+                        to={`/donate/project/${p.id}`} 
+                        className="flex-1 text-center py-2.5 bg-gradient-to-r from-primary-600 to-primary-700 hover:from-primary-700 hover:to-primary-800 text-white rounded-full text-xs sm:text-sm font-bold shadow-md hover:shadow-lg transition-all duration-300 active:scale-98"
+                      >
+                        Soutenir
+                      </Link>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+            <Pagination page={page} totalPages={totalPages} onChange={setPage} />
+          </>
         )}
       </div>
     </div>

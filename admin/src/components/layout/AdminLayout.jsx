@@ -128,6 +128,8 @@ export default function AdminLayout() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [collapsed, setCollapsed] = useState({});
+  const [memberCount, setMemberCount] = useState(0);
+  const [candCount, setCandCount] = useState(0);
 
   useEffect(() => {
     if (!token) { navigate('/login'); return; }
@@ -144,6 +146,23 @@ export default function AdminLayout() {
   }, [token, user, navigate, setUser, logout]);
 
   useEffect(() => { setSidebarOpen(false); }, [location]);
+
+  useEffect(() => {
+    if (token && user) {
+      api.get('/members/')
+        .then(res => {
+          const list = Array.isArray(res.data) ? res.data : [];
+          setMemberCount(list.filter(m => m.membership_status === 'en_attente').length);
+        })
+        .catch(() => {});
+      api.get('/candidatures/')
+        .then(res => {
+          const list = Array.isArray(res.data) ? res.data : [];
+          setCandCount(list.filter(c => c.status === 'en_cours').length);
+        })
+        .catch(() => {});
+    }
+  }, [token, user, location.pathname]);
 
   function handleLogout() { logout(); navigate('/login'); }
 
@@ -217,7 +236,17 @@ export default function AdminLayout() {
                     }
                   >
                     <Icon className="w-4 h-4 flex-shrink-0" />
-                    <span>{label}</span>
+                    <span className="flex-1">{label}</span>
+                    {to === '/members' && memberCount > 0 && (
+                      <span className="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full flex-shrink-0">
+                        {memberCount}
+                      </span>
+                    )}
+                    {to === '/recruitment' && candCount > 0 && (
+                      <span className="bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full flex-shrink-0">
+                        {candCount}
+                      </span>
+                    )}
                   </NavLink>
                 ))}
               </div>

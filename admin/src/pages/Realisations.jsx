@@ -25,6 +25,7 @@ export default function Realisations() {
   const [editing, setEditing] = useState(null);
   const [form, setForm] = useState(EMPTY_FORM);
   const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
   const [mediaInput, setMediaInput] = useState('');
 
   const [deleteTarget, setDeleteTarget] = useState(null);
@@ -64,6 +65,25 @@ export default function Realisations() {
     });
     setMediaInput('');
     setDrawer(true);
+  }
+
+  async function handleImageUpload(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    setUploading(true);
+    const formData = new FormData();
+    formData.append('file', file);
+    try {
+      const res = await api.post('/upload/', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      setForm(f => ({ ...f, media_urls: [...f.media_urls, res.data.url] }));
+      toast.success('Image uploadée avec succès.');
+    } catch {
+      toast.error('Erreur lors de l\'upload de l\'image.');
+    } finally {
+      setUploading(false);
+    }
   }
 
   function addMedia() {
@@ -247,13 +267,20 @@ export default function Realisations() {
 
               {/* Media URLs */}
               <div>
-                <label className="block text-xs font-bold text-slate-600 mb-1.5">Images (URLs)</label>
-                <div className="flex gap-2 mb-2">
-                  <input type="text" value={mediaInput} onChange={e => setMediaInput(e.target.value)}
-                    onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), addMedia())}
-                    placeholder="https://…"
-                    className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 transition" />
-                  <button onClick={addMedia} className="px-3 py-2 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 transition text-sm font-bold">Ajouter</button>
+                <label className="block text-xs font-bold text-slate-600 mb-1.5">Images (Fichier ou URL)</label>
+                <div className="space-y-2 mb-2">
+                  <div className="flex items-center gap-3">
+                    <input type="file" accept="image/*" onChange={handleImageUpload}
+                      className="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200 cursor-pointer" />
+                    {uploading && <Loader2 className="w-4 h-4 text-primary-600 animate-spin flex-shrink-0" />}
+                  </div>
+                  <div className="flex gap-2">
+                    <input type="text" value={mediaInput} onChange={e => setMediaInput(e.target.value)}
+                      onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), addMedia())}
+                      placeholder="Ou collez une URL : https://…"
+                      className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:ring-2 focus:ring-primary-500 transition" />
+                    <button type="button" onClick={addMedia} className="px-3 py-2.5 rounded-xl bg-slate-100 text-slate-600 hover:bg-slate-200 transition text-xs font-bold">Ajouter</button>
+                  </div>
                 </div>
                 <div className="flex flex-wrap gap-2 mt-2">
                   {form.media_urls.map((url, i) => (

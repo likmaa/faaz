@@ -7,6 +7,7 @@ import TimelineSection from '../components/sections/TimelineSection';
 import TestimonialsSection from '../components/sections/TestimonialsSection';
 import PartnersSection from '../components/sections/PartnersSection';
 import { ShieldCheck, MapPin, BarChart3, Users, Leaf, Lightbulb, Heart, BookOpen, Star, Clock, Handshake, Quote } from 'lucide-react';
+import { useSeo } from '../hooks/useSeo';
 
 const VALEURS = [
   { Icon: ShieldCheck,  titre: 'Intégrité',        texte: 'Chaque FCFA collecté est traçable. Nos comptes sont audités chaque année par un cabinet indépendant.' },
@@ -65,6 +66,10 @@ const EQUIPE = [
 ];
 
 export default function About() {
+  useSeo({
+    title: "Qui sommes-nous ?",
+    description: "Découvrez l'histoire, la mission, la vision, les valeurs et les membres fondateurs de la Fondation FAAZ au Bénin."
+  });
   const [team, setTeam] = useState(EQUIPE);
 
   const { data: cmsSettings = {} } = useQuery({
