@@ -120,7 +120,7 @@ export default function DonateProject() {
           window.openKkiapayWidget({
             amount: amount,
             position: "center",
-            sandbox: true,
+            sandbox: import.meta.env.VITE_KKIAPAY_SANDBOX !== 'false',
             key: kkiapayKey || "dd4b92b67f10b25e1c01e6e969d2f2db6bbcf79c",
             phone: form.phone || "",
             email: form.email || "",

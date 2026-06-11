@@ -1,0 +1,11 @@
+# Pyrefly configuration
+# https://pyrefly.org/en/stable/configuration/
+
+# Point to the virtual environment Python interpreter
+python-interpreter-path = "backend/venv/bin/python"
+
+# Manually list site-packages path to ensure imports resolve correctly
+site-package-path = ["backend/venv/lib/python3.14/site-packages"]
+
+# Include only the backend source in analysis
+include = ["backend"]

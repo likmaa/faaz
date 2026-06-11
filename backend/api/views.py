@@ -8,6 +8,8 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_str
 from django.core.mail import send_mail
 from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 from .models import (
     CMSSetting, TeamMember, Partner, FAQItem,
@@ -174,6 +176,85 @@ def send_reset_password_email(user):
     send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [user.email], fail_silently=False, html_message=html_message)
 
 
+def send_relance_email(member):
+    profile_link = f"{settings.FRONTEND_URL}/profile"
+    import datetime
+    current_year = datetime.datetime.now().year
+    
+    subject = f"Rappel : Cotisation annuelle {current_year} - Fondation FAAZ"
+    first_name = member.first_name
+    
+    html_message = f"""<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Rappel Cotisation - Fondation FAAZ</title>
+</head>
+<body style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f8fafc; margin: 0; padding: 0; -webkit-font-smoothing: antialiased;">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #f8fafc; padding: 40px 0;">
+        <tr>
+            <td align="center">
+                <table border="0" cellpadding="0" cellspacing="0" width="600" style="background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); border: 1px solid #e2e8f0;">
+                    <!-- Header -->
+                    <tr>
+                        <td align="center" style="background-color: #d97706; padding: 40px 20px;">
+                            <h1 style="color: #ffffff; margin: 0; font-size: 26px; font-weight: 700; letter-spacing: -0.5px;">Fondation FAAZ</h1>
+                            <p style="color: #fef3c7; margin: 5px 0 0 0; font-size: 14px; font-weight: 500;">Rappel de cotisation annuelle</p>
+                        </td>
+                    </tr>
+                    <!-- Body -->
+                    <tr>
+                        <td style="padding: 40px 30px;">
+                            <h2 style="color: #1e293b; margin-top: 0; font-size: 20px; font-weight: 700;">Bonjour {first_name},</h2>
+                            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0 0 20px 0;">
+                                Sauf erreur de notre part, votre cotisation annuelle de <strong>25 000 FCFA</strong> pour l'année <strong>{current_year}</strong> n'a pas encore été enregistrée.
+                            </p>
+                            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0 0 20px 0;">
+                                Vos cotisations sont essentielles pour soutenir le fonctionnement de la fondation et mener à bien nos projets d'aide à l'enfance, d'excellence scolaire et d'accompagnement des aînés.
+                            </p>
+                            <p style="color: #475569; font-size: 15px; line-height: 1.6; margin: 0 0 30px 0;">
+                                Vous pouvez régler votre cotisation en ligne en toute sécurité via Mobile Money (MoMo) ou carte bancaire depuis votre espace membre en cliquant ci-dessous :
+                            </p>
+                            <!-- Button -->
+                            <table border="0" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td align="center" style="padding-bottom: 30px;">
+                                        <a href="{profile_link}" target="_blank" style="background-color: #d97706; color: #ffffff; text-decoration: none; padding: 14px 30px; font-size: 15px; font-weight: 700; border-radius: 8px; display: inline-block; box-shadow: 0 4px 12px rgba(217, 119, 6, 0.2); transition: all 0.2s ease;">
+                                            Régler ma cotisation en ligne
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                            <p style="color: #475569; font-size: 14px; line-height: 1.5; margin: 0 0 10px 0;">
+                                Si le bouton ci-dessus ne fonctionne pas, copiez et collez le lien suivant dans votre navigateur :
+                            </p>
+                            <p style="margin: 0 0 20px 0; font-size: 13px; word-break: break-all;">
+                                <a href="{profile_link}" target="_blank" style="color: #d97706; text-decoration: underline;">{profile_link}</a>
+                            </p>
+                            <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 30px 0;">
+                            <p style="color: #64748b; font-size: 13px; line-height: 1.5; margin: 0;">
+                                Si vous venez d'effectuer votre versement par un autre moyen (virement, espèces), veuillez ignorer ce message ou nous contacter pour régulariser votre statut.
+                            </p>
+                        </td>
+                    </tr>
+                    <!-- Footer -->
+                    <tr>
+                        <td align="center" style="background-color: #f8fafc; padding: 24px; border-top: 1px solid #e2e8f0;">
+                            <p style="color: #94a3b8; font-size: 12px; margin: 0 0 8px 0;">&copy; 2026 Fondation FAAZ. Tous droits réservés.</p>
+                            <p style="color: #94a3b8; font-size: 12px; margin: 0;">Cotonou, Bénin | info@lafaaz.org</p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>"""
+
+    message = f"Bonjour {first_name},\n\nSauf erreur de notre part, votre cotisation annuelle de 25 000 FCFA pour l'année {current_year} n'a pas encore été enregistrée. Réglez-la en ligne via votre espace membre : {profile_link}"
+    send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [member.email], fail_silently=False, html_message=html_message)
+
+
 class ContactView(APIView):
     """
     POST /api/contact/ — Formulaire de contact public.
@@ -259,7 +340,7 @@ class RoleBasedPermission(permissions.BasePermission):
             if role == 'gestionnaire_communaute':
                 return True
             if role == 'tresorier':
-                return request.method in permissions.SAFE_METHODS
+                return request.method in permissions.SAFE_METHODS or view.action in ['relance_cotisation', 'bulk_relance_cotisation']
             return False
 
         if view_name == 'MembershipPaymentViewSet':
@@ -424,6 +505,40 @@ class MemberViewSet(viewsets.ModelViewSet):
             
         return Response(self.get_serializer(member).data)
 
+    @action(detail=True, methods=['post'])
+    def relance_cotisation(self, request, pk=None):
+        member = self.get_object()
+        try:
+            send_relance_email(member)
+            member.contribution_status = 'relance'
+            member.save()
+            return Response(self.get_serializer(member).data)
+        except Exception as e:
+            return Response({"detail": f"Erreur lors de l'envoi de l'e-mail : {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    @action(detail=False, methods=['post'])
+    def bulk_relance_cotisation(self, request):
+        member_ids = request.data.get('member_ids', [])
+        if not member_ids:
+            return Response({"detail": "Aucun membre sélectionné."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        members = Member.objects.filter(id__in=member_ids)
+        sent_names = []
+        errors = []
+        for member in members:
+            try:
+                send_relance_email(member)
+                member.contribution_status = 'relance'
+                member.save()
+                sent_names.append(f"{member.first_name} {member.last_name}")
+            except Exception as e:
+                errors.append(f"{member.first_name} {member.last_name}: {str(e)}")
+        
+        return Response({
+            "message": f"Relance envoyée avec succès à {len(sent_names)} membre(s).",
+            "sent": sent_names,
+            "errors": errors
+        })
 
 
 class MembershipPaymentViewSet(viewsets.ModelViewSet):
@@ -580,8 +695,6 @@ class UserProfileView(APIView):
         data['member_profile'] = member_data
         return Response(data)
 
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
 
 @method_decorator(csrf_exempt, name='dispatch')
 class KKiaPayWebhookView(APIView):

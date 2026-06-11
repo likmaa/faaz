@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PageHero from '../components/ui/PageHero';
 import { Vote, BarChart3, Handshake } from 'lucide-react';
 import api from '../services/api';
+import { useSeo } from '../hooks/useSeo';
 
 const FIELDS = [
   { name: 'prenom',       label: 'Prénom',          type: 'text',  required: true,  col: 1 },
@@ -24,6 +25,11 @@ export default function JoinUs() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  useSeo({
+    title: 'Devenir membre',
+    description: "Adhérez à la Fondation FAAZ et participez activement à notre mission au Bénin : aide à l'enfance, excellence scolaire et coaching de la jeunesse.",
+    keywords: 'adhésion faaz, devenir membre ong, cotisation fondation bénin, rejoindre faaz'
+  });
 
   const update = (k, v) => setForm(f => ({ ...f, [k]: v }));
 

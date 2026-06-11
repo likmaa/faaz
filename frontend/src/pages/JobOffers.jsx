@@ -3,9 +3,15 @@ import { Link } from 'react-router-dom';
 import PageHero from '../components/ui/PageHero';
 import { useJobs } from '../hooks/useRecruitment';
 import Loading from '../components/ui/Loading';
+import { useSeo } from '../hooks/useSeo';
 
 export default function JobOffers() {
   const { data: jobs, isLoading } = useJobs();
+  useSeo({
+    title: 'Offres d\'emploi',
+    description: "Rejoignez l'équipe de la Fondation FAAZ. Découvrez nos offres d'emploi et participez à notre mission au Bénin.",
+    keywords: 'emploi bénin, offre emploi ong, travail faaz, recrutement fondation'
+  });
 
   return (
     <div>

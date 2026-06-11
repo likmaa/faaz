@@ -3,9 +3,15 @@ import { Link } from 'react-router-dom';
 import PageHero from '../components/ui/PageHero';
 import { useVolunteering } from '../hooks/useRecruitment';
 import Loading from '../components/ui/Loading';
+import { useSeo } from '../hooks/useSeo';
 
 export default function VolunteerOffers() {
   const { data: offers, isLoading } = useVolunteering();
+  useSeo({
+    title: 'Bénévolat - Contribuer',
+    description: "Engagez-vous bénévolement avec la Fondation FAAZ au Bénin. Missions flexibles, impact réel pour l'enfance et la jeunesse.",
+    keywords: 'bénévolat bénin, volontariat ong, missions solidarité faaz, contribuer fondation'
+  });
 
   return (
     <div>

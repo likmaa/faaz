@@ -1,0 +1,14 @@
+{
+  "venvPath": "backend",
+  "venv": "venv",
+  "pythonVersion": "3.14",
+  "include": ["backend"],
+  "extraPaths": [
+    "backend",
+    "backend/venv/lib/python3.14/site-packages"
+  ],
+  "typeCheckingMode": "basic",
+  "reportMissingModuleSource": "none",
+  "reportMissingImports": "none",
+  "reportUndefinedVariable": "warning"
+}

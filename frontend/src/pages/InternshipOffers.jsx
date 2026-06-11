@@ -3,9 +3,15 @@ import { Link } from 'react-router-dom';
 import PageHero from '../components/ui/PageHero';
 import { useInternships } from '../hooks/useRecruitment';
 import Loading from '../components/ui/Loading';
+import { useSeo } from '../hooks/useSeo';
 
 export default function InternshipOffers() {
   const { data: internships, isLoading } = useInternships();
+  useSeo({
+    title: 'Offres de stage',
+    description: "Découvrez les offres de stage de la Fondation FAAZ au Bénin. Développez vos compétences dans le secteur associatif et contribuez à des projets à fort impact.",
+    keywords: 'stage bénin, stage ong, stage fondation faaz, stage humanitaire afrique'
+  });
 
   return (
     <div>

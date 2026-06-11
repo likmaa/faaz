@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PageHero from '../components/ui/PageHero';
 import { useAchievements } from '../hooks/useFaq';
 import Loading from '../components/ui/Loading';
+import { useSeo } from '../hooks/useSeo';
 
 const AXES = [
   { slug: 'tous',     label: 'Toutes' },
@@ -17,6 +18,11 @@ const formatDate = (d) =>
 export default function Achievements() {
   const [axe, setAxe] = useState('tous');
   const { data: items, isLoading } = useAchievements({ axe });
+  useSeo({
+    title: 'Nos Réalisations',
+    description: "Découvrez les actions concrètes menées par la Fondation FAAZ pour l'enfance, l'excellence scolaire et le coaching de la jeunesse au Bénin.",
+    keywords: 'réalisations faaz, projets bénin, aide enfance, excellence scolaire, coaching jeunesse'
+  });
 
   return (
     <div>

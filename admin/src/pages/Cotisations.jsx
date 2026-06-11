@@ -124,8 +124,15 @@ export default function Cotisations() {
       const targets = relanceTarget === 'bulk'
         ? filtered.filter(m => selected.has(m.id))
         : [relanceTarget];
-      // Simulate relance (email sending is backend-side)
-      await new Promise(r => setTimeout(r, 600));
+      
+      if (relanceTarget === 'bulk') {
+        await api.post('/members/bulk_relance_cotisation/', { member_ids: Array.from(selected) });
+        setMembers(prev => prev.map(m => selected.has(m.id) ? { ...m, contribution_status: 'relance' } : m));
+      } else {
+        const res = await api.post(`/members/${relanceTarget.id}/relance_cotisation/`);
+        setMembers(prev => prev.map(m => m.id === relanceTarget.id ? res.data : m));
+      }
+
       const names = targets.map(m => `${m.first_name} ${m.last_name}`).join(', ');
       toast.success(`Relance envoyée à : ${names}`);
       setSelected(new Set());

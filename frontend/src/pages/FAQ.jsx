@@ -3,6 +3,7 @@ import PageHero from '../components/ui/PageHero';
 import { useFaq } from '../hooks/useFaq';
 import Loading from '../components/ui/Loading';
 import { faqService } from '../services/faqService';
+import { useSeo } from '../hooks/useSeo';
 
 function AccordionItem({ item, isOpen, onToggle }) {
   return (
@@ -34,6 +35,11 @@ export default function FAQ() {
   const { data: faqItems, isLoading } = useFaq();
   const [openId, setOpenId] = useState(null);
   const [activeCategorie, setActiveCategorie] = useState('Toutes');
+  useSeo({
+    title: 'FAQ - Questions fréquentes',
+    description: "Toutes les réponses à vos questions sur la Fondation FAAZ : adhésion, dons, bénévolat et nos programmes au Bénin.",
+    keywords: 'faq faaz, questions fondation, adhésion bénin, bénévolat faaz, dons ong'
+  });
 
   const categories = ['Toutes', ...faqService.getCategories()];
 
