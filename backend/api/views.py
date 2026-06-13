@@ -710,9 +710,9 @@ class KKiaPayWebhookView(APIView):
         # Webhook Signature Verification
         try:
             secret_setting = CMSSetting.objects.get(key='kkiapay_secret')
-            kkiapay_secret = secret_setting.value if secret_setting.value else "sk_12f88592671f34217b2cb095e5883e53b58bc548eb982ef89e7099ff75bd42f7"
+            kkiapay_secret = secret_setting.value
         except CMSSetting.DoesNotExist:
-            kkiapay_secret = "sk_12f88592671f34217b2cb095e5883e53b58bc548eb982ef89e7099ff75bd42f7"
+            kkiapay_secret = None
 
         if kkiapay_secret:
             import hmac

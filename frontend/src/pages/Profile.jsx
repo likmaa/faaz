@@ -86,7 +86,7 @@ export default function Profile() {
       amount: annualFee,
       position: "center",
       sandbox: false,
-      key: kkiapayKey || "1283ee43a7e00476a6c179aa602b83f234d4a934",
+      key: kkiapayKey,
       phone: member.phone || "",
       email: profile.email || "",
       name: `${member.first_name} ${member.last_name}`.trim()

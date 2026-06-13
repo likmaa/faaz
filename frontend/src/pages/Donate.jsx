@@ -66,7 +66,7 @@ export default function Donate() {
       amount: amount,
       position: "center",
       sandbox: false,
-      key: kkiapayKey || "1283ee43a7e00476a6c179aa602b83f234d4a934",
+      key: kkiapayKey,
       phone: form.phone || "",
       email: form.email || "",
       name: anonymous ? "Donateur Anonyme" : `${form.prenom} ${form.nom}`.trim()
