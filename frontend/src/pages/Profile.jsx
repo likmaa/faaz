@@ -85,8 +85,8 @@ export default function Profile() {
     window.openKkiapayWidget({
       amount: annualFee,
       position: "center",
-      sandbox: import.meta.env.VITE_KKIAPAY_SANDBOX !== 'false',
-      key: kkiapayKey || "dd4b92b67f10b25e1c01e6e969d2f2db6bbcf79c",
+      sandbox: false,
+      key: kkiapayKey || "1283ee43a7e00476a6c179aa602b83f234d4a934",
       phone: member.phone || "",
       email: profile.email || "",
       name: `${member.first_name} ${member.last_name}`.trim()

@@ -65,8 +65,8 @@ export default function Donate() {
     window.openKkiapayWidget({
       amount: amount,
       position: "center",
-      sandbox: import.meta.env.VITE_KKIAPAY_SANDBOX !== 'false',
-      key: kkiapayKey || import.meta.env.VITE_KKIAPAY_KEY || "dd4b92b67f10b25e1c01e6e969d2f2db6bbcf79c",
+      sandbox: false,
+      key: kkiapayKey || "1283ee43a7e00476a6c179aa602b83f234d4a934",
       phone: form.phone || "",
       email: form.email || "",
       name: anonymous ? "Donateur Anonyme" : `${form.prenom} ${form.nom}`.trim()
