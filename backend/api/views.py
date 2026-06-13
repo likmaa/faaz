@@ -377,7 +377,7 @@ class RoleBasedPermission(permissions.BasePermission):
         if view_name == 'CMSSettingViewSet':
             if role == 'tresorier':
                 key = view.kwargs.get('key') or request.data.get('key')
-                payment_keys = ['kkiapay_key', 'kkiapay_limit', 'paypal_client_id', 'momo_number', 'bank_name', 'bank_iban', 'fee_note']
+                payment_keys = ['kkiapay_key', 'kkiapay_secret', 'kkiapay_limit', 'paypal_client_id', 'momo_number', 'bank_name', 'bank_iban', 'fee_note']
                 if key in payment_keys:
                     return True
                 if not key and request.method == 'POST':
@@ -706,6 +706,34 @@ class KKiaPayWebhookView(APIView):
         
         if not transaction_id:
             return Response({"error": "No transaction ID provided"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Webhook Signature Verification
+        try:
+            secret_setting = CMSSetting.objects.get(key='kkiapay_secret')
+            kkiapay_secret = secret_setting.value
+        except CMSSetting.DoesNotExist:
+            kkiapay_secret = None
+
+        if kkiapay_secret:
+            import hmac
+            import hashlib
+            signature = request.headers.get('x-kkiapay-signature')
+            if not signature:
+                return Response({"error": "Missing signature"}, status=status.HTTP_401_UNAUTHORIZED)
+            
+            # Kkiapay signs the raw body payload
+            expected_signature = hmac.new(
+                kkiapay_secret.encode('utf-8'), 
+                request.body, 
+                hashlib.sha256
+            ).hexdigest()
+            
+            # In some docs Kkiapay might use a different hashing or string format, 
+            # but standard HMAC-SHA256 hex digest is common.
+            # We'll do a simple comparison.
+            if not hmac.compare_digest(expected_signature, signature):
+                return Response({"error": "Invalid signature"}, status=status.HTTP_401_UNAUTHORIZED)
+
 
         # Process Donation status
         try:

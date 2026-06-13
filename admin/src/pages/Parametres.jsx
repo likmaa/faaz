@@ -64,6 +64,7 @@ export default function Parametres() {
   // Paiement form
   const [paiement, setPaiement] = useState({
     kkiapay_key: '',
+    kkiapay_secret: '',
     kkiapay_limit: 300000,
     paypal_client_id: '',
     momo_number: '',
@@ -238,7 +239,8 @@ export default function Parametres() {
       setPaiement(p => ({
         ...p,
         kkiapay_key: map.kkiapay_key || p.kkiapay_key,
-        kkiapay_limit: map.kkiapay_limit ? parseInt(map.kkiapay_limit, 10) : p.kkiapay_limit,
+        kkiapay_secret: map.kkiapay_secret || p.kkiapay_secret,
+        kkiapay_limit: Number(map.kkiapay_limit) || p.kkiapay_limit,
         paypal_client_id: map.paypal_client_id || p.paypal_client_id,
         momo_number: map.momo_number || p.momo_number,
         bank_name: map.bank_name || p.bank_name,
@@ -397,6 +399,10 @@ export default function Parametres() {
             <Field label="Clé publique KKiaPay">
               <input type="text" value={paiement.kkiapay_key} onChange={e => setPaiement(f => ({ ...f, kkiapay_key: e.target.value }))}
                 placeholder="kkiapay_pub_…" className={INPUT} />
+            </Field>
+            <Field label="Secret KKiaPay (Optionnel pour Webhook)">
+              <input type="password" value={paiement.kkiapay_secret} onChange={e => setPaiement(f => ({ ...f, kkiapay_secret: e.target.value }))}
+                placeholder="kkiapay_sec_…" className={INPUT} />
             </Field>
             <Field label="Plafond par transaction (FCFA)">
               <input type="number" value={paiement.kkiapay_limit} step={10000} min={0}
