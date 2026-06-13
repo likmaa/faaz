@@ -8,6 +8,7 @@ import {
   LogOut, User as UserIcon, Menu, X, Loader2, ChevronDown, ChevronRight,
   Bell, FileText, Heart
 } from 'lucide-react';
+import logoImg from '../../assets/img/logo.png';
 
 const ROLE_LABELS = {
   admin_principal: 'Admin principal',
@@ -111,12 +112,16 @@ function Breadcrumb() {
 /* ── Logo component shared between sidebar and login ── */
 export function SiteLogo({ className = '' }) {
   return (
-    <div className={`flex items-center gap-2 ${className}`}>
+    <div className={`flex items-center gap-3 px-4 ${className}`}>
       <img
-        src="/assets/img/logo.png"
-        alt="Fondation FAAZ"
-        className="h-12 w-auto object-contain"
+        src={logoImg}
+        alt="FAAZ Logo"
+        className="object-contain transition-all duration-300 w-12 h-12"
       />
+      <div className="flex flex-col">
+        <span className="font-heading font-bold text-slate-800 text-lg leading-tight">FAAZ</span>
+        <span className="text-[10px] uppercase tracking-widest text-primary-600 font-bold">Admin</span>
+      </div>
     </div>
   );
 }

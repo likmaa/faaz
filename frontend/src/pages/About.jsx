@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { motion } from 'framer-motion';
 import PageHero from '../components/ui/PageHero';
 import api from '../services/api';
 import StatsSection from '../components/sections/StatsSection';
 import TimelineSection from '../components/sections/TimelineSection';
 import TestimonialsSection from '../components/sections/TestimonialsSection';
 import PartnersSection from '../components/sections/PartnersSection';
-import { ShieldCheck, MapPin, BarChart3, Users, Leaf, Lightbulb, Heart, BookOpen, Star, Clock, Handshake, Quote } from 'lucide-react';
+import { ShieldCheck, MapPin, BarChart3, Users, Leaf, Lightbulb, Heart, BookOpen, Star, Clock, Handshake, Quote, Target, Eye } from 'lucide-react';
 import { useSeo } from '../hooks/useSeo';
 
 const VALEURS = [
@@ -96,8 +97,8 @@ export default function About() {
 
   const slogan = cmsSettings.slogan || "Engageons notre amitié au service des personnes vulnérables et de l'humanité.";
   const mission = cmsSettings.mission || "Promouvoir le bien-être des personnes les plus vulnérables à travers des actions solidaires, structurées et à impact mesurable.";
-  const vision = cmsSettings.vision || "Épanouissement durable de l'humanité — un Bénin où chaque personne vulnérable est accompagnée avec dignité.";
-  const aboutText = cmsSettings.about_text || "La FAAZ — Fondation les Amis de A à Z — est une ONG béninoise à membres fondée sur un engagement simple : promouvoir le bien-être des personnes les plus vulnérables. Orphelins, élèves méritants, jeunes en quête de repères, personnes âgées isolées : chaque action de la FAAZ part d'une conviction, celle que l'amitié peut changer des vies.";
+  const vision = cmsSettings.vision || "Épanouissement durable de l'humanité, un Bénin où chaque personne vulnérable est accompagnée avec dignité.";
+  const aboutText = cmsSettings.about_text || "La FAAZ, Fondation les Amis de A à Z, est une ONG béninoise à membres fondée sur un engagement simple : promouvoir le bien-être des personnes les plus vulnérables. Orphelins, élèves méritants, jeunes en quête de repères, personnes âgées isolées : chaque action de la FAAZ part d'une conviction, celle que l'amitié peut changer des vies.";
 
   useEffect(() => {
     async function fetchTeam() {
@@ -142,59 +143,118 @@ export default function About() {
     <div className="bg-white">
       <PageHero
         title="À propos de la FAAZ"
-        subtitle="Fondation les Amis de A à Z — ONG béninoise à membres, engagée depuis 2020 pour le bien-être des personnes les plus vulnérables."
+        subtitle="Fondation les Amis de A à Z, ONG béninoise à membres, engagée depuis 2020 pour le bien-être des personnes les plus vulnérables."
         breadcrumbs={[{ label: 'Accueil', to: '/' }, { label: 'À propos' }]}
       />
 
       {/* ── Vision / Mission ── */}
-      <section className="bg-white py-24 relative overflow-hidden">
+      <section className="bg-slate-50 py-32 relative overflow-hidden">
         {/* Soft background glow accents */}
-        <div className="absolute top-1/4 left-10 w-96 h-96 rounded-full bg-emerald-50/40 blur-3xl pointer-events-none" />
-        <div className="absolute bottom-1/4 right-10 w-96 h-96 rounded-full bg-sky-50/40 blur-3xl pointer-events-none" />
+        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-gradient-to-bl from-primary-100/50 via-emerald-50/20 to-transparent rounded-full blur-[100px] pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-gradient-to-tr from-secondary-100/50 via-sky-50/20 to-transparent rounded-full blur-[120px] pointer-events-none" />
         
         <div className="mx-auto max-w-[1400px] px-6 sm:px-10 lg:px-20 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-            <div>
-              <span className="text-xs font-bold uppercase tracking-widest text-primary-600 mb-4 block">Notre identité</span>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl leading-[1.1] font-extrabold text-slate-900 tracking-tight font-heading mb-6">
-                Engageons notre amitié<br />
-                <span className="bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">au service des vulnérables.</span>
-              </h2>
-              <p className="text-slate-500 text-sm sm:text-base leading-relaxed mb-4 font-body whitespace-pre-line">
-                {aboutText}
-              </p>
-              <p className="text-slate-500 text-sm sm:text-base leading-relaxed font-body">
-                Notre slogan — « {slogan} » — n'est pas un vœu pieux. Il traduit des actions concrètes, documentées, et chiffrées.
-              </p>
-            </div>
+          
+          {/* Section Header */}
+          <div className="max-w-3xl mb-20">
+            <motion.span 
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-xs font-bold uppercase tracking-[0.2em] text-primary-600 block mb-5"
+            >
+              Notre identité
+            </motion.span>
+            <motion.h2 
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="text-4xl md:text-5xl lg:text-6xl leading-[1.05] font-black text-slate-900 tracking-tight font-heading mb-8"
+            >
+              Engageons notre amitié<br />
+              <span className="bg-gradient-to-r from-primary-600 to-secondary-500 bg-clip-text text-transparent">au service des vulnérables.</span>
+            </motion.h2>
+            <motion.p 
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="text-slate-600 text-lg leading-relaxed font-body whitespace-pre-line"
+            >
+              {aboutText}
+            </motion.p>
+          </div>
+          
+          {/* Bento Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              {/* Vision card */}
-              <div className="rounded-3xl border border-emerald-100 bg-gradient-to-br from-emerald-50/20 to-white p-6 shadow-[0_8px_30px_rgba(22,163,74,0.02)] hover:shadow-[0_12px_30px_rgba(22,163,74,0.06)] hover:border-emerald-200 transition-all duration-500">
-                <h3 className="font-bold text-base mb-2 text-slate-800 font-body">Vision</h3>
-                <p className="text-sm text-slate-500 leading-relaxed font-body">
+            {/* Vision card */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.3 }}
+              className="rounded-3xl bg-white border border-slate-100 p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] transition-all duration-500 group relative overflow-hidden flex flex-col"
+            >
+              <div className="absolute -right-10 -top-10 text-emerald-500/5 group-hover:text-emerald-500/10 transition-colors duration-700 pointer-events-none">
+                <Eye size={200} strokeWidth={1} />
+              </div>
+              <div className="relative z-10 flex-1">
+                <div className="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-6 border border-emerald-100 shadow-sm group-hover:scale-110 transition-transform duration-500">
+                  <Eye size={24} strokeWidth={2.5} />
+                </div>
+                <h3 className="font-extrabold text-xl text-slate-800 font-heading mb-3">Notre Vision</h3>
+                <p className="text-base text-slate-500 leading-relaxed font-body">
                   {vision}
                 </p>
               </div>
-              
-              {/* Mission card */}
-              <div className="rounded-3xl border border-sky-100 bg-gradient-to-br from-sky-50/20 to-white p-6 shadow-[0_8px_30px_rgba(2,132,199,0.02)] hover:shadow-[0_12px_30px_rgba(2,132,199,0.06)] hover:border-sky-200 transition-all duration-500">
-                <h3 className="font-bold text-base mb-2 text-slate-800 font-body">Mission</h3>
-                <p className="text-sm text-slate-500 leading-relaxed font-body">
+            </motion.div>
+            
+            {/* Mission card */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.4 }}
+              className="rounded-3xl bg-gradient-to-br from-primary-600 to-primary-700 text-white p-8 shadow-[0_12px_40px_-8px_rgba(22,163,74,0.3)] hover:-translate-y-2 hover:shadow-[0_20px_40px_-8px_rgba(22,163,74,0.4)] transition-all duration-500 relative overflow-hidden group flex flex-col"
+            >
+              <div className="absolute right-0 bottom-0 opacity-10 group-hover:scale-125 transition-transform duration-700 pointer-events-none origin-bottom-right">
+                <Target size={150} strokeWidth={1} />
+              </div>
+              <div className="relative z-10 flex-1">
+                <div className="w-12 h-12 rounded-xl bg-white/10 text-white flex items-center justify-center mb-6 border border-white/20 backdrop-blur-md shadow-sm group-hover:scale-110 transition-transform duration-500">
+                  <Target size={24} strokeWidth={2.5} />
+                </div>
+                <h3 className="font-extrabold text-xl mb-3 font-heading">Notre Mission</h3>
+                <p className="text-primary-50 text-base leading-relaxed font-body">
                   {mission}
                 </p>
               </div>
+            </motion.div>
 
-              {/* Slogan card */}
-              <div className="sm:col-span-2 rounded-3xl border border-slate-100/80 bg-gradient-to-r from-primary-50/40 to-secondary-50/40 p-6 shadow-sm relative overflow-hidden group hover:shadow-md transition-all duration-500">
-                {/* Giant quote watermark */}
-                <Quote size={90} className="absolute right-4 bottom-[-15px] text-primary-200/20 stroke-[1] pointer-events-none group-hover:scale-110 group-hover:text-primary-300/20 transition-all duration-500" />
-                <h3 className="font-bold text-xs uppercase tracking-wider text-slate-400 mb-2 font-body">Slogan</h3>
-                <p className="text-sm sm:text-base text-secondary-700 italic font-bold leading-relaxed font-body relative z-10">
+            {/* Slogan card */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.5 }}
+              className="lg:col-span-2 rounded-3xl bg-white border border-slate-100 p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_20px_40px_rgb(0,0,0,0.08)] transition-all duration-500 relative overflow-hidden group flex flex-col sm:flex-row items-center sm:items-start gap-6 text-center sm:text-left"
+            >
+              <div className="flex-shrink-0 w-16 h-16 rounded-full bg-secondary-50 text-secondary-500 flex items-center justify-center border border-secondary-100 shadow-sm group-hover:rotate-12 transition-transform duration-500">
+                <Quote size={28} strokeWidth={2.5} />
+              </div>
+              <div>
+                <h3 className="font-bold text-xs uppercase tracking-widest text-slate-400 font-body mb-2">Notre Slogan</h3>
+                <p className="text-lg sm:text-xl text-slate-800 italic font-black leading-tight font-heading">
                   « {slogan} »
                 </p>
+                <p className="text-slate-500 mt-3 text-sm font-body">
+                  Ce n'est pas un vœu pieux. Il traduit des actions concrètes, documentées, et chiffrées au quotidien.
+                </p>
               </div>
-            </div>
+            </motion.div>
+
           </div>
         </div>
       </section>

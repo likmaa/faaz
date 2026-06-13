@@ -107,8 +107,8 @@ export default function Home() {
 
             {/* Sous-titre + CTA sous la barre */}
             <p className="text-white/75 text-sm sm:text-base leading-relaxed max-w-xl mx-auto mb-8">
-              ONG béninoise à membres active depuis 2020 — enfance indigente,
-              excellence scolaire, coaching de la jeunesse.
+              ONG béninoise à membres active depuis 2020, engagée pour l'enfance indigente,
+              l'excellence scolaire et le développement de la jeunesse.
             </p>
 
             {/* CTA */}

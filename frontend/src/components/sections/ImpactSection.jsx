@@ -118,13 +118,15 @@ export default function ImpactSection() {
                 <p className="text-slate-500 leading-relaxed text-sm font-medium">{stat.description}</p>
               </div>
 
-              <div className="mt-auto space-y-3">
+              <div className="mt-auto space-y-0.5 pt-6">
                 {stat.subItems.map((item, itemIdx) => (
-                  <div key={itemIdx} className="flex items-center justify-between py-3 border-t border-slate-50">
-                    <div className="flex flex-col">
-                      <span className="text-sm text-slate-400 font-medium mb-0.5">{item.label}</span>
-                      <span className="text-xl font-bold text-secondary-600">{item.value}</span>
-                    </div>
+                  <div key={itemIdx} className="flex items-center justify-between py-2.5 border-b border-slate-100/60 last:border-b-0 group/item">
+                    <span className="text-sm text-slate-500 font-medium pr-4 transition-colors group-hover/item:text-slate-800">
+                      {item.label}
+                    </span>
+                    <span className="text-base font-bold text-secondary-600 whitespace-nowrap">
+                      {item.value}
+                    </span>
                   </div>
                 ))}
               </div>

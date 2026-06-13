@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-6o__j110w97younza#m5vmon#8h(euepr6op!_(y&(&y@7d#jq
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'lafaaz.org', 'api.lafaaz.org', 'admin.lafaaz.org']
 
 
 # Application definition
@@ -186,7 +186,7 @@ SIMPLE_JWT = {
 
 # CORS configuration
 # En production : définir DB_ENGINE=mysql et ajouter vos origines
-_cors_origins = os.environ.get('CORS_ORIGINS', 'http://localhost:3000,http://localhost:3001,http://127.0.0.1:3000,http://127.0.0.1:3001')
+_cors_origins = os.environ.get('CORS_ORIGINS', 'http://localhost:3000,http://localhost:3001,http://127.0.0.1:3000,http://127.0.0.1:3001,http://localhost:5173,http://127.0.0.1:5173,https://lafaaz.org,https://admin.lafaaz.org,https://api.lafaaz.org')
 CORS_ALLOWED_ORIGINS = [origin.strip() for origin in _cors_origins.split(',') if origin.strip()]
 CORS_ALLOW_CREDENTIALS = True
 

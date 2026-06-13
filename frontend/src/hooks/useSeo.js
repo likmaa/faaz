@@ -18,7 +18,7 @@ export function useSeo({ title, description, keywords } = {}) {
     }
     metaDesc.setAttribute(
       'content',
-      description || "Fondation les Amis de A à Z (FAAZ) — Aide à l'enfance indigente, excellence scolaire, coaching de la jeunesse au Bénin."
+      description || "Fondation les Amis de A à Z (FAAZ), Aide à l'enfance indigente, excellence scolaire, coaching de la jeunesse au Bénin."
     );
 
     // Keywords Meta

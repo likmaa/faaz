@@ -46,7 +46,7 @@ export default function Footer() {
               className="h-14 w-auto object-contain object-left mb-4"
             />
             <p className="text-sm leading-relaxed text-slate-400 max-w-xs">
-              Fondation les Amis de A à Z — ONG béninoise.
+              Fondation les Amis de A à Z, ONG béninoise.
               Nous ne finançons pas seulement la solidarité : nous la structurons.
             </p>
 

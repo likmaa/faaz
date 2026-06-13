@@ -1,37 +1,265 @@
-import React, { useState, useEffect, useRef } from 'react';
-import Loading from '../ui/Loading';
+import React, { useRef } from 'react';
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
+import { Quote, Star, ShieldCheck, Heart } from 'lucide-react';
+import Loading from '../ui/Loading';
 import api from '../../services/api';
-import { Quote, MessageSquare, ShieldCheck, Heart, ChevronLeft, ChevronRight, Star } from 'lucide-react';
 
+/* ─── données de repli ─── */
 const fallbackData = [
   {
     id: 1,
-    nom: "Ablavi G.",
-    role: "Secrétaire Générale, Orphelinat Saint Dominique",
+    nom: 'Ablavi G.',
+    role: 'Secrétaire Générale, Orphelinat Saint Dominique',
     montant: null,
-    message: "Grâce au projet 'Chaque orphelin à l'école' de la FAAZ, 122 enfants ont pu s'inscrire cette année avec toutes leurs fournitures scolaires. C'est un suivi continu qui change des vies."
+    message:
+      "Grâce au projet « Chaque orphelin à l'école » de la FAAZ, 122 enfants ont pu s'inscrire cette année avec toutes leurs fournitures scolaires. C'est un suivi continu qui change des vies.",
+    variant: 'dark',
   },
   {
     id: 2,
-    nom: "Koffi M.",
-    role: "Donateur actif, Diaspora Béninoise (Paris)",
-    montant: "50 000",
-    message: "La transparence financière absolue de la fondation est ce qui m'a convaincu. Chaque franc versé est tracé et on suit l'avancement des projets en temps réel sur le site."
+    nom: 'Koffi M.',
+    role: 'Donateur actif, Diaspora Béninoise (Paris)',
+    montant: '50 000',
+    message:
+      "La transparence financière absolue de la fondation est ce qui m'a convaincu. Chaque franc versé est tracé et on suit l'avancement des projets en temps réel sur le site.",
+    variant: 'light',
   },
   {
     id: 3,
-    nom: "Dr. Saliou B.",
-    role: "Coordinateur des campagnes médicales (Porto-Novo)",
+    nom: 'Dr. Saliou B.',
+    role: 'Coordinateur des campagnes médicales (Porto-Novo)',
     montant: null,
-    message: "Les consultations gratuites organisées par la FAAZ permettent d'apporter des soins de base à des populations isolées. L'engagement des bénévoles est tout simplement admirable."
-  }
+    message:
+      "Les consultations gratuites organisées par la FAAZ permettent d'apporter des soins de base à des populations isolées. L'engagement des bénévoles est tout simplement admirable.",
+    variant: 'dark',
+  },
 ];
 
+/* ─── Carte individuelle pour le Stack ─── */
+function StackedCard({ testimonial, index, total, progress }) {
+  const isDark = (testimonial.variant ?? (index % 2 === 0 ? 'dark' : 'light')) === 'dark';
+
+  /*
+   * ANIMATION APPLE-STYLE ULTRA PREMIUM :
+   * Au lieu de rendre la carte transparente (opacity) ce qui laisse voir à travers,
+   * on utilise un "overlay" noir (darkOverlay) qui s'assombrit pour simuler l'ombre.
+   */
+  const segmentSize = 1 / total;
+  const enterStart = index * segmentSize;
+  const enterEnd = enterStart + segmentSize;
+
+  // 1. Entrée (Y)
+  const yRange = index === 0 ? [0, 1] : [enterStart, enterEnd];
+  const yOutput = index === 0 ? [0, 0] : [1200, 0];
+  const y = useTransform(progress, yRange, yOutput);
+
+  // 2. Scale (Profondeur)
+  const scaleInput = [0, enterEnd];
+  const scaleOutput = [1, 1];
+  for (let j = index + 1; j < total; j++) {
+    scaleInput.push(j * segmentSize + segmentSize);
+    scaleOutput.push(1 - (j - index) * 0.05); 
+  }
+  if (scaleInput[scaleInput.length - 1] < 1) {
+    scaleInput.push(1);
+    scaleOutput.push(scaleOutput[scaleOutput.length - 1]);
+  }
+  const scale = useTransform(progress, scaleInput, scaleOutput);
+
+  // 3. Décalage vers le haut (Stacking gap)
+  const yOffsetInput = [0, enterEnd];
+  const yOffsetOutput = [0, 0];
+  for (let j = index + 1; j < total; j++) {
+    yOffsetInput.push(j * segmentSize + segmentSize);
+    yOffsetOutput.push(-(j - index) * 40); // 40px d'espacement au sommet
+  }
+  if (yOffsetInput[yOffsetInput.length - 1] < 1) {
+    yOffsetInput.push(1);
+    yOffsetOutput.push(yOffsetOutput[yOffsetOutput.length - 1]);
+  }
+  const yOffset = useTransform(progress, yOffsetInput, yOffsetOutput);
+
+  // 4. Inclinaison 3D (Tilt arrière)
+  const rotateXInput = [0, enterEnd];
+  const rotateXOutput = [0, 0];
+  for (let j = index + 1; j < total; j++) {
+    rotateXInput.push(j * segmentSize + segmentSize);
+    rotateXOutput.push((j - index) * 2); // Penche de 2 degrés vers l'arrière
+  }
+  if (rotateXInput[rotateXInput.length - 1] < 1) {
+    rotateXInput.push(1);
+    rotateXOutput.push(rotateXOutput[rotateXOutput.length - 1]);
+  }
+  const rotateX = useTransform(progress, rotateXInput, rotateXOutput);
+
+  // 5. Overlay sombre (Simule l'ombre des cartes du dessus SANS transparence globale)
+  const darkOverlayInput = [0, enterEnd];
+  const darkOverlayOutput = [0, 0];
+  for (let j = index + 1; j < total; j++) {
+    darkOverlayInput.push(j * segmentSize + segmentSize);
+    darkOverlayOutput.push((j - index) * 0.15); // L'overlay noir monte à 15%, 30%, etc.
+  }
+  if (darkOverlayInput[darkOverlayInput.length - 1] < 1) {
+    darkOverlayInput.push(1);
+    darkOverlayOutput.push(darkOverlayOutput[darkOverlayOutput.length - 1]);
+  }
+  const darkOverlayOpacity = useTransform(progress, darkOverlayInput, darkOverlayOutput);
+
+  // 6. Ombre portée dynamique pour la carte active
+  const boxShadow = useTransform(
+    progress,
+    yRange,
+    index === 0
+      ? ['0px 30px 60px -15px rgba(0,0,0,0)', '0px 30px 60px -15px rgba(0,0,0,0)']
+      : ['0px 0px 0px 0px rgba(0,0,0,0)', '0px 40px 80px -20px rgba(0,0,0,0.4)']
+  );
+
+  return (
+    <motion.div
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        zIndex: index + 1,
+        y,
+        scale,
+        marginTop: yOffset,
+        rotateX,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        transformOrigin: "top center",
+        perspective: "1000px" // Pour le rotateX
+      }}
+    >
+      <motion.div
+        style={{ boxShadow: isDark ? boxShadow : undefined }}
+        className={`relative w-full max-w-2xl rounded-[2.5rem] border overflow-hidden p-8 sm:p-12 transition-colors duration-500 ${
+          isDark
+            ? 'bg-slate-900 border-white/10 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.8)]'
+            : 'bg-white border-slate-100 shadow-[0_40px_80px_-20px_rgba(15,23,42,0.15)]'
+        }`}
+      >
+        {/* Overlay sombre dynamique pour la profondeur (empêche la carte de devenir transparente) */}
+        <motion.div 
+          style={{ opacity: darkOverlayOpacity }}
+          className="absolute inset-0 bg-black z-20 pointer-events-none"
+        />
+
+        {/* Dégradé décoratif */}
+        <div
+          aria-hidden
+          className={`pointer-events-none absolute inset-0 z-0 rounded-[2rem] ${
+            isDark
+              ? 'bg-[radial-gradient(ellipse_70%_50%_at_100%_0%,rgba(34,197,94,0.10),transparent_60%)]'
+              : 'bg-[radial-gradient(ellipse_70%_50%_at_0%_100%,rgba(14,165,233,0.07),transparent_60%)]'
+          }`}
+        />
+        {/* Guillemet géant */}
+        <Quote
+          aria-hidden
+          className={`absolute -top-1 right-6 h-24 w-24 opacity-[0.05] ${
+            isDark ? 'text-white' : 'text-slate-900'
+          }`}
+        />
+
+        <div className="relative z-10 flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-8">
+          {/* Avatar */}
+          <div className="flex flex-row sm:flex-col items-center sm:items-start gap-4 flex-shrink-0">
+            <div
+              className={`w-14 h-14 rounded-2xl flex items-center justify-center text-white font-black text-xl flex-shrink-0 ${
+                isDark
+                  ? 'bg-gradient-to-br from-primary-600 to-secondary-700'
+                  : 'bg-gradient-to-br from-primary-500 to-secondary-500'
+              }`}
+            >
+              {(testimonial.nom || 'A')[0].toUpperCase()}
+            </div>
+            <div>
+              <p
+                className={`font-black text-base tracking-tight leading-tight ${
+                  isDark ? 'text-white' : 'text-slate-900'
+                }`}
+              >
+                {testimonial.nom || 'Anonyme'}
+              </p>
+              <p
+                className={`mt-0.5 text-xs font-semibold leading-snug max-w-[160px] ${
+                  isDark ? 'text-slate-400' : 'text-slate-400'
+                }`}
+              >
+                {testimonial.role || 'Soutien'}
+              </p>
+            </div>
+          </div>
+
+          {/* Contenu */}
+          <div className="flex flex-col gap-4 flex-1">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div className="flex gap-1" aria-label="5 étoiles sur 5">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star
+                    key={i}
+                    size={16}
+                    className={
+                      isDark
+                        ? 'fill-emerald-400 text-emerald-400'
+                        : 'fill-amber-400 text-amber-400'
+                    }
+                  />
+                ))}
+              </div>
+              {testimonial.montant && (
+                <span
+                  className={`inline-flex items-center gap-1.5 text-xs font-black px-3 py-1.5 rounded-full ${
+                    isDark
+                      ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/20'
+                      : 'bg-emerald-50 text-emerald-700 border border-emerald-100'
+                  }`}
+                >
+                  <Heart size={12} className="fill-current" />
+                  Donateur · {testimonial.montant} FCFA
+                </span>
+              )}
+            </div>
+
+            <blockquote
+              className={`text-lg sm:text-xl leading-[1.65] font-medium ${
+                isDark ? 'text-slate-200' : 'text-slate-700'
+              }`}
+            >
+              &ldquo;{testimonial.message || 'Merci pour votre soutien.'}&rdquo;
+            </blockquote>
+
+            <div className="flex items-center gap-2 mt-2">
+              <div
+                className={`h-5 w-5 rounded-full flex items-center justify-center text-[10px] font-black ${
+                  isDark ? 'bg-primary-500 text-white' : 'bg-primary-600 text-white'
+                }`}
+              >
+                ✓
+              </div>
+              <span
+                className={`text-[10px] font-black uppercase tracking-widest ${
+                  isDark ? 'text-slate-500' : 'text-slate-400'
+                }`}
+              >
+                Témoignage vérifié
+              </span>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
+/* ─── section principale ─── */
 export default function TestimonialsSection() {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-  const autoPlayRef = useRef(null);
+  const containerRef = useRef(null);
 
   const { data: testimonials = fallbackData, isLoading } = useQuery({
     queryKey: ['home-temoignages'],
@@ -40,208 +268,116 @@ export default function TestimonialsSection() {
         const res = await api.get('/temoignages?limit=5');
         const list = Array.isArray(res.data)
           ? res.data
-          : (Array.isArray(res.data?.results)
-              ? res.data.results
-              : (res.data?.data || []));
+          : Array.isArray(res.data?.results)
+          ? res.data.results
+          : res.data?.data || [];
         return list.length > 0 ? list : fallbackData;
-      } catch (err) {
+      } catch {
         return fallbackData;
       }
     },
-    staleTime: 1000 * 60
+    staleTime: 1000 * 60,
   });
 
-  const nextSlide = () => {
-    setActiveIndex((prev) => (prev + 1) % testimonials.length);
-  };
+  const total = testimonials.length;
 
-  const prevSlide = () => {
-    setActiveIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
-  };
+  /*
+   * On capture le scroll sur l'ensemble du grand conteneur
+   */
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"]
+  });
 
-  useEffect(() => {
-    if (isPaused) {
-      if (autoPlayRef.current) clearInterval(autoPlayRef.current);
-      return;
-    }
+  // Physique de ressort (Spring) pour lisser le scroll de façon premium !
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 120, // Plus c'est haut, plus ça suit vite la souris
+    damping: 24,    // Amortissement (pas trop d'élasticité)
+    restDelta: 0.001
+  });
 
-    autoPlayRef.current = setInterval(() => {
-      nextSlide();
-    }, 6000);
-
-    return () => {
-      if (autoPlayRef.current) clearInterval(autoPlayRef.current);
-    };
-  }, [isPaused, testimonials.length]);
+  if (isLoading) {
+    return (
+      <section className="py-28 bg-slate-50 flex items-center justify-center border-t border-slate-100">
+        <Loading text="Chargement des témoignages..." />
+      </section>
+    );
+  }
 
   return (
-    <section className="py-28 bg-slate-50/70 relative overflow-hidden" id="testimonials-section">
-      {/* Éléments de fond décoratifs */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary-100/15 rounded-full blur-3xl -z-10 pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-secondary-100/10 rounded-full blur-3xl -z-10 pointer-events-none" />
-      
-      {/* Fine grille décorative avec gradient radial */}
-      <div className="absolute inset-0 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:32px_32px] opacity-25 pointer-events-none" />
+    <section className="bg-slate-50 relative border-t border-slate-100" id="testimonials-section">
+      {/* Décorations de fond */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden>
+        <div className="absolute inset-0 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:32px_32px] opacity-[0.25]" />
+        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-primary-100/30 rounded-full blur-[100px]" />
+        <div className="absolute bottom-0 left-0 w-[800px] h-[800px] bg-secondary-100/20 rounded-full blur-[100px]" />
+      </div>
 
-      <div className="mx-auto max-w-[1400px] px-6 sm:px-10 lg:px-20 relative z-10">
-        <div className="grid lg:grid-cols-3 gap-12 lg:gap-20 items-center">
+      {/*
+       * LE CONTENEUR GÉANT
+       * Sa hauteur dépend du nombre de cartes. (Ex: 100vh par carte)
+       * Cela nous donne le "temps" de scroller pour déclencher toutes les animations.
+       */}
+      <div 
+        ref={containerRef} 
+        style={{ height: `${total * 100}vh` }} 
+        className="relative w-full"
+      >
+        {/*
+         * LE STICKY WRAPPER
+         * Ce bloc fait la taille de l'écran et reste collé.
+         * À l'intérieur, l'animation se déroule.
+         */}
+        <div className="sticky top-0 h-screen w-full flex flex-col justify-center overflow-hidden">
           
-          {/* Bloc éditorial gauche */}
-          <div className="lg:col-span-1 flex flex-col justify-between py-4 h-full">
-            <div>
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary-50 border border-primary-100/80 text-primary-700 text-xs font-bold uppercase tracking-wider mb-6">
-                <span className="w-1.5 h-1.5 rounded-full bg-primary-500 animate-pulse" />
-                Voix du terrain
-              </div>
-              <h2 className="text-3xl sm:text-4xl lg:text-[2.75rem] leading-[1.1] font-black text-slate-900 tracking-tight font-heading mb-6">
-                Pourquoi ils soutiennent <span className="bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">la FAAZ.</span>
-              </h2>
-              <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-8 font-body">
-                Qu'ils soient donateurs, membres de la diaspora ou partenaires locaux, découvrez les témoignages de ceux qui font battre le cœur de la fondation au quotidien.
-              </p>
-            </div>
-
-            {/* Petites stats d'engagement */}
-            <div className="space-y-4 border-t border-slate-200/80 pt-8 mt-4">
-              <div className="group flex items-center gap-4 p-3 rounded-2xl bg-white/50 border border-slate-100/50 shadow-[0_4px_20px_rgba(15,23,42,0.01)] hover:bg-white hover:shadow-md hover:border-slate-100 transition-all duration-300">
-                <div className="w-11 h-11 rounded-xl bg-primary-50 border border-primary-100 flex items-center justify-center text-primary-600 shadow-sm transition-transform duration-300 group-hover:scale-110">
-                  <ShieldCheck size={20} strokeWidth={2} />
+          {/* Header */}
+          <div className="absolute top-0 inset-x-0 z-20 px-6 sm:px-10 lg:px-16 pt-20">
+            <div className="mx-auto max-w-5xl flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+              <div className="max-w-xl">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary-50 border border-primary-100 text-primary-700 text-[11px] font-bold uppercase tracking-wider mb-4">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary-500 animate-pulse" />
+                  Voix du terrain
                 </div>
-                <div>
-                  <p className="text-sm font-extrabold text-slate-800 font-body">Comptabilité transparente</p>
-                  <p className="text-[10px] text-slate-400 font-semibold font-body uppercase tracking-wider mt-0.5">Contrôle interne rigoureux</p>
-                </div>
+                <h2 className="text-4xl sm:text-5xl font-black text-slate-900 tracking-tight font-heading leading-[1.05]">
+                  Pourquoi ils soutiennent{' '}
+                  <span className="bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
+                    la FAAZ.
+                  </span>
+                </h2>
               </div>
               
-              <div className="group flex items-center gap-4 p-3 rounded-2xl bg-white/50 border border-slate-100/50 shadow-[0_4px_20px_rgba(15,23,42,0.01)] hover:bg-white hover:shadow-md hover:border-slate-100 transition-all duration-300">
-                <div className="w-11 h-11 rounded-xl bg-primary-50 border border-primary-100 flex items-center justify-center text-primary-600 shadow-sm transition-transform duration-300 group-hover:scale-110">
-                  <Heart size={20} strokeWidth={2} />
-                </div>
-                <div>
-                  <p className="text-sm font-extrabold text-slate-800 font-body">Actions directes terrain</p>
-                  <p className="text-[10px] text-slate-400 font-semibold font-body uppercase tracking-wider mt-0.5">Aucun intermédiaire inutile</p>
-                </div>
+              <div className="flex flex-col gap-3 self-start lg:self-auto hidden md:flex">
+                {[
+                  { icon: ShieldCheck, label: 'Transparence totale' },
+                  { icon: Heart, label: 'Impact direct' },
+                ].map(({ icon: Icon, label }) => (
+                  <div
+                    key={label}
+                    className="flex items-center gap-3 bg-white/80 backdrop-blur-sm border border-slate-100 rounded-2xl px-4 py-2.5 shadow-sm"
+                  >
+                    <div className="w-8 h-8 rounded-xl bg-primary-50 text-primary-600 flex items-center justify-center flex-shrink-0">
+                      <Icon size={16} strokeWidth={2} />
+                    </div>
+                    <p className="text-sm font-extrabold text-slate-800 font-body">{label}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
 
-          {/* Carrousel à droite */}
-          <div className="lg:col-span-2 flex flex-col justify-center min-h-[380px]">
-            {isLoading ? (
-              <Loading text="Chargement des témoignages..." />
-            ) : testimonials?.length > 0 ? (
-              <div className="w-full flex flex-col gap-8">
-                
-                {/* Zone de cartes de témoignages */}
-                <div 
-                  className="relative overflow-hidden h-[340px] sm:h-[300px]"
-                  onMouseEnter={() => setIsPaused(true)}
-                  onMouseLeave={() => setIsPaused(false)}
-                >
-                  {testimonials.map((t, idx) => {
-                    const isActive = idx === activeIndex;
-                    return (
-                      <div 
-                        key={t.id} 
-                        id={`testimonial-card-${t.id}`}
-                        className={`absolute inset-0 w-full h-full bg-white/95 rounded-[2rem] p-8 md:p-10 border border-slate-100/60 shadow-[0_20px_50px_-12px_rgba(15,23,42,0.04)] backdrop-blur-md transition-all duration-700 ease-in-out flex flex-col justify-between ${
-                          isActive 
-                            ? 'opacity-100 translate-x-0 scale-100 pointer-events-auto z-10' 
-                            : 'opacity-0 translate-x-8 scale-95 pointer-events-none z-0'
-                        }`}
-                      >
-                        {/* Guillemet géant décoratif */}
-                        <div className="absolute top-8 right-10 text-primary-100/40 pointer-events-none transition-colors duration-500 group-hover:text-primary-200/50">
-                          <Quote size={90} className="stroke-[1] opacity-35" />
-                        </div>
-
-                        {/* Top: Stars + Message */}
-                        <div>
-                          {/* 5 Etoiles de notation */}
-                          <div className="flex gap-1 mb-5">
-                            {Array(5).fill(0).map((_, i) => (
-                              <Star key={i} size={15} className="fill-amber-400 text-amber-400 drop-shadow-sm" />
-                            ))}
-                          </div>
-
-                          {/* Message */}
-                          <p className="text-slate-700 text-base sm:text-lg leading-relaxed italic font-body mb-6 pr-6 font-medium">
-                            "{t.message || 'Merci pour votre soutien.'}"
-                          </p>
-                        </div>
-
-                        {/* Bottom: Profil Donateur */}
-                        <div className="flex flex-wrap items-center justify-between gap-4 mt-auto border-t border-slate-100 pt-6">
-                          <div className="flex items-center gap-4">
-                            {/* Avatar initials avec dégradé premium */}
-                            <div className="w-14 h-14 rounded-full bg-gradient-to-tr from-primary-500 to-secondary-500 flex items-center justify-center text-white font-black text-lg shadow-md border-2 border-white ring-4 ring-primary-50/50">
-                              {(t.nom || 'A')[0].toUpperCase()}
-                            </div>
-                            <div>
-                              <p className="font-black text-slate-800 text-base font-body">{t.nom || 'Anonyme'}</p>
-                              <p className="text-slate-400 text-[10px] font-extrabold font-body tracking-wider uppercase mt-0.5">{t.role || 'Soutien'}</p>
-                            </div>
-                          </div>
-
-                          {/* Badge Donateur */}
-                          {t.montant && (
-                            <span className="inline-flex items-center gap-1.5 text-[11px] font-black bg-emerald-50 border border-emerald-100 text-emerald-700 px-4 py-1.5 rounded-full shadow-sm">
-                              <Heart size={11} className="fill-emerald-600 text-emerald-600" />
-                              Donateur · {t.montant} FCFA
-                            </span>
-                          )}
-                        </div>
-
-                      </div>
-                    );
-                  })}
-                </div>
-
-                {/* Contrôles du Carrousel (Flèches + Puces) */}
-                <div className="flex items-center justify-between px-2">
-                  
-                  {/* Indicateurs à puces (Dots) */}
-                  <div className="flex gap-2">
-                    {testimonials.map((_, idx) => (
-                      <button
-                        key={idx}
-                        onClick={() => setActiveIndex(idx)}
-                        className={`h-2.5 rounded-full transition-all duration-300 ${
-                          idx === activeIndex 
-                            ? 'w-8 bg-gradient-to-r from-primary-600 to-secondary-600' 
-                            : 'w-2.5 bg-slate-200 hover:bg-slate-300'
-                        }`}
-                        aria-label={`Aller au témoignage ${idx + 1}`}
-                      />
-                    ))}
-                  </div>
-
-                  {/* Boutons flèches */}
-                  <div className="flex gap-3">
-                    <button
-                      onClick={prevSlide}
-                      className="w-12 h-12 rounded-full border border-slate-200 bg-white flex items-center justify-center text-slate-600 hover:bg-primary-50 hover:text-primary-600 hover:border-primary-200 transition-all duration-300 shadow-sm active:scale-95"
-                      aria-label="Témoignage précédent"
-                    >
-                      <ChevronLeft size={20} strokeWidth={2.5} />
-                    </button>
-                    <button
-                      onClick={nextSlide}
-                      className="w-12 h-12 rounded-full border border-slate-200 bg-white flex items-center justify-center text-slate-600 hover:bg-primary-50 hover:text-primary-600 hover:border-primary-200 transition-all duration-300 shadow-sm active:scale-95"
-                      aria-label="Témoignage suivant"
-                    >
-                      <ChevronRight size={20} strokeWidth={2.5} />
-                    </button>
-                  </div>
-
-                </div>
-
-              </div>
-            ) : (
-              <div className="bg-white rounded-3xl p-8 border border-slate-100 text-center shadow-sm">
-                <p className="text-slate-500 font-medium">Aucun témoignage disponible pour le moment.</p>
-              </div>
-            )}
+          {/* Les cartes */}
+          <div className="relative w-full h-full flex items-center justify-center px-6 mt-16 md:mt-24">
+            <div className="relative w-full max-w-2xl h-[400px]">
+              {testimonials.map((testimonial, i) => (
+                <StackedCard
+                  key={testimonial.id ?? i}
+                  testimonial={testimonial}
+                  index={i}
+                  total={total}
+                  progress={smoothProgress}
+                />
+              ))}
+            </div>
           </div>
 
         </div>
@@ -249,4 +385,3 @@ export default function TestimonialsSection() {
     </section>
   );
 }
-

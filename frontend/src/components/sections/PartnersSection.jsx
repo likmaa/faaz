@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { useQuery } from '@tanstack/react-query';
 import api from '../../services/api';
 import { Globe, Droplet, Sun, GraduationCap, Activity, Sprout, Handshake } from 'lucide-react';
@@ -10,8 +11,8 @@ const fallbackPartners = [
     type: 'Institution', 
     Icon: Globe, 
     colorClass: 'text-sky-600',
-    hoverClasses: 'hover:border-sky-300 hover:bg-sky-50/10 hover:shadow-[0_12px_24px_-8px_rgba(14,165,233,0.15)]',
-    iconHoverClasses: 'group-hover:bg-sky-600 group-hover:text-white group-hover:border-sky-600'
+    bgClass: 'bg-sky-50',
+    borderClass: 'border-sky-100',
   },
   { 
     id: 2, 
@@ -19,8 +20,8 @@ const fallbackPartners = [
     type: 'ONG internationale', 
     Icon: Droplet, 
     colorClass: 'text-blue-600',
-    hoverClasses: 'hover:border-blue-300 hover:bg-blue-50/10 hover:shadow-[0_12px_24px_-8px_rgba(59,130,246,0.15)]',
-    iconHoverClasses: 'group-hover:bg-blue-600 group-hover:text-white group-hover:border-blue-600'
+    bgClass: 'bg-blue-50',
+    borderClass: 'border-blue-100',
   },
   { 
     id: 3, 
@@ -28,8 +29,8 @@ const fallbackPartners = [
     type: 'Entreprise sociale', 
     Icon: Sun, 
     colorClass: 'text-amber-500',
-    hoverClasses: 'hover:border-amber-300 hover:bg-amber-50/10 hover:shadow-[0_12px_24px_-8px_rgba(245,158,11,0.15)]',
-    iconHoverClasses: 'group-hover:bg-amber-500 group-hover:text-white group-hover:border-amber-500'
+    bgClass: 'bg-amber-50',
+    borderClass: 'border-amber-100',
   },
   { 
     id: 4, 
@@ -37,8 +38,8 @@ const fallbackPartners = [
     type: 'Association éducation', 
     Icon: GraduationCap, 
     colorClass: 'text-emerald-600',
-    hoverClasses: 'hover:border-emerald-300 hover:bg-emerald-50/10 hover:shadow-[0_12px_24px_-8px_rgba(16,185,129,0.15)]',
-    iconHoverClasses: 'group-hover:bg-emerald-600 group-hover:text-white group-hover:border-emerald-600'
+    bgClass: 'bg-emerald-50',
+    borderClass: 'border-emerald-100',
   },
   { 
     id: 5, 
@@ -46,8 +47,8 @@ const fallbackPartners = [
     type: 'Programme de santé', 
     Icon: Activity, 
     colorClass: 'text-red-500',
-    hoverClasses: 'hover:border-red-300 hover:bg-red-50/10 hover:shadow-[0_12px_24px_-8px_rgba(239,68,68,0.15)]',
-    iconHoverClasses: 'group-hover:bg-red-500 group-hover:text-white group-hover:border-red-500'
+    bgClass: 'bg-red-50',
+    borderClass: 'border-red-100',
   },
   { 
     id: 6, 
@@ -55,8 +56,8 @@ const fallbackPartners = [
     type: 'Partenaire local', 
     Icon: Sprout, 
     colorClass: 'text-green-600',
-    hoverClasses: 'hover:border-green-300 hover:bg-green-50/10 hover:shadow-[0_12px_24px_-8px_rgba(34,197,94,0.15)]',
-    iconHoverClasses: 'group-hover:bg-green-600 group-hover:text-white group-hover:border-green-600'
+    bgClass: 'bg-green-50',
+    borderClass: 'border-green-100',
   }
 ];
 
@@ -80,82 +81,137 @@ export default function PartnersSection() {
   });
 
   const displayList = partnersList.length > 0 ? partnersList : fallbackPartners;
+  
+  // Pour l'effet infini, on duplique la liste plusieurs fois
+  const duplicatedList = [...displayList, ...displayList, ...displayList, ...displayList];
+  const reversedList = [...duplicatedList].reverse();
+
+  const renderCard = (p, index) => {
+    let logoUrl = p.logo || '';
+    if (logoUrl && !logoUrl.startsWith('http')) {
+      const apiBase = (import.meta.env.VITE_API_URL || 'http://localhost:8000/api').replace(/\/api$/, '');
+      logoUrl = `${apiBase}${logoUrl}`;
+    }
+
+    const colorClass = p.colorClass || 'text-primary-600';
+    const bgClass = p.bgClass || 'bg-primary-50';
+    const borderClass = p.borderClass || 'border-primary-100';
+    const IconComponent = p.Icon || Handshake;
+    const typeText = p.type || 'Partenaire';
+
+    return (
+      <a 
+        key={`${p.id}-${index}`}
+        href={p.link || '#'}
+        target={p.link ? '_blank' : undefined}
+        rel={p.link ? 'noopener noreferrer' : undefined}
+        className="group relative flex items-center gap-5 p-4 pr-10 bg-white/70 backdrop-blur-md border border-white/40 shadow-xl shadow-slate-200/20 rounded-[2rem] min-w-[320px] hover:-translate-y-2 hover:shadow-2xl hover:shadow-primary-600/10 hover:bg-white transition-all duration-500 ease-out overflow-hidden"
+      >
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/50 to-transparent opacity-0 group-hover:opacity-100 -translate-x-full group-hover:translate-x-full transition-all duration-1000 ease-in-out" />
+        
+        <div className={`w-14 h-14 rounded-2xl ${bgClass} border ${borderClass} flex items-center justify-center flex-shrink-0 transition-transform duration-500 group-hover:scale-110 group-hover:-rotate-3 overflow-hidden ${colorClass}`}>
+          {p.logo ? (
+            <img 
+              src={logoUrl} 
+              alt={p.name} 
+              className="w-full h-full object-contain p-2" 
+            />
+          ) : (
+            <IconComponent size={24} strokeWidth={2.5} />
+          )}
+        </div>
+        <div>
+          <p className="text-sm font-black text-slate-800 leading-tight group-hover:text-primary-600 transition-colors font-body">
+            {p.name}
+          </p>
+          <p className="text-[10px] font-bold text-slate-400 mt-1 tracking-widest uppercase font-body">
+            {typeText}
+          </p>
+        </div>
+      </a>
+    );
+  };
 
   return (
-    <section className="py-24 bg-white relative overflow-hidden" id="partners-section">
+    <section className="py-32 bg-slate-50 relative overflow-hidden" id="partners-section">
       {/* Motifs de fond (Dotted pattern) */}
-      <div className="absolute inset-0 bg-[radial-gradient(#e2e8f0_1px,transparent_1px)] [background-size:20px_20px] opacity-60 pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:32px_32px] opacity-[0.25] pointer-events-none" />
       
-      {/* Dégradés décoratifs de fond */}
-      <div className="absolute -top-40 -left-40 w-96 h-96 bg-primary-100/30 rounded-full blur-3xl opacity-75 pointer-events-none" />
-      <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-secondary-100/30 rounded-full blur-3xl opacity-75 pointer-events-none" />
+      {/* Dégradés décoratifs de fond pour effet "Premium" */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-gradient-to-r from-primary-200/30 to-secondary-200/30 rounded-[100%] blur-[100px] pointer-events-none opacity-50 mix-blend-multiply" />
 
-      <div className="mx-auto max-w-[1400px] px-6 sm:px-10 lg:px-20 relative z-10">
+      <div className="mx-auto max-w-7xl px-6 sm:px-10 lg:px-12 relative z-10">
         
-        {/* En-tête de section aligné */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-16 gap-10">
+        {/* En-tête de section */}
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-20 gap-10">
           <div className="lg:w-1/2">
-            <span className="text-xs font-bold uppercase tracking-widest text-primary-600 block mb-4">
-              Partenariats
-            </span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl leading-[1.1] font-extrabold text-slate-900 tracking-tight font-heading">
-              Nos partenaires<br />
-              <span className="bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">de confiance.</span>
-            </h2>
+            <motion.span 
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-xs font-black uppercase tracking-[0.2em] text-primary-600 block mb-5"
+            >
+              Réseau de Confiance
+            </motion.span>
+            <motion.h2 
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="text-4xl md:text-5xl lg:text-6xl leading-[1.05] font-black text-slate-900 tracking-tight font-heading"
+            >
+              Ils soutiennent <br />
+              <span className="bg-gradient-to-r from-primary-600 to-secondary-500 bg-clip-text text-transparent">
+                notre mission.
+              </span>
+            </motion.h2>
           </div>
           <div className="lg:w-1/3">
-            <p className="text-slate-500 text-sm sm:text-base leading-relaxed font-body">
+            <motion.p 
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="text-slate-500 text-base lg:text-lg leading-relaxed font-medium"
+            >
               Un réseau engagé d'organisations certifiées qui nous soutiennent pour pérenniser chaque projet et maximiser l'impact direct sur le terrain.
-            </p>
+            </motion.p>
           </div>
-        </div>
-
-        {/* Grille de badges capsules */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-5 font-sans">
-          {displayList.map(p => {
-            let logoUrl = p.logo || '';
-            if (logoUrl && !logoUrl.startsWith('http')) {
-              const apiBase = (import.meta.env.VITE_API_URL || 'http://localhost:8000/api').replace(/\/api$/, '');
-              logoUrl = `${apiBase}${logoUrl}`;
-            }
-
-            const hoverClasses = p.hoverClasses || 'hover:border-primary-300 hover:bg-primary-50/10 hover:shadow-[0_12px_24px_-8px_rgba(22,163,74,0.15)]';
-            const colorClass = p.colorClass || 'text-primary-600';
-            const iconHoverClasses = p.iconHoverClasses || 'group-hover:bg-primary-600 group-hover:text-white group-hover:border-primary-600';
-            const IconComponent = p.Icon || Handshake;
-            const typeText = p.type || 'Partenaire';
-
-            return (
-              <a 
-                key={p.id} 
-                id={`partner-card-${p.id}`}
-                href={p.link || '#'}
-                target={p.link ? '_blank' : undefined}
-                rel={p.link ? 'noopener noreferrer' : undefined}
-                className={`group flex items-center gap-4 p-4 border border-slate-100 rounded-2xl bg-white/70 backdrop-blur-sm hover:-translate-y-1 hover:scale-[1.02] transition-all duration-500 ease-out cursor-pointer shadow-[0_4px_12px_-4px_rgba(0,0,0,0.02)] ${hoverClasses}`}
-              >
-                <div className={`w-12 h-12 rounded-xl bg-slate-50/80 border border-slate-100/80 flex items-center justify-center flex-shrink-0 shadow-sm transition-all duration-500 overflow-hidden ${colorClass} ${iconHoverClasses}`}>
-                  {p.logo ? (
-                    <img 
-                      src={logoUrl} 
-                      alt={p.name} 
-                      className="w-full h-full object-contain p-1 bg-white" 
-                    />
-                  ) : (
-                    <IconComponent size={20} strokeWidth={2} className="transition-transform duration-500 group-hover:rotate-6 group-hover:scale-110" />
-                  )}
-                </div>
-                <div>
-                  <p className="text-xs font-bold text-slate-800 leading-snug transition-colors duration-300 group-hover:text-slate-900 font-body">{p.name}</p>
-                  <p className="text-[9px] font-bold text-slate-400 mt-0.5 tracking-wider uppercase font-body">{typeText}</p>
-                </div>
-              </a>
-            );
-          })}
         </div>
 
       </div>
+
+      {/* Carrousels Infinis (Marquee) */}
+      <div className="relative w-full z-20 flex flex-col gap-6 mt-10">
+        
+        {/* Lignes de fondu (Fade edges) pour cacher les bords */}
+        <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-slate-50 to-transparent z-30 pointer-events-none" />
+        <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-slate-50 to-transparent z-30 pointer-events-none" />
+
+        {/* Ligne 1 : Défilement vers la gauche */}
+        <div className="flex w-full overflow-hidden">
+          <motion.div 
+            animate={{ x: ["0%", "-50%"] }}
+            transition={{ ease: "linear", duration: 80, repeat: Infinity }}
+            className="flex gap-6 pr-6 w-max"
+          >
+            {duplicatedList.map((p, i) => renderCard(p, i))}
+          </motion.div>
+        </div>
+
+        {/* Ligne 2 : Défilement vers la droite */}
+        <div className="flex w-full overflow-hidden">
+          <motion.div 
+            animate={{ x: ["-50%", "0%"] }}
+            transition={{ ease: "linear", duration: 95, repeat: Infinity }}
+            className="flex gap-6 pr-6 w-max"
+          >
+            {reversedList.map((p, i) => renderCard(p, i))}
+          </motion.div>
+        </div>
+
+      </div>
+
     </section>
   );
 }
-

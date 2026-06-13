@@ -1,0 +1,86 @@
+name: Déploiement FTP (N0C)
+
+on:
+  push:
+    branches:
+      - main
+      - master
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Récupération du code
+      - name: 📥 Checkout du code
+        uses: actions/checkout@v4
+
+      # 2. Configuration de Node.js pour compiler le frontend
+      - name: ⚙️ Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # 3. Compilation du Site Public (Frontend)
+      - name: 📦 Build du Site Public
+        run: |
+          npm ci
+          npm run build
+        working-directory: ./frontend
+        env:
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+
+      # 4. Compilation de l'Admin
+      - name: 📦 Build de l'Admin
+        run: |
+          npm ci
+          npm run build
+        working-directory: ./admin
+        env:
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
+
+      # 5. Déploiement du Site Public via FTP
+      - name: 🚀 Déploiement FTP (Site Public - lafaaz.org)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./frontend/dist/
+          # Le dossier par défaut sur N0C pour le domaine principal est souvent public_html
+          server-dir: /public_html/
+          exclude: |
+            **/.git*
+            **/.git*/**
+
+      # 6. Déploiement de l'Admin via FTP (admin.lafaaz.org)
+      - name: 🚀 Déploiement FTP (Admin - admin.lafaaz.org)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./admin/dist/
+          # Remplacez ce chemin par le dossier exact créé par N0C pour le sous-domaine admin
+          server-dir: /admin.lafaaz.org/
+          exclude: |
+            **/.git*
+            **/.git*/**
+
+      # 7. Déploiement du Backend Django via FTP (api.lafaaz.org)
+      - name: 🚀 Déploiement FTP (Backend - api.lafaaz.org)
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./backend/
+          # Remplacez ce chemin par le dossier exact créé par N0C pour le sous-domaine api
+          server-dir: /api.lafaaz.org/
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/venv/**
+            **/__pycache__/**
+            **/*.sqlite3
+            .env

@@ -25,7 +25,7 @@ export default function MembershipSection() {
               <span className="text-primary-600">Contribuez à la décision.</span>
             </h2>
             <p className="text-slate-500 text-sm sm:text-base leading-relaxed mb-8 font-body">
-              La FAAZ est une fondation à membres. En adhérant, vous ne vous contentez pas de soutenir — vous participez activement à la gouvernance, aux orientations et à la vie de la fondation.
+              La FAAZ est une fondation à membres. En adhérant, vous ne vous contentez pas de soutenir, vous participez activement à la gouvernance, aux orientations et à la vie de la fondation.
             </p>
 
             {/* Avantages */}
@@ -73,7 +73,7 @@ export default function MembershipSection() {
             <div className="sm:col-span-2 bg-gray-50 border border-gray-200 rounded-2xl p-5 flex items-center justify-between gap-4">
               <div>
                 <p className="text-gray-800 font-semibold text-sm mb-1">Pas encore prêt à adhérer ?</p>
-                <p className="text-gray-500 text-xs">Contribuez en tant que bénévole — votre temps est aussi précieux.</p>
+                <p className="text-gray-500 text-xs">Contribuez en tant que bénévole, votre temps est aussi précieux.</p>
               </div>
               <Link
                 to="/volunteering"

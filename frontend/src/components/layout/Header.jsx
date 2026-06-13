@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useAuthStore } from '../../store/auth';
 
 // Navigation alignée sur le PRD FAAZ
@@ -362,89 +363,139 @@ export default function Header() {
       </button>
 
       {/* ══════════════════════ DONATE DRAWER ══════════════════════ */}
-      {donateOpen && (
-        <>
-          <div className="donate-overlay" onClick={() => setDonateOpen(false)} />
-          <aside
-            id="donate-drawer"
-            className={`donate-drawer ${donateOpen ? 'open' : ''}`}
-            role="dialog"
-            aria-label="Faire un don"
-          >
-            {/* Header */}
-            <div className="donate-header">
-              <h3>Faire un don</h3>
-              <button
-                className="donate-close"
-                aria-label="Fermer"
-                onClick={() => setDonateOpen(false)}
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                  <line x1="18" y1="6" x2="6" y2="18"/>
-                  <line x1="6" y1="6" x2="18" y2="18"/>
-                </svg>
-              </button>
-            </div>
-
-            {/* Tabs once / mensuel */}
-            <div className="donate-tabs">
-              <button
-                className={`donate-tab ${donatePlan === 'once' ? 'active' : ''}`}
-                onClick={() => setDonatePlan('once')}
-              >
-                Don unique
-              </button>
-              <button
-                className={`donate-tab ${donatePlan === 'monthly' ? 'active' : ''}`}
-                onClick={() => setDonatePlan('monthly')}
-              >
-                Mensuel
-              </button>
-            </div>
-
-            {/* Presets */}
-            <div className="donate-presets">
-              {DONATE_PRESETS.map((v) => (
-                <button
-                  key={v}
-                  className={`donate-chip ${donateAmount === v ? 'active' : ''}`}
-                  onClick={() => setDonateAmount(v)}
-                >
-                  {v.toLocaleString('fr-FR')}
-                </button>
-              ))}
-              <button
-                className={`donate-chip ${!DONATE_PRESETS.includes(donateAmount) ? 'active' : ''}`}
-                onClick={() => setDonateAmount(0)}
-              >
-                Autre
-              </button>
-            </div>
-
-            {/* Saisie libre */}
-            <div className="donate-input">
-              <span className="donate-currency">FCFA</span>
-              <input
-                type="number"
-                min="0"
-                value={donateAmount || ''}
-                onChange={(e) => setDonateAmount(Number(e.target.value))}
-                placeholder="Montant libre"
-              />
-            </div>
-
-            <button
-              className="donate-cta"
-              onClick={() => {
-                /* TODO : connecter au checkout KKiaPay / PayPal */
-                setDonateOpen(false);
-              }}
+      <AnimatePresence>
+        {donateOpen && (
+          <>
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[100] bg-slate-900/40 backdrop-blur-sm" 
+              onClick={() => setDonateOpen(false)} 
+            />
+            <motion.aside
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              id="donate-drawer"
+              className="fixed top-0 right-0 z-[101] h-full w-full max-w-[420px] bg-white shadow-2xl flex flex-col"
+              role="dialog"
+              aria-label="Faire un don"
             >
-              Donner maintenant
-            </button>
-          </aside>
-        </>
-      )}
+              {/* Header */}
+              <div className="px-6 py-5 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
+                <h3 className="font-heading font-extrabold text-xl text-slate-800">Faire un don</h3>
+                <button
+                  className="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-800 transition-colors"
+                  aria-label="Fermer"
+                  onClick={() => setDonateOpen(false)}
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true" strokeLinecap="round">
+                    <line x1="18" y1="6" x2="6" y2="18"/>
+                    <line x1="6" y1="6" x2="18" y2="18"/>
+                  </svg>
+                </button>
+              </div>
+
+              <div className="flex-1 overflow-y-auto p-6 flex flex-col gap-8">
+                
+                {/* Type de don */}
+                <div>
+                  <p className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-3 font-body">Type de soutien</p>
+                  <div className="flex p-1 bg-slate-100 rounded-xl">
+                    <button
+                      className={`flex-1 py-2.5 text-sm font-bold rounded-lg transition-all duration-300 ${donatePlan === 'once' ? 'bg-white text-primary-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                      onClick={() => setDonatePlan('once')}
+                    >
+                      Don unique
+                    </button>
+                    <button
+                      className={`flex-1 py-2.5 text-sm font-bold rounded-lg transition-all duration-300 ${donatePlan === 'monthly' ? 'bg-white text-primary-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}
+                      onClick={() => setDonatePlan('monthly')}
+                    >
+                      Mensuel
+                    </button>
+                  </div>
+                </div>
+
+                {/* Montant (Presets) */}
+                <div>
+                  <p className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-3 font-body">Montant</p>
+                  <div className="grid grid-cols-2 gap-3">
+                    {DONATE_PRESETS.map((v) => (
+                      <button
+                        key={v}
+                        className={`py-3 px-4 rounded-xl font-bold border-2 transition-all duration-300 ${donateAmount === v ? 'border-primary-500 bg-primary-50 text-primary-700' : 'border-slate-100 bg-white text-slate-600 hover:border-slate-200 hover:bg-slate-50'}`}
+                        onClick={() => setDonateAmount(v)}
+                      >
+                        {v.toLocaleString('fr-FR')} FCFA
+                      </button>
+                    ))}
+                    <button
+                      className={`py-3 px-4 rounded-xl font-bold border-2 transition-all duration-300 ${!DONATE_PRESETS.includes(donateAmount) ? 'border-primary-500 bg-primary-50 text-primary-700' : 'border-slate-100 bg-white text-slate-600 hover:border-slate-200 hover:bg-slate-50'}`}
+                      onClick={() => setDonateAmount(0)}
+                    >
+                      Autre montant
+                    </button>
+                  </div>
+                </div>
+
+                {/* Saisie libre */}
+                <motion.div 
+                  initial={false}
+                  animate={{ 
+                    height: !DONATE_PRESETS.includes(donateAmount) ? 'auto' : 0, 
+                    opacity: !DONATE_PRESETS.includes(donateAmount) ? 1 : 0 
+                  }}
+                  className="overflow-hidden"
+                >
+                  <div className="pt-2">
+                    <div className="relative">
+                      <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-bold">FCFA</span>
+                      <input
+                        type="number"
+                        min="0"
+                        value={donateAmount || ''}
+                        onChange={(e) => setDonateAmount(Number(e.target.value))}
+                        placeholder="Saisissez un montant..."
+                        className="w-full pl-16 pr-4 py-4 rounded-xl border-2 border-slate-200 focus:border-primary-500 focus:ring-0 text-lg font-bold text-slate-800 transition-colors"
+                      />
+                    </div>
+                  </div>
+                </motion.div>
+
+                {/* Avantage fiscal / Info */}
+                <div className="bg-emerald-50 rounded-xl p-4 flex gap-3 items-start border border-emerald-100">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-emerald-500 shrink-0 mt-0.5">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                  </svg>
+                  <p className="text-sm text-emerald-800 font-body leading-relaxed">
+                    Votre don est 100% sécurisé. La FAAZ s'engage à utiliser l'intégralité de votre don pour financer ses actions sur le terrain.
+                  </p>
+                </div>
+
+              </div>
+
+              {/* Footer / CTA */}
+              <div className="p-6 border-t border-slate-100 bg-white">
+                <button
+                  className="w-full bg-gradient-to-r from-primary-600 to-secondary-600 hover:from-primary-500 hover:to-secondary-500 text-white font-bold text-lg py-4 rounded-xl shadow-lg hover:shadow-primary-500/25 transition-all duration-300 flex items-center justify-center gap-2 group"
+                  onClick={() => {
+                    /* TODO : connecter au checkout KKiaPay / PayPal */
+                    setDonateOpen(false);
+                  }}
+                >
+                  <span>Soutenir à hauteur de {donateAmount ? donateAmount.toLocaleString('fr-FR') + ' FCFA' : '...'}</span>
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="group-hover:translate-x-1 transition-transform">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+                </button>
+              </div>
+            </motion.aside>
+          </>
+        )}
+      </AnimatePresence>
     </>
   );
 }

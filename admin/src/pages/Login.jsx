@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../store/auth';
 import api from '../services/api';
 import { ShieldAlert, Lock, Mail, Loader2, Eye, EyeOff } from 'lucide-react';
+import logoImg from '../assets/img/logo.png';
 
 export default function Login() {
   const { setToken, setUser } = useAuthStore();
@@ -48,7 +49,7 @@ export default function Login() {
       {/* Left decorative panel */}
       <div className="hidden lg:flex lg:w-1/2 bg-white border-r border-slate-200 flex-col items-center justify-center p-16 gap-10">
         <img
-          src="/assets/img/logo.png"
+          src={logoImg}
           alt="Fondation les Amis de A à Z"
           className="h-20 w-auto object-contain"
         />
@@ -74,7 +75,7 @@ export default function Login() {
       <div className="flex-1 flex flex-col items-center justify-center px-6 py-12">
         {/* Mobile logo */}
         <div className="lg:hidden mb-8 flex flex-col items-center gap-3">
-          <img src="/assets/img/logo.png" alt="FAAZ" className="h-14 w-auto object-contain" />
+          <img src={logoImg} alt="FAAZ" className="h-14 w-auto object-contain" />
         </div>
 
         <div className="w-full max-w-sm">
