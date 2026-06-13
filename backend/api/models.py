@@ -300,12 +300,16 @@ from django.dispatch import receiver
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
+    if kwargs.get('raw', False):
+        return
     if created:
         role = 'admin_principal' if instance.is_superuser else 'editeur_contenu'
         UserProfile.objects.get_or_create(user=instance, defaults={'role': role})
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
+    if kwargs.get('raw', False):
+        return
     if hasattr(instance, 'profile'):
         instance.profile.save()
     else:
