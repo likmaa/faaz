@@ -39,7 +39,7 @@ export default function Profile() {
         setLoading(false);
       });
 
-    // Inject KKiaPay script
+    // Launch KKiaPay Widget
     const script = document.createElement('script');
     script.src = "https://cdn.kkiapay.me/k.js";
     script.async = true;
@@ -74,6 +74,11 @@ export default function Profile() {
 
     if (typeof window.openKkiapayWidget === 'undefined') {
       setError("Le service de paiement est en cours de chargement. Veuillez patienter.");
+      return;
+    }
+
+    if (!kkiapayKey) {
+      setError("Le système de paiement n'est pas encore configuré par l'administrateur.");
       return;
     }
 

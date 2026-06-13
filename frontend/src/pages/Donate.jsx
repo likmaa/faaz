@@ -61,6 +61,12 @@ export default function Donate() {
       return;
     }
 
+    if (!kkiapayKey) {
+      setError("Le système de paiement n'est pas encore configuré par l'administrateur.");
+      setLoading(false);
+      return;
+    }
+
     // Launch KKiaPay Widget
     window.openKkiapayWidget({
       amount: amount,
