@@ -125,7 +125,7 @@
     "pk": 5,
     "fields": {
       "key": "vision",
-      "value": "\u00c9panouissement durable de l'humanit\u00e9 \u2014 un B\u00e9nin o\u00f9 chaque personne vuln\u00e9rable est accompagn\u00e9e avec dignit\u00e9.",
+      "value": "\u00c9panouissement durable de l'humanit\u00e9 - un B\u00e9nin o\u00f9 chaque personne vuln\u00e9rable est accompagn\u00e9e avec dignit\u00e9.",
       "description": ""
     }
   },
@@ -294,7 +294,7 @@
     "pk": 32,
     "fields": {
       "question": "Puis-je faire un don anonyme ?",
-      "answer": "Oui. Lors du processus de don, vous avez le choix entre :\n\n\u2014 Don anonyme : aucune information personnelle enregistr\u00e9e. Le don est comptabilis\u00e9 mais aucun re\u00e7u ne peut \u00eatre \u00e9mis.\n\n\u2014 Don identifi\u00e9 : vous laissez votre pr\u00e9nom, nom et e-mail pour recevoir un re\u00e7u officiel et suivre votre impact.\n\nLes deux options sont totalement accept\u00e9es.",
+      "answer": "Oui. Lors du processus de don, vous avez le choix entre :\n\n- Don anonyme : aucune information personnelle enregistr\u00e9e. Le don est comptabilis\u00e9 mais aucun re\u00e7u ne peut \u00eatre \u00e9mis.\n\n- Don identifi\u00e9 : vous laissez votre pr\u00e9nom, nom et e-mail pour recevoir un re\u00e7u officiel et suivre votre impact.\n\nLes deux options sont totalement accept\u00e9es.",
       "category": "Dons",
       "order": 2,
       "status": "publie"
@@ -327,7 +327,7 @@
     "pk": 35,
     "fields": {
       "question": "Quels sont les montants de l'adh\u00e9sion et de la cotisation ?",
-      "answer": "\u2014 Droit d'adh\u00e9sion (unique, \u00e0 verser \u00e0 l'inscription) : 10 000 FCFA (~15 \u20ac)\n\u2014 Cotisation annuelle : 25 000 FCFA (~40 \u20ac), \u00e0 r\u00e9gler avant le 30 juin de chaque ann\u00e9e.\n\nCes montants sont fix\u00e9s par les statuts de la fondation et valid\u00e9s en Assembl\u00e9e G\u00e9n\u00e9rale.",
+      "answer": "- Droit d'adh\u00e9sion (unique, \u00e0 verser \u00e0 l'inscription) : 10 000 FCFA (~15  euros)\n- Cotisation annuelle : 25 000 FCFA (~40  euros), \u00e0 r\u00e9gler avant le 30 juin de chaque ann\u00e9e.\n\nCes montants sont fix\u00e9s par les statuts de la fondation et valid\u00e9s en Assembl\u00e9e G\u00e9n\u00e9rale.",
       "category": "Adh\u00e9sion",
       "order": 5,
       "status": "publie"
@@ -338,7 +338,7 @@
     "pk": 36,
     "fields": {
       "question": "Quelles sont les conditions pour adh\u00e9rer \u00e0 la FAAZ ?",
-      "answer": "Toute personne physique ou morale peut adh\u00e9rer \u00e0 la FAAZ, sous r\u00e9serve de :\n\n\u2014 \u00catre de bonne moralit\u00e9.\n\u2014 Adh\u00e9rer aux statuts et au r\u00e8glement int\u00e9rieur de la fondation.\n\u2014 S'approprier la vision et les valeurs de la FAAZ.\n\u2014 R\u00e9gler le droit d'adh\u00e9sion de 10 000 FCFA.\n\u2014 Payer la cotisation annuelle de 25 000 FCFA.\n\nL'adh\u00e9sion est soumise \u00e0 l'approbation du Conseil d'Administration.",
+      "answer": "Toute personne physique ou morale peut adh\u00e9rer \u00e0 la FAAZ, sous r\u00e9serve de :\n\n- \u00catre de bonne moralit\u00e9.\n- Adh\u00e9rer aux statuts et au r\u00e8glement int\u00e9rieur de la fondation.\n- S'approprier la vision et les valeurs de la FAAZ.\n- R\u00e9gler le droit d'adh\u00e9sion de 10 000 FCFA.\n- Payer la cotisation annuelle de 25 000 FCFA.\n\nL'adh\u00e9sion est soumise \u00e0 l'approbation du Conseil d'Administration.",
       "category": "Adh\u00e9sion",
       "order": 6,
       "status": "publie"
@@ -419,7 +419,7 @@
     "model": "api.axe",
     "pk": 19,
     "fields": {
-      "name": "Assistance aux personnes du 3\u1d49 \u00e2ge",
+      "name": "Assistance aux personnes du 3e \u00e2ge",
       "description": "",
       "status": "a_venir"
     }
@@ -474,7 +474,7 @@
     "fields": {
       "title": "Dons de vivres aux orphelins",
       "slug": "dons-de-vivres",
-      "description": "Aucun enfant ne devrait souffrir de la faim. Ce projet organise des collectes et remises de vivres (ma\u00efs, riz, huile, haricot, gari, \u0153ufs, sucre, Milo, lait, macaronis) aux orphelinats partenaires, pour couvrir plusieurs mois d'alimentation.",
+      "description": "Aucun enfant ne devrait souffrir de la faim. Ce projet organise des collectes et remises de vivres (ma\u00efs, riz, huile, haricot, gari, oeufs, sucre, Milo, lait, macaronis) aux orphelinats partenaires, pour couvrir plusieurs mois d'alimentation.",
       "axe": 16,
       "pdf_file": "",
       "image": "/img/accueil1.png",
@@ -508,7 +508,7 @@
     "fields": {
       "title": "No\u00ebl aux orphelins",
       "slug": "noel-aux-orphelins",
-      "description": "Chaque enfant a le droit de f\u00eater No\u00ebl avec joie. La FAAZ organise chaque 25 d\u00e9cembre une f\u00eate pour les orphelins de ses centres partenaires : repas de f\u00eate, g\u00e2teaux et cadeaux soigneusement choisis (jeux de soci\u00e9t\u00e9, poup\u00e9es, scrabble, voitures miniatures, guitare\u2026).",
+      "description": "Chaque enfant a le droit de f\u00eater No\u00ebl avec joie. La FAAZ organise chaque 25 d\u00e9cembre une f\u00eate pour les orphelins de ses centres partenaires : repas de f\u00eate, g\u00e2teaux et cadeaux soigneusement choisis (jeux de soci\u00e9t\u00e9, poup\u00e9es, scrabble, voitures miniatures, guitare).",
       "axe": 16,
       "pdf_file": "",
       "image": "/img/about1.png",
@@ -540,7 +540,7 @@
     "model": "api.project",
     "pk": 24,
     "fields": {
-      "title": "Coaching de la jeunesse \u2014 Phase 1",
+      "title": "Coaching de la jeunesse - Phase 1",
       "slug": "coaching-jeunesse-phase1",
       "description": "Programme de coaching et de leadership transformationnel destin\u00e9 aux jeunes b\u00e9ninois. La Phase 1 a rassembl\u00e9 28 jeunes pour des sessions intensives sur les comp\u00e9tences de vie, l'orientation professionnelle et la sant\u00e9 mentale. La Phase 2 est en pr\u00e9paration.",
       "axe": 18,
@@ -643,7 +643,7 @@
     "fields": {
       "project": 19,
       "title": "108 orphelins nourris  3 \u00e9ditions de dons de vivres",
-      "story": "Trois fois en quatre ans, la FAAZ a approvisionn\u00e9 l'Orphelinat Saint Dominique d'Azowliss\u00e8 en vivres essentiels : ma\u00efs, riz, huile, haricot, gari, \u0153ufs, sucre, Milo, lait, macaronis. 108 enfants ont b\u00e9n\u00e9fici\u00e9 de ces dons, couvrant plusieurs mois d'alimentation \u00e0 chaque \u00e9dition. La derni\u00e8re \u00e9dition s'est tenue le 28 f\u00e9vrier 2026.",
+      "story": "Trois fois en quatre ans, la FAAZ a approvisionn\u00e9 l'Orphelinat Saint Dominique d'Azowliss\u00e8 en vivres essentiels : ma\u00efs, riz, huile, haricot, gari, oeufs, sucre, Milo, lait, macaronis. 108 enfants ont b\u00e9n\u00e9fici\u00e9 de ces dons, couvrant plusieurs mois d'alimentation \u00e0 chaque \u00e9dition. La derni\u00e8re \u00e9dition s'est tenue le 28 f\u00e9vrier 2026.",
       "media_urls": [
         "/img/about1.png"
       ],
@@ -671,7 +671,7 @@
     "fields": {
       "project": 19,
       "title": "6 No\u00ebls partag\u00e9s avec les orphelins",
-      "story": "Depuis 2020, chaque 25 d\u00e9cembre, les membres de la FAAZ apportent la f\u00eate aux enfants orphelins de leurs centres partenaires. Repas de f\u00eate, g\u00e2teaux et cadeaux (jeux de soci\u00e9t\u00e9, poup\u00e9es, scrabble, voitures miniatures, guitare\u2026) : 6 \u00e9ditions pour montrer \u00e0 ces enfants qu'ils ne sont pas seuls, que la communaut\u00e9 pense \u00e0 eux.",
+      "story": "Depuis 2020, chaque 25 d\u00e9cembre, les membres de la FAAZ apportent la f\u00eate aux enfants orphelins de leurs centres partenaires. Repas de f\u00eate, g\u00e2teaux et cadeaux (jeux de soci\u00e9t\u00e9, poup\u00e9es, scrabble, voitures miniatures, guitare) : 6 \u00e9ditions pour montrer \u00e0 ces enfants qu'ils ne sont pas seuls, que la communaut\u00e9 pense \u00e0 eux.",
       "media_urls": [
         "/img/accueil1.png"
       ],
@@ -725,8 +725,8 @@
     "model": "api.news",
     "pk": 19,
     "fields": {
-      "title": "4\u1d49 \u00e9dition \u2014 \u00ab Chaque orphelin \u00e0 l'\u00e9cole \u00bb : 29 enfants scolaris\u00e9s \u00e0 Grand-Popo et Toviclin",
-      "content": "Le 20 et 27 septembre 2025, la Fondation les Amis de A \u00e0 Z a organis\u00e9 la 4\u1d49 \u00e9dition du projet \u00ab Chaque orphelin \u00e0 l'\u00e9cole \u00bb dans deux nouveaux centres : le Centre SILOE de Grand-Popo et la Maison de l'Espoir de Toviclin. 29 enfants ont re\u00e7u leurs kits scolaires complets \u2014 cahiers, stylos, cartable, uniforme \u2014 et b\u00e9n\u00e9ficieront d'un suivi p\u00e9dagogique tout au long de l'ann\u00e9e scolaire.\n\nDepuis le lancement en 2021, ce sont d\u00e9sormais 122 orphelins qui ont \u00e9t\u00e9 scolaris\u00e9s gr\u00e2ce \u00e0 ce projet. La FAAZ tient \u00e0 remercier chaleureusement tous les membres et donateurs qui ont rendu cette expansion possible.",
+      "title": "4e \u00e9dition - \u00ab Chaque orphelin \u00e0 l'\u00e9cole \u00bb : 29 enfants scolaris\u00e9s \u00e0 Grand-Popo et Toviclin",
+      "content": "Le 20 et 27 septembre 2025, la Fondation les Amis de A \u00e0 Z a organis\u00e9 la 4e \u00e9dition du projet \u00ab Chaque orphelin \u00e0 l'\u00e9cole \u00bb dans deux nouveaux centres : le Centre SILOE de Grand-Popo et la Maison de l'Espoir de Toviclin. 29 enfants ont re\u00e7u leurs kits scolaires complets - cahiers, stylos, cartable, uniforme - et b\u00e9n\u00e9ficieront d'un suivi p\u00e9dagogique tout au long de l'ann\u00e9e scolaire.\n\nDepuis le lancement en 2021, ce sont d\u00e9sormais 122 orphelins qui ont \u00e9t\u00e9 scolaris\u00e9s gr\u00e2ce \u00e0 ce projet. La FAAZ tient \u00e0 remercier chaleureusement tous les membres et donateurs qui ont rendu cette expansion possible.",
       "category": "Enfance",
       "cover_image": "/img/about1.png",
       "date": "2025-09-30",
@@ -739,8 +739,8 @@
     "model": "api.news",
     "pk": 20,
     "fields": {
-      "title": "Prix Gnamey 2025 \u2014 6\u1d49 \u00e9dition : l'excellence r\u00e9compens\u00e9e \u00e0 Cotonou et dans 3 nouvelles communes",
-      "content": "Le 5 d\u00e9cembre 2025, la Fondation les Amis de A \u00e0 Z a c\u00e9l\u00e9br\u00e9 la 6\u1d49 \u00e9dition du Prix Gnamey de l'Excellence, en m\u00e9moire du Professeur Gnamey Kouassivi Charles. Conform\u00e9ment \u00e0 la d\u00e9cision de l'Assembl\u00e9e G\u00e9n\u00e9rale du 27 ao\u00fbt 2023, le prix a \u00e9t\u00e9 \u00e9tendu \u00e0 trois nouvelles communes en plus de Cotonou.\n\nLes meilleurs \u00e9l\u00e8ves du CEP, BEPC et BAC ont re\u00e7u des enveloppes de 15 000 \u00e0 200 000 FCFA, des attestations de m\u00e9rite et des b\u00e2ches d'excellence. La fondation perp\u00e9tue ainsi la m\u00e9moire de cet enseignant exemplaire qui a consacr\u00e9 27 ans de sa vie \u00e0 l'\u00e9ducation au CEG K/V\u00eadoko.",
+      "title": "Prix Gnamey 2025 - 6e \u00e9dition : l'excellence r\u00e9compens\u00e9e \u00e0 Cotonou et dans 3 nouvelles communes",
+      "content": "Le 5 d\u00e9cembre 2025, la Fondation les Amis de A \u00e0 Z a c\u00e9l\u00e9br\u00e9 la 6e \u00e9dition du Prix Gnamey de l'Excellence, en m\u00e9moire du Professeur Gnamey Kouassivi Charles. Conform\u00e9ment \u00e0 la d\u00e9cision de l'Assembl\u00e9e G\u00e9n\u00e9rale du 27 ao\u00fbt 2023, le prix a \u00e9t\u00e9 \u00e9tendu \u00e0 trois nouvelles communes en plus de Cotonou.\n\nLes meilleurs \u00e9l\u00e8ves du CEP, BEPC et BAC ont re\u00e7u des enveloppes de 15 000 \u00e0 200 000 FCFA, des attestations de m\u00e9rite et des b\u00e2ches d'excellence. La fondation perp\u00e9tue ainsi la m\u00e9moire de cet enseignant exemplaire qui a consacr\u00e9 27 ans de sa vie \u00e0 l'\u00e9ducation au CEG K/V\u00eadoko.",
       "category": "Excellence scolaire",
       "cover_image": "/img/accueil1.png",
       "date": "2025-12-07",
@@ -753,8 +753,8 @@
     "model": "api.news",
     "pk": 21,
     "fields": {
-      "title": "6\u1d49 \u00e9dition Sant\u00e9 & V\u00eatements \u2014 40 enfants pris en charge le 2 mai 2026",
-      "content": "Le 2 mai 2026, la FAAZ a organis\u00e9 la 6\u1d49 \u00e9dition de son projet \u00ab Sant\u00e9 & dons de v\u00eatements \u00bb. 40 enfants orphelins ont b\u00e9n\u00e9fici\u00e9 de consultations m\u00e9dicales gratuites, de s\u00e9ances d'IEC sur l'hygi\u00e8ne et la sant\u00e9, de v\u00eatements neufs et recycl\u00e9s adapt\u00e9s \u00e0 la saison, ainsi que de m\u00e9dicaments et de kits d'hygi\u00e8ne bucco-dentaire.\n\nDepuis le lancement en 2021, ce sont 232 enfants qui ont b\u00e9n\u00e9fici\u00e9 de ce programme de prise en charge globale. M\u00e9decins, infirmiers et membres b\u00e9n\u00e9voles de la fondation se sont mobilis\u00e9s pour cette journ\u00e9e d\u00e9di\u00e9e \u00e0 la sant\u00e9 et au bien-\u00eatre des enfants.",
+      "title": "6e \u00e9dition Sant\u00e9 & V\u00eatements - 40 enfants pris en charge le 2 mai 2026",
+      "content": "Le 2 mai 2026, la FAAZ a organis\u00e9 la 6e \u00e9dition de son projet \u00ab Sant\u00e9 & dons de v\u00eatements \u00bb. 40 enfants orphelins ont b\u00e9n\u00e9fici\u00e9 de consultations m\u00e9dicales gratuites, de s\u00e9ances d'IEC sur l'hygi\u00e8ne et la sant\u00e9, de v\u00eatements neufs et recycl\u00e9s adapt\u00e9s \u00e0 la saison, ainsi que de m\u00e9dicaments et de kits d'hygi\u00e8ne bucco-dentaire.\n\nDepuis le lancement en 2021, ce sont 232 enfants qui ont b\u00e9n\u00e9fici\u00e9 de ce programme de prise en charge globale. M\u00e9decins, infirmiers et membres b\u00e9n\u00e9voles de la fondation se sont mobilis\u00e9s pour cette journ\u00e9e d\u00e9di\u00e9e \u00e0 la sant\u00e9 et au bien-\u00eatre des enfants.",
       "category": "Enfance",
       "cover_image": "/img/close-up-team-hand-shake.jpg",
       "date": "2026-05-05",
@@ -767,8 +767,8 @@
     "model": "api.news",
     "pk": 22,
     "fields": {
-      "title": "3\u1d49 dons de vivres \u00e0 l'Orphelinat Saint Dominique \u2014 36 orphelins approvisionn\u00e9s pour 6 mois",
-      "content": "Le 28 f\u00e9vrier 2026, la Fondation les Amis de A \u00e0 Z a livr\u00e9 sa 3\u1d49 cargaison de vivres \u00e0 l'Orphelinat Saint Dominique d'Azowliss\u00e8, \u00e0 Adjohoun. 36 orphelins disposeront de provisions pour plusieurs mois : ma\u00efs, riz, huile, haricot, gari, \u0153ufs, sucre, Milo, lait et macaronis.\n\nCe projet, initi\u00e9 en juillet 2022, a d\u00e9sormais b\u00e9n\u00e9fici\u00e9 \u00e0 108 enfants au total. La fondation exprime sa gratitude \u00e0 tous ceux qui ont contribu\u00e9 \u00e0 cette action, membres comme donateurs occasionnels.",
+      "title": "3e dons de vivres \u00e0 l'Orphelinat Saint Dominique - 36 orphelins approvisionn\u00e9s pour 6 mois",
+      "content": "Le 28 f\u00e9vrier 2026, la Fondation les Amis de A \u00e0 Z a livr\u00e9 sa 3e cargaison de vivres \u00e0 l'Orphelinat Saint Dominique d'Azowliss\u00e8, \u00e0 Adjohoun. 36 orphelins disposeront de provisions pour plusieurs mois : ma\u00efs, riz, huile, haricot, gari, oeufs, sucre, Milo, lait et macaronis.\n\nCe projet, initi\u00e9 en juillet 2022, a d\u00e9sormais b\u00e9n\u00e9fici\u00e9 \u00e0 108 enfants au total. La fondation exprime sa gratitude \u00e0 tous ceux qui ont contribu\u00e9 \u00e0 cette action, membres comme donateurs occasionnels.",
       "category": "Enfance",
       "cover_image": "/img/about1.png",
       "date": "2026-03-01",
@@ -781,8 +781,8 @@
     "model": "api.news",
     "pk": 23,
     "fields": {
-      "title": "Assembl\u00e9e G\u00e9n\u00e9rale 2025 \u2014 Bilan d'impact et perspectives 2026",
-      "content": "L'Assembl\u00e9e G\u00e9n\u00e9rale annuelle de la Fondation les Amis de A \u00e0 Z s'est r\u00e9unie conform\u00e9ment aux statuts avant la fin du premier semestre 2025. Les membres ont valid\u00e9 le bilan de l'exercice \u00e9coul\u00e9, adopt\u00e9 le plan d'action 2025\u20132026 et renouvel\u00e9 une partie du Conseil d'Administration.\n\nParmi les d\u00e9cisions majeures : renforcement du programme de coaching jeunesse (Phase 2), ouverture officielle des r\u00e9flexions sur le programme d'assistance aux personnes du 3\u1d49 \u00e2ge, et extension du Prix Gnamey \u00e0 de nouvelles communes. La fondation compte sur la mobilisation de l'ensemble de ses membres pour concr\u00e9tiser ces ambitions.",
+      "title": "Assembl\u00e9e G\u00e9n\u00e9rale 2025 - Bilan d'impact et perspectives 2026",
+      "content": "L'Assembl\u00e9e G\u00e9n\u00e9rale annuelle de la Fondation les Amis de A \u00e0 Z s'est r\u00e9unie conform\u00e9ment aux statuts avant la fin du premier semestre 2025. Les membres ont valid\u00e9 le bilan de l'exercice \u00e9coul\u00e9, adopt\u00e9 le plan d'action 2025-2026 et renouvel\u00e9 une partie du Conseil d'Administration.\n\nParmi les d\u00e9cisions majeures : renforcement du programme de coaching jeunesse (Phase 2), ouverture officielle des r\u00e9flexions sur le programme d'assistance aux personnes du 3e \u00e2ge, et extension du Prix Gnamey \u00e0 de nouvelles communes. La fondation compte sur la mobilisation de l'ensemble de ses membres pour concr\u00e9tiser ces ambitions.",
       "category": "Vie associative",
       "cover_image": "/img/accueil1.png",
       "date": "2025-06-20",
@@ -795,7 +795,7 @@
     "model": "api.news",
     "pk": 24,
     "fields": {
-      "title": "Coaching jeunesse Phase 1 \u2014 Retour sur une journ\u00e9e transformatrice",
+      "title": "Coaching jeunesse Phase 1 - Retour sur une journ\u00e9e transformatrice",
       "content": "Le 12 mars 2022, la FAAZ a r\u00e9uni 28 jeunes au Royal Space H\u00f4tel d'Abomey-Calavi pour la Phase 1 de son programme de coaching et de leadership transformationnel. Une journ\u00e9e intensive ponctu\u00e9e de sessions sur les comp\u00e9tences de vie, l'orientation professionnelle et la sant\u00e9 mentale.\n\n\u00ab Cette journ\u00e9e m'a ouvert les yeux sur ce dont j'\u00e9tais capable \u00bb, t\u00e9moigne l'un des participants. La fondation pr\u00e9pare actuellement la Phase 2 de ce programme, avec l'ambition de toucher un public plus large et d'int\u00e9grer un volet entrepreneuriat.",
       "category": "Jeunesse",
       "cover_image": "/img/close-up-team-hand-shake.jpg",
@@ -810,7 +810,7 @@
     "pk": 25,
     "fields": {
       "offer_type": "emploi",
-      "title": "Charg\u00e9(e) de programmes \u2014 \u00c9ducation & Jeunesse",
+      "title": "Charg\u00e9(e) de programmes - \u00c9ducation & Jeunesse",
       "pdf_file": "",
       "status": "ouvert",
       "created_at": "2026-06-05T02:48:15.962Z"
@@ -865,7 +865,7 @@
     "pk": 30,
     "fields": {
       "offer_type": "b\u00e9n\u00e9volat",
-      "title": "Agents de terrain \u2014 distribution d'aide humanitaire",
+      "title": "Agents de terrain - distribution d'aide humanitaire",
       "pdf_file": "",
       "status": "ouvert",
       "created_at": "2026-06-05T02:48:15.967Z"
@@ -876,7 +876,7 @@
     "pk": 31,
     "fields": {
       "offer_type": "stage",
-      "title": "Stage \u2014 Suivi & \u00c9valuation de projets",
+      "title": "Stage - Suivi & \u00c9valuation de projets",
       "pdf_file": "",
       "status": "ouvert",
       "created_at": "2026-06-05T02:48:15.968Z"
@@ -887,7 +887,7 @@
     "pk": 32,
     "fields": {
       "offer_type": "stage",
-      "title": "Stage \u2014 Communication Digitale & Cr\u00e9ation de Contenu",
+      "title": "Stage - Communication Digitale & Cr\u00e9ation de Contenu",
       "pdf_file": "",
       "status": "ouvert",
       "created_at": "2026-06-05T02:48:15.969Z"
