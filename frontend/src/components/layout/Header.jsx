@@ -482,11 +482,15 @@ export default function Header() {
                 <button
                   className="w-full bg-gradient-to-r from-primary-600 to-secondary-600 hover:from-primary-500 hover:to-secondary-500 text-white font-bold text-lg py-4 rounded-xl shadow-lg hover:shadow-primary-500/25 transition-all duration-300 flex items-center justify-center gap-2 group"
                   onClick={() => {
-                    /* TODO : connecter au checkout KKiaPay / PayPal */
                     setDonateOpen(false);
+                    if (donateAmount) {
+                      window.location.href = `/donate?amount=${donateAmount}`;
+                    } else {
+                      window.location.href = '/donate';
+                    }
                   }}
                 >
-                  <span>Soutenir à hauteur de {donateAmount ? donateAmount.toLocaleString('fr-FR') + ' FCFA' : '...'}</span>
+                  <span>Soutenir {donateAmount ? `à hauteur de ${donateAmount.toLocaleString('fr-FR')} FCFA` : ''}</span>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="group-hover:translate-x-1 transition-transform">
                     <path d="M5 12h14M12 5l7 7-7 7"/>
                   </svg>

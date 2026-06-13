@@ -43,8 +43,19 @@ export default function Donate() {
       })
       .catch(err => console.warn("Could not load KKiaPay key from settings", err));
 
+    // Parse amount from URL if present
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('amount')) {
+      const urlAmount = parseInt(params.get('amount'), 10);
+      if (!isNaN(urlAmount) && urlAmount > 0) {
+        setAmount(urlAmount);
+      }
+    }
+
     return () => {
-      document.body.removeChild(script);
+      if (document.body.contains(script)) {
+        document.body.removeChild(script);
+      }
     };
   }, []);
 
