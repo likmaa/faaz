@@ -1,1 +1,957 @@
-[{"model": "auth.user", "fields": {"password": "pbkdf2_sha256$1200000$NsDS3W6Vi0h5lbQTfkkp7J$iRtSqe23WphtxjIYAJUMgY/z9JT+VMiTcoMaAFeNuH8=", "last_login": "2026-06-12T15:14:02.238Z", "is_superuser": true, "username": "admin", "first_name": "Abdoul Malik", "last_name": "AKOGO", "email": "admin@faaz.org", "is_staff": true, "is_active": true, "date_joined": "2026-06-05T00:01:39.354Z", "groups": [], "user_permissions": []}}, {"model": "auth.user", "fields": {"password": "pbkdf2_sha256$1200000$SLKPCUuOPA19OKd5QRscXW$a7cmJ0uNRwkNSyBRzh/du4SWv0Y2JnPLYI1o8Q4KUXo=", "last_login": null, "is_superuser": false, "username": "jean.dupont", "first_name": "Jean", "last_name": "Dupont", "email": "jean.dupont@example.com", "is_staff": false, "is_active": true, "date_joined": "2026-06-05T03:14:41.276Z", "groups": [], "user_permissions": []}}, {"model": "auth.user", "fields": {"password": "pbkdf2_sha256$1200000$CrCGG56mJxJiRPvWqYUsBl$9K4nGB3MJVNIZkftaOWZWt1Uo3ZTjgmuFN9ZKHAwD0c=", "last_login": "2026-06-05T15:00:24.835Z", "is_superuser": false, "username": "test_gestionnaire", "first_name": "", "last_name": "", "email": "gest@test.org", "is_staff": true, "is_active": true, "date_joined": "2026-06-05T14:41:10.781Z", "groups": [], "user_permissions": []}}, {"model": "auth.user", "fields": {"password": "pbkdf2_sha256$1200000$QaNdNUQXa7mPXYYpPlyqvf$OdmIN223ekDHhipHvuzoPPEZmvabEJ95nkcxMC9bCc0=", "last_login": "2026-06-05T15:04:58.918Z", "is_superuser": false, "username": "test_tresorier", "first_name": "", "last_name": "", "email": "tres@test.org", "is_staff": true, "is_active": true, "date_joined": "2026-06-05T14:41:11.481Z", "groups": [], "user_permissions": []}}, {"model": "auth.user", "fields": {"password": "pbkdf2_sha256$1200000$EkKsDA7USQw0RRZeZfv3za$Z6r+cwAnxmd6PbdyVKu74/i4Hs9e7a4+ufRebSMZbPA=", "last_login": null, "is_superuser": false, "username": "test_editor", "first_name": "", "last_name": "", "email": "edit@test.org", "is_staff": true, "is_active": true, "date_joined": "2026-06-05T14:41:12.528Z", "groups": [], "user_permissions": []}}, {"model": "api.cmssetting", "pk": 1, "fields": {"key": "slogan", "value": "FAAZ : Ensemble pour un avenir meilleur.", "description": ""}}, {"model": "api.cmssetting", "pk": 2, "fields": {"key": "mission", "value": "Promouvoir le bien-être des personnes les plus vulnérables à travers des actions solidaires, structurées et à impact mesurable.", "description": ""}}, {"model": "api.cmssetting", "pk": 3, "fields": {"key": "name", "value": "Fondation les Amis de A à Z", "description": ""}}, {"model": "api.cmssetting", "pk": 4, "fields": {"key": "email", "value": "info@lafaaz.org", "description": ""}}, {"model": "api.cmssetting", "pk": 5, "fields": {"key": "vision", "value": "Épanouissement durable de l'humanité — un Bénin où chaque personne vulnérable est accompagnée avec dignité.", "description": ""}}, {"model": "api.cmssetting", "pk": 6, "fields": {"key": "address", "value": "Cotonou, Bénin", "description": ""}}, {"model": "api.cmssetting", "pk": 7, "fields": {"key": "about_text", "value": "La FAAZ - Fondation les Amis de A à Z est une ONG béninoise à membres fondée sur un engagement simple : promouvoir le bien-être des personnes les plus vulnérables. Orphelins, élèves méritants, jeunes en quête de repères, personnes âgées isolées : chaque action de la FAAZ part d'une conviction, celle que l'amitié peut changer des vies.", "description": ""}}, {"model": "api.cmssetting", "pk": 8, "fields": {"key": "phone", "value": "01 97 60 38 05", "description": ""}}, {"model": "api.cmssetting", "pk": 9, "fields": {"key": "facebook", "value": "", "description": ""}}, {"model": "api.cmssetting", "pk": 10, "fields": {"key": "instagram", "value": "", "description": ""}}, {"model": "api.cmssetting", "pk": 11, "fields": {"key": "youtube", "value": "", "description": ""}}, {"model": "api.cmssetting", "pk": 12, "fields": {"key": "twitter", "value": "", "description": ""}}, {"model": "api.cmssetting", "pk": 13, "fields": {"key": "tiktok", "value": "", "description": ""}}, {"model": "api.teammember", "pk": 13, "fields": {"first_name": "Dr. Koffi", "last_name": "Gnamey", "role": "Président de la fondation", "photo": "/img/president.png", "order": 1}}, {"model": "api.teammember", "pk": 14, "fields": {"first_name": "Mme Sika", "last_name": "Adjovi", "role": "Secrétaire Générale", "photo": "/img/secretaire.png", "order": 2}}, {"model": "api.teammember", "pk": 15, "fields": {"first_name": "M. Bruno", "last_name": "Soglo", "role": "Trésorier Général", "photo": "/img/tresorier.png", "order": 3}}, {"model": "api.teammember", "pk": 16, "fields": {"first_name": "M. Damien", "last_name": "Dossou", "role": "Directeur Exécutif", "photo": "/img/directeur.png", "order": 4}}, {"model": "api.testimonial", "pk": 1, "fields": {"name": "Ablavi G.", "role": "Secrétaire Générale, Orphelinat Saint Dominique", "amount": null, "message": "Grâce au projet 'Chaque orphelin à l'école' de la FAAZ, 122 enfants ont pu s'inscrire cette année avec toutes leurs fournitures scolaires. C'est un suivi continu qui change des vies.", "created_at": "2026-06-05T02:48:15.975Z"}}, {"model": "api.testimonial", "pk": 2, "fields": {"name": "Koffi M.", "role": "Donateur actif, Diaspora Béninoise (Paris)", "amount": "50 000", "message": "La transparence financière absolue de la fondation est ce qui m'a convaincu. Chaque franc versé est tracé et on suit l'avancement des projets en temps réel sur le site.", "created_at": "2026-06-05T02:48:15.976Z"}}, {"model": "api.testimonial", "pk": 3, "fields": {"name": "Dr. Saliou B.", "role": "Coordinateur des campagnes médicales (Porto-Novo)", "amount": null, "message": "Les consultations gratuites organisées par la FAAZ permettent d'apporter des soins de base à des populations isolées. L'engagement des bénévoles est tout simplement admirable.", "created_at": "2026-06-05T02:48:15.977Z"}}, {"model": "api.faqitem", "pk": 31, "fields": {"question": "Comment faire un don à la FAAZ ?", "answer": "Vous pouvez faire un don de plusieurs façons :\n\n1. Via le bouton « DONATE » présent sur toutes les pages du site : il ouvre un formulaire rapide où vous choisissez le montant (en FCFA) et le canal de paiement.\n\n2. En choisissant un projet précis sur la page « Nos projets » et en cliquant sur « Soutenir ce projet ».\n\n3. Par mobile money : numéro MoMo Pay disponible sur la page de don.\n\n4. Par virement bancaire : nos coordonnées bancaires sont disponibles sur la page de don.\n\nPour les dons par carte ou via PayPal (diaspora), l'intégration est disponible sur la page de don. Un reçu vous est envoyé par e-mail après chaque transaction.", "category": "Dons", "order": 1, "status": "publie"}}, {"model": "api.faqitem", "pk": 32, "fields": {"question": "Puis-je faire un don anonyme ?", "answer": "Oui. Lors du processus de don, vous avez le choix entre :\n\n— Don anonyme : aucune information personnelle enregistrée. Le don est comptabilisé mais aucun reçu ne peut être émis.\n\n— Don identifié : vous laissez votre prénom, nom et e-mail pour recevoir un reçu officiel et suivre votre impact.\n\nLes deux options sont totalement acceptées.", "category": "Dons", "order": 2, "status": "publie"}}, {"model": "api.faqitem", "pk": 33, "fields": {"question": "Y a-t-il des frais sur les dons ?", "answer": "Les agrégateurs de paiement prélèvent environ 3 % de frais par transaction (KKiaPay, PayPal). Ces frais sont à la charge du donateur ou de la fondation selon le canal choisi.\n\nPour les virements bancaires directs ou les dépôts MoMo Pay, les frais sont ceux de votre opérateur. La fondation publie ses comptes annuellement pour garantir la transparence.", "category": "Dons", "order": 3, "status": "publie"}}, {"model": "api.faqitem", "pk": 34, "fields": {"question": "Comment devenir membre de la FAAZ ?", "answer": "Pour rejoindre la communauté FAAZ :\n\n1. Remplissez le formulaire d'adhésion sur la page « Devenir membre ».\n2. L'équipe examine votre dossier (bonne moralité, adhésion aux statuts, appropriation de la vision).\n3. Après validation, vous réglez le droit d'adhésion de 10 000 FCFA.\n4. Votre adhésion est activée et vous accédez à l'espace membre.\n\nLa cotisation annuelle de 25 000 FCFA est due au plus tard le 30 juin de chaque exercice.", "category": "Adhésion", "order": 4, "status": "publie"}}, {"model": "api.faqitem", "pk": 35, "fields": {"question": "Quels sont les montants de l'adhésion et de la cotisation ?", "answer": "— Droit d'adhésion (unique, à verser à l'inscription) : 10 000 FCFA (~15 €)\n— Cotisation annuelle : 25 000 FCFA (~40 €), à régler avant le 30 juin de chaque année.\n\nCes montants sont fixés par les statuts de la fondation et validés en Assemblée Générale.", "category": "Adhésion", "order": 5, "status": "publie"}}, {"model": "api.faqitem", "pk": 36, "fields": {"question": "Quelles sont les conditions pour adhérer à la FAAZ ?", "answer": "Toute personne physique ou morale peut adhérer à la FAAZ, sous réserve de :\n\n— Être de bonne moralité.\n— Adhérer aux statuts et au règlement intérieur de la fondation.\n— S'approprier la vision et les valeurs de la FAAZ.\n— Régler le droit d'adhésion de 10 000 FCFA.\n— Payer la cotisation annuelle de 25 000 FCFA.\n\nL'adhésion est soumise à l'approbation du Conseil d'Administration.", "category": "Adhésion", "order": 6, "status": "publie"}}, {"model": "api.faqitem", "pk": 37, "fields": {"question": "Comment devenir bénévole à la FAAZ ?", "answer": "Consultez nos offres de bénévolat sur la page « Devenir bénévole ». Pour chaque mission, un descriptif complet et un formulaire de candidature sont disponibles.\n\nUn modèle de lettre de motivation est téléchargeable sur cette même page pour vous aider dans votre démarche. Notre équipe vous contactera sous 2 semaines après réception de votre candidature.", "category": "Bénévolat & Recrutement", "order": 7, "status": "publie"}}, {"model": "api.faqitem", "pk": 38, "fields": {"question": "Puis-je m'engager depuis la diaspora ?", "answer": "Absolument ! La diaspora est un pilier essentiel de la FAAZ. Vous pouvez contribuer à distance : bénévolat de compétences (communication, traduction, conseil), don financier, parrainage d'un orphelin, ou rôle d'ambassadeur FAAZ dans votre pays de résidence.\n\nContactez-nous à contact@lafaaz.org pour discuter de la forme d'engagement la plus adaptée à votre situation.", "category": "Bénévolat & Recrutement", "order": 8, "status": "publie"}}, {"model": "api.faqitem", "pk": 39, "fields": {"question": "Qu'est-ce que le Prix Gnamey de l'Excellence ?", "answer": "Le Prix Gnamey de l'Excellence est décerné chaque année par la FAAZ en mémoire du Professeur Gnamey Kouassivi Charles, enseignant au CEG K/Vêdoko pendant 27 ans, décédé le 4 décembre 2018.\n\nIl récompense les meilleurs élèves du CEP, BEPC et BAC dans plusieurs communes du Bénin. Les lauréats reçoivent des enveloppes de 15 000 à 200 000 FCFA, des attestations de mérite et des bâches d'excellence. 6 éditions ont été organisées depuis 2020.", "category": "Général", "order": 9, "status": "publie"}}, {"model": "api.faqitem", "pk": 40, "fields": {"question": "Comment contacter la FAAZ ?", "answer": "Téléphone : +229 97 60 38 05\nE-mail : info@lafaaz.org / contact@lafaaz.org\nSite web : lafaaz.org\n\nVous pouvez aussi nous contacter via nos réseaux sociaux (Facebook, Instagram, X, TikTok, YouTube). Notre équipe est disponible du lundi au vendredi.", "category": "Général", "order": 10, "status": "publie"}}, {"model": "api.axe", "pk": 16, "fields": {"name": "Aide à l'enfance indigente", "description": "", "status": "actif"}}, {"model": "api.axe", "pk": 17, "fields": {"name": "Excellence en milieu scolaire", "description": "", "status": "actif"}}, {"model": "api.axe", "pk": 18, "fields": {"name": "Coaching de la jeunesse & leadership", "description": "", "status": "a_venir"}}, {"model": "api.axe", "pk": 19, "fields": {"name": "Assistance aux personnes du 3ᵉ âge", "description": "", "status": "a_venir"}}, {"model": "api.axe", "pk": 20, "fields": {"name": "Coaching conjugal", "description": "", "status": "a_venir"}}, {"model": "api.axe", "pk": 21, "fields": {"name": "Axe Test", "description": "Test Axe", "status": "actif"}}, {"model": "api.axe", "pk": 22, "fields": {"name": "New Axe", "description": "", "status": "actif"}}, {"model": "api.project", "pk": 19, "fields": {"title": "Chaque orphelin à l'école", "slug": "chaque-orphelin-a-lecole", "description": "Chaque enfant orphelin mérite une chance égale d'apprendre et de s'épanouir. Ce projet finance les frais de scolarité, les fournitures scolaires et le suivi pédagogique des enfants orphelins accueillis dans les centres partenaires de la FAAZ, de Adjohoun à Grand-Popo.", "axe": 16, "pdf_file": "", "image": "/img/about1.png", "target_amount": "2500000.00", "collected_amount": "0.00", "status": "collecte", "localisation": "Adjohoun, Abomey-Calavi, Grand-Popo, Toviclin", "created_at": "2026-06-05T02:48:15.927Z"}}, {"model": "api.project", "pk": 20, "fields": {"title": "Dons de vivres aux orphelins", "slug": "dons-de-vivres", "description": "Aucun enfant ne devrait souffrir de la faim. Ce projet organise des collectes et remises de vivres (maïs, riz, huile, haricot, gari, œufs, sucre, Milo, lait, macaronis) aux orphelinats partenaires, pour couvrir plusieurs mois d'alimentation.", "axe": 16, "pdf_file": "", "image": "/img/accueil1.png", "target_amount": "1200000.00", "collected_amount": "0.00", "status": "collecte", "localisation": "Orphelinat Saint Dominique d'Azowlissè, Adjohoun", "created_at": "2026-06-05T02:48:15.928Z"}}, {"model": "api.project", "pk": 21, "fields": {"title": "Santé & dons de vêtements", "slug": "sante-et-dons-de-vetements", "description": "Consultations médicales gratuites, séances d'IEC (Information, Éducation, Communication), remise de vêtements neufs et recyclés, médicaments et kits d'hygiène bucco-dentaire : ce projet prend soin des enfants orphelins dans leur globalité, corps et santé.", "axe": 16, "pdf_file": "", "image": "/img/close-up-team-hand-shake.jpg", "target_amount": "1800000.00", "collected_amount": "0.00", "status": "collecte", "localisation": "Cotonou et communes partenaires", "created_at": "2026-06-05T02:48:15.930Z"}}, {"model": "api.project", "pk": 22, "fields": {"title": "Noël aux orphelins", "slug": "noel-aux-orphelins", "description": "Chaque enfant a le droit de fêter Noël avec joie. La FAAZ organise chaque 25 décembre une fête pour les orphelins de ses centres partenaires : repas de fête, gâteaux et cadeaux soigneusement choisis (jeux de société, poupées, scrabble, voitures miniatures, guitare…).", "axe": 16, "pdf_file": "", "image": "/img/about1.png", "target_amount": "900000.00", "collected_amount": "810000.00", "status": "collecte", "localisation": "Centres orphelins partenaires, Bénin", "created_at": "2026-06-05T02:48:15.931Z"}}, {"model": "api.project", "pk": 23, "fields": {"title": "Prix Gnamey de l'Excellence", "slug": "prix-gnamey-excellence", "description": "En mémoire du Professeur Gnamey Kouassivi Charles (27 ans d'enseignement au CEG K/Vêdoko, décédé le 4 décembre 2018), la FAAZ décerne chaque année le Prix Gnamey aux meilleurs élèves du CEP, BEPC et BAC. Le prix est assorti d'enveloppes de 15 000 à 200 000 FCFA, d'attestations et de bâches d'excellence.", "axe": 17, "pdf_file": "", "image": "/img/accueil1.png", "target_amount": "3000000.00", "collected_amount": "2400000.00", "status": "collecte", "localisation": "Cotonou, Athiémé, Savalou, Kpomassè et autres communes", "created_at": "2026-06-05T02:48:15.932Z"}}, {"model": "api.project", "pk": 24, "fields": {"title": "Coaching de la jeunesse — Phase 1", "slug": "coaching-jeunesse-phase1", "description": "Programme de coaching et de leadership transformationnel destiné aux jeunes béninois. La Phase 1 a rassemblé 28 jeunes pour des sessions intensives sur les compétences de vie, l'orientation professionnelle et la santé mentale. La Phase 2 est en préparation.", "axe": 18, "pdf_file": "", "image": "/img/close-up-team-hand-shake.jpg", "target_amount": "1500000.00", "collected_amount": "950000.00", "status": "collecte", "localisation": "Royal Space Hôtel, Abomey-Calavi", "created_at": "2026-06-05T02:48:15.933Z"}}, {"model": "api.realisation", "pk": 19, "fields": {"project": 19, "title": "122 orphelins scolarisés en 4 éditions", "story": "Depuis 2021, le projet « Chaque orphelin à l'école » a permis à 122 enfants orphelins d'entamer ou de poursuivre leur scolarité dans de bonnes conditions. Fournitures complètes, uniformes, frais d'inscription et suivi pédagogique mensuel : la FAAZ s'est engagée à côté de ces enfants, édition après édition, de l'Orphelinat Saint Dominique d'Azowlissè à Adjohoun jusqu'aux centres de Grand-Popo et Toviclin.", "media_urls": ["/img/about1.png"], "stats": [{"label": "bénéficiaires", "value": "122"}, {"label": "éditions (2021–2025)", "value": "4"}, {"label": "centres partenaires", "value": "4"}], "date": "2025-09-27", "created_at": "2026-06-05T02:48:15.935Z"}}, {"model": "api.realisation", "pk": 20, "fields": {"project": 23, "title": "6 éditions du Prix Gnamey de l'Excellence", "story": "En hommage au Professeur Gnamey Kouassivi Charles, figure emblématique de l'enseignement au Bénin, la FAAZ décerne chaque année le Prix Gnamey aux meilleurs élèves du CEP, BEPC et BAC. En 6 éditions, le prix a récompensé des dizaines d'élèves méritants à Cotonou, Athiémé, Savalou, Kpomassè et dans d'autres communes. Les enveloppes vont de 15 000 à 200 000 FCFA, accompagnées d'attestations et de bâches d'excellence.", "media_urls": ["/img/accueil1.png"], "stats": [{"label": "éditions (2020–2025)", "value": "6"}, {"label": "FCFA par lauréat", "value": "15 000 à 200 000"}, {"label": "Cotonou + 3 communes", "value": "2025"}], "date": "2025-12-05", "created_at": "2026-06-05T02:48:15.936Z"}}, {"model": "api.realisation", "pk": 21, "fields": {"project": 19, "title": "232 bénéficiaires du programme Santé & Vêtements", "story": "En 6 éditions depuis 2021, le projet « Santé & dons de vêtements » a offert à 232 enfants orphelins des consultations médicales gratuites, des séances d'IEC, des vêtements neufs et recyclés, des médicaments et des kits d'hygiène bucco-dentaire. Chaque édition mobilise médecins, infirmiers et bénévoles de la FAAZ pour une journée complète de prise en charge.", "media_urls": ["/img/close-up-team-hand-shake.jpg"], "stats": [{"label": "bénéficiaires", "value": "232"}, {"label": "éditions (2021–2026)", "value": "6"}, {"label": "consultations + vêtements", "value": "Prise en charge"}], "date": "2026-05-02", "created_at": "2026-06-05T02:48:15.938Z"}}, {"model": "api.realisation", "pk": 22, "fields": {"project": 19, "title": "108 orphelins nourris  3 éditions de dons de vivres", "story": "Trois fois en quatre ans, la FAAZ a approvisionné l'Orphelinat Saint Dominique d'Azowlissè en vivres essentiels : maïs, riz, huile, haricot, gari, œufs, sucre, Milo, lait, macaronis. 108 enfants ont bénéficié de ces dons, couvrant plusieurs mois d'alimentation à chaque édition. La dernière édition s'est tenue le 28 février 2026.", "media_urls": ["/img/about1.png"], "stats": [{"label": "bénéficiaires", "value": "108"}, {"label": "éditions (2022–2026)", "value": "3"}, {"label": "mois de vivres / éd.", "value": "6+"}], "date": "2026-02-28", "created_at": "2026-06-05T02:48:15.939Z"}}, {"model": "api.realisation", "pk": 23, "fields": {"project": 19, "title": "6 Noëls partagés avec les orphelins", "story": "Depuis 2020, chaque 25 décembre, les membres de la FAAZ apportent la fête aux enfants orphelins de leurs centres partenaires. Repas de fête, gâteaux et cadeaux (jeux de société, poupées, scrabble, voitures miniatures, guitare…) : 6 éditions pour montrer à ces enfants qu'ils ne sont pas seuls, que la communauté pense à eux.", "media_urls": ["/img/accueil1.png"], "stats": [{"label": "éditions (2020–2025)", "value": "6"}, {"label": "enfants par édition", "value": "~30"}, {"label": "cadeaux & animations", "value": "Fête"}], "date": "2025-12-25", "created_at": "2026-06-05T02:48:15.941Z"}}, {"model": "api.realisation", "pk": 24, "fields": {"project": 24, "title": "28 jeunes coachés  Phase 1 du programme Leadership", "story": "Le 12 mars 2022 au Royal Space Hôtel d'Abomey-Calavi, la FAAZ a rassemblé 28 jeunes béninois pour la Phase 1 de son programme de coaching et de leadership transformationnel. Au programme : compétences de vie, orientation professionnelle, gestion du stress et santé mentale. Une Phase 2 est en préparation pour toucher un public plus large.", "media_urls": ["/img/close-up-team-hand-shake.jpg"], "stats": [{"label": "jeunes accompagnés", "value": "28"}, {"label": "journée intensive", "value": "1"}, {"label": "Royal Space Hôtel", "value": "Calavi"}], "date": "2022-03-12", "created_at": "2026-06-05T02:48:15.942Z"}}, {"model": "api.news", "pk": 19, "fields": {"title": "4ᵉ édition — « Chaque orphelin à l'école » : 29 enfants scolarisés à Grand-Popo et Toviclin", "content": "Le 20 et 27 septembre 2025, la Fondation les Amis de A à Z a organisé la 4ᵉ édition du projet « Chaque orphelin à l'école » dans deux nouveaux centres : le Centre SILOE de Grand-Popo et la Maison de l'Espoir de Toviclin. 29 enfants ont reçu leurs kits scolaires complets — cahiers, stylos, cartable, uniforme — et bénéficieront d'un suivi pédagogique tout au long de l'année scolaire.\n\nDepuis le lancement en 2021, ce sont désormais 122 orphelins qui ont été scolarisés grâce à ce projet. La FAAZ tient à remercier chaleureusement tous les membres et donateurs qui ont rendu cette expansion possible.", "category": "Enfance", "cover_image": "/img/about1.png", "date": "2025-09-30", "featured": false, "status": "publie", "created_at": "2026-06-05T02:48:15.955Z"}}, {"model": "api.news", "pk": 20, "fields": {"title": "Prix Gnamey 2025 — 6ᵉ édition : l'excellence récompensée à Cotonou et dans 3 nouvelles communes", "content": "Le 5 décembre 2025, la Fondation les Amis de A à Z a célébré la 6ᵉ édition du Prix Gnamey de l'Excellence, en mémoire du Professeur Gnamey Kouassivi Charles. Conformément à la décision de l'Assemblée Générale du 27 août 2023, le prix a été étendu à trois nouvelles communes en plus de Cotonou.\n\nLes meilleurs élèves du CEP, BEPC et BAC ont reçu des enveloppes de 15 000 à 200 000 FCFA, des attestations de mérite et des bâches d'excellence. La fondation perpétue ainsi la mémoire de cet enseignant exemplaire qui a consacré 27 ans de sa vie à l'éducation au CEG K/Vêdoko.", "category": "Excellence scolaire", "cover_image": "/img/accueil1.png", "date": "2025-12-07", "featured": false, "status": "publie", "created_at": "2026-06-05T02:48:15.956Z"}}, {"model": "api.news", "pk": 21, "fields": {"title": "6ᵉ édition Santé & Vêtements — 40 enfants pris en charge le 2 mai 2026", "content": "Le 2 mai 2026, la FAAZ a organisé la 6ᵉ édition de son projet « Santé & dons de vêtements ». 40 enfants orphelins ont bénéficié de consultations médicales gratuites, de séances d'IEC sur l'hygiène et la santé, de vêtements neufs et recyclés adaptés à la saison, ainsi que de médicaments et de kits d'hygiène bucco-dentaire.\n\nDepuis le lancement en 2021, ce sont 232 enfants qui ont bénéficié de ce programme de prise en charge globale. Médecins, infirmiers et membres bénévoles de la fondation se sont mobilisés pour cette journée dédiée à la santé et au bien-être des enfants.", "category": "Enfance", "cover_image": "/img/close-up-team-hand-shake.jpg", "date": "2026-05-05", "featured": false, "status": "publie", "created_at": "2026-06-05T02:48:15.957Z"}}, {"model": "api.news", "pk": 22, "fields": {"title": "3ᵉ dons de vivres à l'Orphelinat Saint Dominique — 36 orphelins approvisionnés pour 6 mois", "content": "Le 28 février 2026, la Fondation les Amis de A à Z a livré sa 3ᵉ cargaison de vivres à l'Orphelinat Saint Dominique d'Azowlissè, à Adjohoun. 36 orphelins disposeront de provisions pour plusieurs mois : maïs, riz, huile, haricot, gari, œufs, sucre, Milo, lait et macaronis.\n\nCe projet, initié en juillet 2022, a désormais bénéficié à 108 enfants au total. La fondation exprime sa gratitude à tous ceux qui ont contribué à cette action, membres comme donateurs occasionnels.", "category": "Enfance", "cover_image": "/img/about1.png", "date": "2026-03-01", "featured": false, "status": "publie", "created_at": "2026-06-05T02:48:15.959Z"}}, {"model": "api.news", "pk": 23, "fields": {"title": "Assemblée Générale 2025 — Bilan d'impact et perspectives 2026", "content": "L'Assemblée Générale annuelle de la Fondation les Amis de A à Z s'est réunie conformément aux statuts avant la fin du premier semestre 2025. Les membres ont validé le bilan de l'exercice écoulé, adopté le plan d'action 2025–2026 et renouvelé une partie du Conseil d'Administration.\n\nParmi les décisions majeures : renforcement du programme de coaching jeunesse (Phase 2), ouverture officielle des réflexions sur le programme d'assistance aux personnes du 3ᵉ âge, et extension du Prix Gnamey à de nouvelles communes. La fondation compte sur la mobilisation de l'ensemble de ses membres pour concrétiser ces ambitions.", "category": "Vie associative", "cover_image": "/img/accueil1.png", "date": "2025-06-20", "featured": false, "status": "publie", "created_at": "2026-06-05T02:48:15.960Z"}}, {"model": "api.news", "pk": 24, "fields": {"title": "Coaching jeunesse Phase 1 — Retour sur une journée transformatrice", "content": "Le 12 mars 2022, la FAAZ a réuni 28 jeunes au Royal Space Hôtel d'Abomey-Calavi pour la Phase 1 de son programme de coaching et de leadership transformationnel. Une journée intensive ponctuée de sessions sur les compétences de vie, l'orientation professionnelle et la santé mentale.\n\n« Cette journée m'a ouvert les yeux sur ce dont j'étais capable », témoigne l'un des participants. La fondation prépare actuellement la Phase 2 de ce programme, avec l'ambition de toucher un public plus large et d'intégrer un volet entrepreneuriat.", "category": "Jeunesse", "cover_image": "/img/close-up-team-hand-shake.jpg", "date": "2022-03-20", "featured": false, "status": "publie", "created_at": "2026-06-05T02:48:15.961Z"}}, {"model": "api.recruitmentoffer", "pk": 25, "fields": {"offer_type": "emploi", "title": "Chargé(e) de programmes — Éducation & Jeunesse", "pdf_file": "", "status": "ouvert", "created_at": "2026-06-05T02:48:15.962Z"}}, {"model": "api.recruitmentoffer", "pk": 26, "fields": {"offer_type": "emploi", "title": "Responsable Communication & Réseaux Sociaux", "pdf_file": "", "status": "ouvert", "created_at": "2026-06-05T02:48:15.963Z"}}, {"model": "api.recruitmentoffer", "pk": 27, "fields": {"offer_type": "emploi", "title": "Comptable / Gestionnaire Financier(ère)", "pdf_file": "", "status": "ouvert", "created_at": "2026-06-05T02:48:15.964Z"}}, {"model": "api.recruitmentoffer", "pk": 28, "fields": {"offer_type": "bénévolat", "title": "Tuteurs / Tutrices scolaires bénévoles", "pdf_file": "", "status": "ouvert", "created_at": "2026-06-05T02:48:15.965Z"}}, {"model": "api.recruitmentoffer", "pk": 29, "fields": {"offer_type": "bénévolat", "title": "Accompagnateurs / Accompagnatrices personnes âgées", "pdf_file": "", "status": "ouvert", "created_at": "2026-06-05T02:48:15.966Z"}}, {"model": "api.recruitmentoffer", "pk": 30, "fields": {"offer_type": "bénévolat", "title": "Agents de terrain — distribution d'aide humanitaire", "pdf_file": "", "status": "ouvert", "created_at": "2026-06-05T02:48:15.967Z"}}, {"model": "api.recruitmentoffer", "pk": 31, "fields": {"offer_type": "stage", "title": "Stage — Suivi & Évaluation de projets", "pdf_file": "", "status": "ouvert", "created_at": "2026-06-05T02:48:15.968Z"}}, {"model": "api.recruitmentoffer", "pk": 32, "fields": {"offer_type": "stage", "title": "Stage — Communication Digitale & Création de Contenu", "pdf_file": "", "status": "ouvert", "created_at": "2026-06-05T02:48:15.969Z"}}, {"model": "api.recruitmentoffer", "pk": 33, "fields": {"offer_type": "emploi", "title": "Ingénieur Test QA", "pdf_file": "", "status": "ouvert", "created_at": "2026-06-05T09:30:04.669Z"}}, {"model": "api.userprofile", "pk": 1, "fields": {"user": ["admin"], "role": "admin_principal"}}, {"model": "api.userprofile", "pk": 2, "fields": {"user": ["jean.dupont"], "role": "editeur_contenu"}}, {"model": "api.userprofile", "pk": 5, "fields": {"user": ["test_gestionnaire"], "role": "gestionnaire_communaute"}}, {"model": "api.userprofile", "pk": 6, "fields": {"user": ["test_tresorier"], "role": "tresorier"}}, {"model": "api.userprofile", "pk": 7, "fields": {"user": ["test_editor"], "role": "editeur_contenu"}}]
+[
+  {
+    "model": "auth.user",
+    "fields": {
+      "password": "pbkdf2_sha256$1200000$NsDS3W6Vi0h5lbQTfkkp7J$iRtSqe23WphtxjIYAJUMgY/z9JT+VMiTcoMaAFeNuH8=",
+      "last_login": "2026-06-12T15:14:02.238Z",
+      "is_superuser": true,
+      "username": "admin",
+      "first_name": "Abdoul Malik",
+      "last_name": "AKOGO",
+      "email": "admin@faaz.org",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2026-06-05T00:01:39.354Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "fields": {
+      "password": "pbkdf2_sha256$1200000$SLKPCUuOPA19OKd5QRscXW$a7cmJ0uNRwkNSyBRzh/du4SWv0Y2JnPLYI1o8Q4KUXo=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "jean.dupont",
+      "first_name": "Jean",
+      "last_name": "Dupont",
+      "email": "jean.dupont@example.com",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2026-06-05T03:14:41.276Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "fields": {
+      "password": "pbkdf2_sha256$1200000$CrCGG56mJxJiRPvWqYUsBl$9K4nGB3MJVNIZkftaOWZWt1Uo3ZTjgmuFN9ZKHAwD0c=",
+      "last_login": "2026-06-05T15:00:24.835Z",
+      "is_superuser": false,
+      "username": "test_gestionnaire",
+      "first_name": "",
+      "last_name": "",
+      "email": "gest@test.org",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2026-06-05T14:41:10.781Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "fields": {
+      "password": "pbkdf2_sha256$1200000$QaNdNUQXa7mPXYYpPlyqvf$OdmIN223ekDHhipHvuzoPPEZmvabEJ95nkcxMC9bCc0=",
+      "last_login": "2026-06-05T15:04:58.918Z",
+      "is_superuser": false,
+      "username": "test_tresorier",
+      "first_name": "",
+      "last_name": "",
+      "email": "tres@test.org",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2026-06-05T14:41:11.481Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "auth.user",
+    "fields": {
+      "password": "pbkdf2_sha256$1200000$EkKsDA7USQw0RRZeZfv3za$Z6r+cwAnxmd6PbdyVKu74/i4Hs9e7a4+ufRebSMZbPA=",
+      "last_login": null,
+      "is_superuser": false,
+      "username": "test_editor",
+      "first_name": "",
+      "last_name": "",
+      "email": "edit@test.org",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2026-06-05T14:41:12.528Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "api.cmssetting",
+    "pk": 1,
+    "fields": {
+      "key": "slogan",
+      "value": "FAAZ : Ensemble pour un avenir meilleur.",
+      "description": ""
+    }
+  },
+  {
+    "model": "api.cmssetting",
+    "pk": 2,
+    "fields": {
+      "key": "mission",
+      "value": "Promouvoir le bien-\u00eatre des personnes les plus vuln\u00e9rables \u00e0 travers des actions solidaires, structur\u00e9es et \u00e0 impact mesurable.",
+      "description": ""
+    }
+  },
+  {
+    "model": "api.cmssetting",
+    "pk": 3,
+    "fields": {
+      "key": "name",
+      "value": "Fondation les Amis de A \u00e0 Z",
+      "description": ""
+    }
+  },
+  {
+    "model": "api.cmssetting",
+    "pk": 4,
+    "fields": {
+      "key": "email",
+      "value": "info@lafaaz.org",
+      "description": ""
+    }
+  },
+  {
+    "model": "api.cmssetting",
+    "pk": 5,
+    "fields": {
+      "key": "vision",
+      "value": "\u00c9panouissement durable de l'humanit\u00e9 \u2014 un B\u00e9nin o\u00f9 chaque personne vuln\u00e9rable est accompagn\u00e9e avec dignit\u00e9.",
+      "description": ""
+    }
+  },
+  {
+    "model": "api.cmssetting",
+    "pk": 6,
+    "fields": {
+      "key": "address",
+      "value": "Cotonou, B\u00e9nin",
+      "description": ""
+    }
+  },
+  {
+    "model": "api.cmssetting",
+    "pk": 7,
+    "fields": {
+      "key": "about_text",
+      "value": "La FAAZ - Fondation les Amis de A \u00e0 Z est une ONG b\u00e9ninoise \u00e0 membres fond\u00e9e sur un engagement simple : promouvoir le bien-\u00eatre des personnes les plus vuln\u00e9rables. Orphelins, \u00e9l\u00e8ves m\u00e9ritants, jeunes en qu\u00eate de rep\u00e8res, personnes \u00e2g\u00e9es isol\u00e9es : chaque action de la FAAZ part d'une conviction, celle que l'amiti\u00e9 peut changer des vies.",
+      "description": ""
+    }
+  },
+  {
+    "model": "api.cmssetting",
+    "pk": 8,
+    "fields": {
+      "key": "phone",
+      "value": "01 97 60 38 05",
+      "description": ""
+    }
+  },
+  {
+    "model": "api.cmssetting",
+    "pk": 9,
+    "fields": {
+      "key": "facebook",
+      "value": "",
+      "description": ""
+    }
+  },
+  {
+    "model": "api.cmssetting",
+    "pk": 10,
+    "fields": {
+      "key": "instagram",
+      "value": "",
+      "description": ""
+    }
+  },
+  {
+    "model": "api.cmssetting",
+    "pk": 11,
+    "fields": {
+      "key": "youtube",
+      "value": "",
+      "description": ""
+    }
+  },
+  {
+    "model": "api.cmssetting",
+    "pk": 12,
+    "fields": {
+      "key": "twitter",
+      "value": "",
+      "description": ""
+    }
+  },
+  {
+    "model": "api.cmssetting",
+    "pk": 13,
+    "fields": {
+      "key": "tiktok",
+      "value": "",
+      "description": ""
+    }
+  },
+  {
+    "model": "api.teammember",
+    "pk": 13,
+    "fields": {
+      "first_name": "Dr. Koffi",
+      "last_name": "Gnamey",
+      "role": "Pr\u00e9sident de la fondation",
+      "photo": "/img/president.png",
+      "order": 1
+    }
+  },
+  {
+    "model": "api.teammember",
+    "pk": 14,
+    "fields": {
+      "first_name": "Mme Sika",
+      "last_name": "Adjovi",
+      "role": "Secr\u00e9taire G\u00e9n\u00e9rale",
+      "photo": "/img/secretaire.png",
+      "order": 2
+    }
+  },
+  {
+    "model": "api.teammember",
+    "pk": 15,
+    "fields": {
+      "first_name": "M. Bruno",
+      "last_name": "Soglo",
+      "role": "Tr\u00e9sorier G\u00e9n\u00e9ral",
+      "photo": "/img/tresorier.png",
+      "order": 3
+    }
+  },
+  {
+    "model": "api.teammember",
+    "pk": 16,
+    "fields": {
+      "first_name": "M. Damien",
+      "last_name": "Dossou",
+      "role": "Directeur Ex\u00e9cutif",
+      "photo": "/img/directeur.png",
+      "order": 4
+    }
+  },
+  {
+    "model": "api.testimonial",
+    "pk": 1,
+    "fields": {
+      "name": "Ablavi G.",
+      "role": "Secr\u00e9taire G\u00e9n\u00e9rale, Orphelinat Saint Dominique",
+      "amount": null,
+      "message": "Gr\u00e2ce au projet 'Chaque orphelin \u00e0 l'\u00e9cole' de la FAAZ, 122 enfants ont pu s'inscrire cette ann\u00e9e avec toutes leurs fournitures scolaires. C'est un suivi continu qui change des vies.",
+      "created_at": "2026-06-05T02:48:15.975Z"
+    }
+  },
+  {
+    "model": "api.testimonial",
+    "pk": 2,
+    "fields": {
+      "name": "Koffi M.",
+      "role": "Donateur actif, Diaspora B\u00e9ninoise (Paris)",
+      "amount": "50 000",
+      "message": "La transparence financi\u00e8re absolue de la fondation est ce qui m'a convaincu. Chaque franc vers\u00e9 est trac\u00e9 et on suit l'avancement des projets en temps r\u00e9el sur le site.",
+      "created_at": "2026-06-05T02:48:15.976Z"
+    }
+  },
+  {
+    "model": "api.testimonial",
+    "pk": 3,
+    "fields": {
+      "name": "Dr. Saliou B.",
+      "role": "Coordinateur des campagnes m\u00e9dicales (Porto-Novo)",
+      "amount": null,
+      "message": "Les consultations gratuites organis\u00e9es par la FAAZ permettent d'apporter des soins de base \u00e0 des populations isol\u00e9es. L'engagement des b\u00e9n\u00e9voles est tout simplement admirable.",
+      "created_at": "2026-06-05T02:48:15.977Z"
+    }
+  },
+  {
+    "model": "api.faqitem",
+    "pk": 31,
+    "fields": {
+      "question": "Comment faire un don \u00e0 la FAAZ ?",
+      "answer": "Vous pouvez faire un don de plusieurs fa\u00e7ons :\n\n1. Via le bouton \u00ab DONATE \u00bb pr\u00e9sent sur toutes les pages du site : il ouvre un formulaire rapide o\u00f9 vous choisissez le montant (en FCFA) et le canal de paiement.\n\n2. En choisissant un projet pr\u00e9cis sur la page \u00ab Nos projets \u00bb et en cliquant sur \u00ab Soutenir ce projet \u00bb.\n\n3. Par mobile money : num\u00e9ro MoMo Pay disponible sur la page de don.\n\n4. Par virement bancaire : nos coordonn\u00e9es bancaires sont disponibles sur la page de don.\n\nPour les dons par carte ou via PayPal (diaspora), l'int\u00e9gration est disponible sur la page de don. Un re\u00e7u vous est envoy\u00e9 par e-mail apr\u00e8s chaque transaction.",
+      "category": "Dons",
+      "order": 1,
+      "status": "publie"
+    }
+  },
+  {
+    "model": "api.faqitem",
+    "pk": 32,
+    "fields": {
+      "question": "Puis-je faire un don anonyme ?",
+      "answer": "Oui. Lors du processus de don, vous avez le choix entre :\n\n\u2014 Don anonyme : aucune information personnelle enregistr\u00e9e. Le don est comptabilis\u00e9 mais aucun re\u00e7u ne peut \u00eatre \u00e9mis.\n\n\u2014 Don identifi\u00e9 : vous laissez votre pr\u00e9nom, nom et e-mail pour recevoir un re\u00e7u officiel et suivre votre impact.\n\nLes deux options sont totalement accept\u00e9es.",
+      "category": "Dons",
+      "order": 2,
+      "status": "publie"
+    }
+  },
+  {
+    "model": "api.faqitem",
+    "pk": 33,
+    "fields": {
+      "question": "Y a-t-il des frais sur les dons ?",
+      "answer": "Les agr\u00e9gateurs de paiement pr\u00e9l\u00e8vent environ 3 % de frais par transaction (KKiaPay, PayPal). Ces frais sont \u00e0 la charge du donateur ou de la fondation selon le canal choisi.\n\nPour les virements bancaires directs ou les d\u00e9p\u00f4ts MoMo Pay, les frais sont ceux de votre op\u00e9rateur. La fondation publie ses comptes annuellement pour garantir la transparence.",
+      "category": "Dons",
+      "order": 3,
+      "status": "publie"
+    }
+  },
+  {
+    "model": "api.faqitem",
+    "pk": 34,
+    "fields": {
+      "question": "Comment devenir membre de la FAAZ ?",
+      "answer": "Pour rejoindre la communaut\u00e9 FAAZ :\n\n1. Remplissez le formulaire d'adh\u00e9sion sur la page \u00ab Devenir membre \u00bb.\n2. L'\u00e9quipe examine votre dossier (bonne moralit\u00e9, adh\u00e9sion aux statuts, appropriation de la vision).\n3. Apr\u00e8s validation, vous r\u00e9glez le droit d'adh\u00e9sion de 10 000 FCFA.\n4. Votre adh\u00e9sion est activ\u00e9e et vous acc\u00e9dez \u00e0 l'espace membre.\n\nLa cotisation annuelle de 25 000 FCFA est due au plus tard le 30 juin de chaque exercice.",
+      "category": "Adh\u00e9sion",
+      "order": 4,
+      "status": "publie"
+    }
+  },
+  {
+    "model": "api.faqitem",
+    "pk": 35,
+    "fields": {
+      "question": "Quels sont les montants de l'adh\u00e9sion et de la cotisation ?",
+      "answer": "\u2014 Droit d'adh\u00e9sion (unique, \u00e0 verser \u00e0 l'inscription) : 10 000 FCFA (~15 \u20ac)\n\u2014 Cotisation annuelle : 25 000 FCFA (~40 \u20ac), \u00e0 r\u00e9gler avant le 30 juin de chaque ann\u00e9e.\n\nCes montants sont fix\u00e9s par les statuts de la fondation et valid\u00e9s en Assembl\u00e9e G\u00e9n\u00e9rale.",
+      "category": "Adh\u00e9sion",
+      "order": 5,
+      "status": "publie"
+    }
+  },
+  {
+    "model": "api.faqitem",
+    "pk": 36,
+    "fields": {
+      "question": "Quelles sont les conditions pour adh\u00e9rer \u00e0 la FAAZ ?",
+      "answer": "Toute personne physique ou morale peut adh\u00e9rer \u00e0 la FAAZ, sous r\u00e9serve de :\n\n\u2014 \u00catre de bonne moralit\u00e9.\n\u2014 Adh\u00e9rer aux statuts et au r\u00e8glement int\u00e9rieur de la fondation.\n\u2014 S'approprier la vision et les valeurs de la FAAZ.\n\u2014 R\u00e9gler le droit d'adh\u00e9sion de 10 000 FCFA.\n\u2014 Payer la cotisation annuelle de 25 000 FCFA.\n\nL'adh\u00e9sion est soumise \u00e0 l'approbation du Conseil d'Administration.",
+      "category": "Adh\u00e9sion",
+      "order": 6,
+      "status": "publie"
+    }
+  },
+  {
+    "model": "api.faqitem",
+    "pk": 37,
+    "fields": {
+      "question": "Comment devenir b\u00e9n\u00e9vole \u00e0 la FAAZ ?",
+      "answer": "Consultez nos offres de b\u00e9n\u00e9volat sur la page \u00ab Devenir b\u00e9n\u00e9vole \u00bb. Pour chaque mission, un descriptif complet et un formulaire de candidature sont disponibles.\n\nUn mod\u00e8le de lettre de motivation est t\u00e9l\u00e9chargeable sur cette m\u00eame page pour vous aider dans votre d\u00e9marche. Notre \u00e9quipe vous contactera sous 2 semaines apr\u00e8s r\u00e9ception de votre candidature.",
+      "category": "B\u00e9n\u00e9volat & Recrutement",
+      "order": 7,
+      "status": "publie"
+    }
+  },
+  {
+    "model": "api.faqitem",
+    "pk": 38,
+    "fields": {
+      "question": "Puis-je m'engager depuis la diaspora ?",
+      "answer": "Absolument ! La diaspora est un pilier essentiel de la FAAZ. Vous pouvez contribuer \u00e0 distance : b\u00e9n\u00e9volat de comp\u00e9tences (communication, traduction, conseil), don financier, parrainage d'un orphelin, ou r\u00f4le d'ambassadeur FAAZ dans votre pays de r\u00e9sidence.\n\nContactez-nous \u00e0 contact@lafaaz.org pour discuter de la forme d'engagement la plus adapt\u00e9e \u00e0 votre situation.",
+      "category": "B\u00e9n\u00e9volat & Recrutement",
+      "order": 8,
+      "status": "publie"
+    }
+  },
+  {
+    "model": "api.faqitem",
+    "pk": 39,
+    "fields": {
+      "question": "Qu'est-ce que le Prix Gnamey de l'Excellence ?",
+      "answer": "Le Prix Gnamey de l'Excellence est d\u00e9cern\u00e9 chaque ann\u00e9e par la FAAZ en m\u00e9moire du Professeur Gnamey Kouassivi Charles, enseignant au CEG K/V\u00eadoko pendant 27 ans, d\u00e9c\u00e9d\u00e9 le 4 d\u00e9cembre 2018.\n\nIl r\u00e9compense les meilleurs \u00e9l\u00e8ves du CEP, BEPC et BAC dans plusieurs communes du B\u00e9nin. Les laur\u00e9ats re\u00e7oivent des enveloppes de 15 000 \u00e0 200 000 FCFA, des attestations de m\u00e9rite et des b\u00e2ches d'excellence. 6 \u00e9ditions ont \u00e9t\u00e9 organis\u00e9es depuis 2020.",
+      "category": "G\u00e9n\u00e9ral",
+      "order": 9,
+      "status": "publie"
+    }
+  },
+  {
+    "model": "api.faqitem",
+    "pk": 40,
+    "fields": {
+      "question": "Comment contacter la FAAZ ?",
+      "answer": "T\u00e9l\u00e9phone : +229 97 60 38 05\nE-mail : info@lafaaz.org / contact@lafaaz.org\nSite web : lafaaz.org\n\nVous pouvez aussi nous contacter via nos r\u00e9seaux sociaux (Facebook, Instagram, X, TikTok, YouTube). Notre \u00e9quipe est disponible du lundi au vendredi.",
+      "category": "G\u00e9n\u00e9ral",
+      "order": 10,
+      "status": "publie"
+    }
+  },
+  {
+    "model": "api.axe",
+    "pk": 16,
+    "fields": {
+      "name": "Aide \u00e0 l'enfance indigente",
+      "description": "",
+      "status": "actif"
+    }
+  },
+  {
+    "model": "api.axe",
+    "pk": 17,
+    "fields": {
+      "name": "Excellence en milieu scolaire",
+      "description": "",
+      "status": "actif"
+    }
+  },
+  {
+    "model": "api.axe",
+    "pk": 18,
+    "fields": {
+      "name": "Coaching de la jeunesse & leadership",
+      "description": "",
+      "status": "a_venir"
+    }
+  },
+  {
+    "model": "api.axe",
+    "pk": 19,
+    "fields": {
+      "name": "Assistance aux personnes du 3\u1d49 \u00e2ge",
+      "description": "",
+      "status": "a_venir"
+    }
+  },
+  {
+    "model": "api.axe",
+    "pk": 20,
+    "fields": {
+      "name": "Coaching conjugal",
+      "description": "",
+      "status": "a_venir"
+    }
+  },
+  {
+    "model": "api.axe",
+    "pk": 21,
+    "fields": {
+      "name": "Axe Test",
+      "description": "Test Axe",
+      "status": "actif"
+    }
+  },
+  {
+    "model": "api.axe",
+    "pk": 22,
+    "fields": {
+      "name": "New Axe",
+      "description": "",
+      "status": "actif"
+    }
+  },
+  {
+    "model": "api.project",
+    "pk": 19,
+    "fields": {
+      "title": "Chaque orphelin \u00e0 l'\u00e9cole",
+      "slug": "chaque-orphelin-a-lecole",
+      "description": "Chaque enfant orphelin m\u00e9rite une chance \u00e9gale d'apprendre et de s'\u00e9panouir. Ce projet finance les frais de scolarit\u00e9, les fournitures scolaires et le suivi p\u00e9dagogique des enfants orphelins accueillis dans les centres partenaires de la FAAZ, de Adjohoun \u00e0 Grand-Popo.",
+      "axe": 16,
+      "pdf_file": "",
+      "image": "/img/about1.png",
+      "target_amount": "2500000.00",
+      "collected_amount": "0.00",
+      "status": "collecte",
+      "localisation": "Adjohoun, Abomey-Calavi, Grand-Popo, Toviclin",
+      "created_at": "2026-06-05T02:48:15.927Z"
+    }
+  },
+  {
+    "model": "api.project",
+    "pk": 20,
+    "fields": {
+      "title": "Dons de vivres aux orphelins",
+      "slug": "dons-de-vivres",
+      "description": "Aucun enfant ne devrait souffrir de la faim. Ce projet organise des collectes et remises de vivres (ma\u00efs, riz, huile, haricot, gari, \u0153ufs, sucre, Milo, lait, macaronis) aux orphelinats partenaires, pour couvrir plusieurs mois d'alimentation.",
+      "axe": 16,
+      "pdf_file": "",
+      "image": "/img/accueil1.png",
+      "target_amount": "1200000.00",
+      "collected_amount": "0.00",
+      "status": "collecte",
+      "localisation": "Orphelinat Saint Dominique d'Azowliss\u00e8, Adjohoun",
+      "created_at": "2026-06-05T02:48:15.928Z"
+    }
+  },
+  {
+    "model": "api.project",
+    "pk": 21,
+    "fields": {
+      "title": "Sant\u00e9 & dons de v\u00eatements",
+      "slug": "sante-et-dons-de-vetements",
+      "description": "Consultations m\u00e9dicales gratuites, s\u00e9ances d'IEC (Information, \u00c9ducation, Communication), remise de v\u00eatements neufs et recycl\u00e9s, m\u00e9dicaments et kits d'hygi\u00e8ne bucco-dentaire : ce projet prend soin des enfants orphelins dans leur globalit\u00e9, corps et sant\u00e9.",
+      "axe": 16,
+      "pdf_file": "",
+      "image": "/img/close-up-team-hand-shake.jpg",
+      "target_amount": "1800000.00",
+      "collected_amount": "0.00",
+      "status": "collecte",
+      "localisation": "Cotonou et communes partenaires",
+      "created_at": "2026-06-05T02:48:15.930Z"
+    }
+  },
+  {
+    "model": "api.project",
+    "pk": 22,
+    "fields": {
+      "title": "No\u00ebl aux orphelins",
+      "slug": "noel-aux-orphelins",
+      "description": "Chaque enfant a le droit de f\u00eater No\u00ebl avec joie. La FAAZ organise chaque 25 d\u00e9cembre une f\u00eate pour les orphelins de ses centres partenaires : repas de f\u00eate, g\u00e2teaux et cadeaux soigneusement choisis (jeux de soci\u00e9t\u00e9, poup\u00e9es, scrabble, voitures miniatures, guitare\u2026).",
+      "axe": 16,
+      "pdf_file": "",
+      "image": "/img/about1.png",
+      "target_amount": "900000.00",
+      "collected_amount": "810000.00",
+      "status": "collecte",
+      "localisation": "Centres orphelins partenaires, B\u00e9nin",
+      "created_at": "2026-06-05T02:48:15.931Z"
+    }
+  },
+  {
+    "model": "api.project",
+    "pk": 23,
+    "fields": {
+      "title": "Prix Gnamey de l'Excellence",
+      "slug": "prix-gnamey-excellence",
+      "description": "En m\u00e9moire du Professeur Gnamey Kouassivi Charles (27 ans d'enseignement au CEG K/V\u00eadoko, d\u00e9c\u00e9d\u00e9 le 4 d\u00e9cembre 2018), la FAAZ d\u00e9cerne chaque ann\u00e9e le Prix Gnamey aux meilleurs \u00e9l\u00e8ves du CEP, BEPC et BAC. Le prix est assorti d'enveloppes de 15 000 \u00e0 200 000 FCFA, d'attestations et de b\u00e2ches d'excellence.",
+      "axe": 17,
+      "pdf_file": "",
+      "image": "/img/accueil1.png",
+      "target_amount": "3000000.00",
+      "collected_amount": "2400000.00",
+      "status": "collecte",
+      "localisation": "Cotonou, Athi\u00e9m\u00e9, Savalou, Kpomass\u00e8 et autres communes",
+      "created_at": "2026-06-05T02:48:15.932Z"
+    }
+  },
+  {
+    "model": "api.project",
+    "pk": 24,
+    "fields": {
+      "title": "Coaching de la jeunesse \u2014 Phase 1",
+      "slug": "coaching-jeunesse-phase1",
+      "description": "Programme de coaching et de leadership transformationnel destin\u00e9 aux jeunes b\u00e9ninois. La Phase 1 a rassembl\u00e9 28 jeunes pour des sessions intensives sur les comp\u00e9tences de vie, l'orientation professionnelle et la sant\u00e9 mentale. La Phase 2 est en pr\u00e9paration.",
+      "axe": 18,
+      "pdf_file": "",
+      "image": "/img/close-up-team-hand-shake.jpg",
+      "target_amount": "1500000.00",
+      "collected_amount": "950000.00",
+      "status": "collecte",
+      "localisation": "Royal Space H\u00f4tel, Abomey-Calavi",
+      "created_at": "2026-06-05T02:48:15.933Z"
+    }
+  },
+  {
+    "model": "api.realisation",
+    "pk": 19,
+    "fields": {
+      "project": 19,
+      "title": "122 orphelins scolaris\u00e9s en 4 \u00e9ditions",
+      "story": "Depuis 2021, le projet \u00ab Chaque orphelin \u00e0 l'\u00e9cole \u00bb a permis \u00e0 122 enfants orphelins d'entamer ou de poursuivre leur scolarit\u00e9 dans de bonnes conditions. Fournitures compl\u00e8tes, uniformes, frais d'inscription et suivi p\u00e9dagogique mensuel : la FAAZ s'est engag\u00e9e \u00e0 c\u00f4t\u00e9 de ces enfants, \u00e9dition apr\u00e8s \u00e9dition, de l'Orphelinat Saint Dominique d'Azowliss\u00e8 \u00e0 Adjohoun jusqu'aux centres de Grand-Popo et Toviclin.",
+      "media_urls": [
+        "/img/about1.png"
+      ],
+      "stats": [
+        {
+          "label": "b\u00e9n\u00e9ficiaires",
+          "value": "122"
+        },
+        {
+          "label": "\u00e9ditions (2021\u20132025)",
+          "value": "4"
+        },
+        {
+          "label": "centres partenaires",
+          "value": "4"
+        }
+      ],
+      "date": "2025-09-27",
+      "created_at": "2026-06-05T02:48:15.935Z"
+    }
+  },
+  {
+    "model": "api.realisation",
+    "pk": 20,
+    "fields": {
+      "project": 23,
+      "title": "6 \u00e9ditions du Prix Gnamey de l'Excellence",
+      "story": "En hommage au Professeur Gnamey Kouassivi Charles, figure embl\u00e9matique de l'enseignement au B\u00e9nin, la FAAZ d\u00e9cerne chaque ann\u00e9e le Prix Gnamey aux meilleurs \u00e9l\u00e8ves du CEP, BEPC et BAC. En 6 \u00e9ditions, le prix a r\u00e9compens\u00e9 des dizaines d'\u00e9l\u00e8ves m\u00e9ritants \u00e0 Cotonou, Athi\u00e9m\u00e9, Savalou, Kpomass\u00e8 et dans d'autres communes. Les enveloppes vont de 15 000 \u00e0 200 000 FCFA, accompagn\u00e9es d'attestations et de b\u00e2ches d'excellence.",
+      "media_urls": [
+        "/img/accueil1.png"
+      ],
+      "stats": [
+        {
+          "label": "\u00e9ditions (2020\u20132025)",
+          "value": "6"
+        },
+        {
+          "label": "FCFA par laur\u00e9at",
+          "value": "15 000 \u00e0 200 000"
+        },
+        {
+          "label": "Cotonou + 3 communes",
+          "value": "2025"
+        }
+      ],
+      "date": "2025-12-05",
+      "created_at": "2026-06-05T02:48:15.936Z"
+    }
+  },
+  {
+    "model": "api.realisation",
+    "pk": 21,
+    "fields": {
+      "project": 19,
+      "title": "232 b\u00e9n\u00e9ficiaires du programme Sant\u00e9 & V\u00eatements",
+      "story": "En 6 \u00e9ditions depuis 2021, le projet \u00ab Sant\u00e9 & dons de v\u00eatements \u00bb a offert \u00e0 232 enfants orphelins des consultations m\u00e9dicales gratuites, des s\u00e9ances d'IEC, des v\u00eatements neufs et recycl\u00e9s, des m\u00e9dicaments et des kits d'hygi\u00e8ne bucco-dentaire. Chaque \u00e9dition mobilise m\u00e9decins, infirmiers et b\u00e9n\u00e9voles de la FAAZ pour une journ\u00e9e compl\u00e8te de prise en charge.",
+      "media_urls": [
+        "/img/close-up-team-hand-shake.jpg"
+      ],
+      "stats": [
+        {
+          "label": "b\u00e9n\u00e9ficiaires",
+          "value": "232"
+        },
+        {
+          "label": "\u00e9ditions (2021\u20132026)",
+          "value": "6"
+        },
+        {
+          "label": "consultations + v\u00eatements",
+          "value": "Prise en charge"
+        }
+      ],
+      "date": "2026-05-02",
+      "created_at": "2026-06-05T02:48:15.938Z"
+    }
+  },
+  {
+    "model": "api.realisation",
+    "pk": 22,
+    "fields": {
+      "project": 19,
+      "title": "108 orphelins nourris  3 \u00e9ditions de dons de vivres",
+      "story": "Trois fois en quatre ans, la FAAZ a approvisionn\u00e9 l'Orphelinat Saint Dominique d'Azowliss\u00e8 en vivres essentiels : ma\u00efs, riz, huile, haricot, gari, \u0153ufs, sucre, Milo, lait, macaronis. 108 enfants ont b\u00e9n\u00e9fici\u00e9 de ces dons, couvrant plusieurs mois d'alimentation \u00e0 chaque \u00e9dition. La derni\u00e8re \u00e9dition s'est tenue le 28 f\u00e9vrier 2026.",
+      "media_urls": [
+        "/img/about1.png"
+      ],
+      "stats": [
+        {
+          "label": "b\u00e9n\u00e9ficiaires",
+          "value": "108"
+        },
+        {
+          "label": "\u00e9ditions (2022\u20132026)",
+          "value": "3"
+        },
+        {
+          "label": "mois de vivres / \u00e9d.",
+          "value": "6+"
+        }
+      ],
+      "date": "2026-02-28",
+      "created_at": "2026-06-05T02:48:15.939Z"
+    }
+  },
+  {
+    "model": "api.realisation",
+    "pk": 23,
+    "fields": {
+      "project": 19,
+      "title": "6 No\u00ebls partag\u00e9s avec les orphelins",
+      "story": "Depuis 2020, chaque 25 d\u00e9cembre, les membres de la FAAZ apportent la f\u00eate aux enfants orphelins de leurs centres partenaires. Repas de f\u00eate, g\u00e2teaux et cadeaux (jeux de soci\u00e9t\u00e9, poup\u00e9es, scrabble, voitures miniatures, guitare\u2026) : 6 \u00e9ditions pour montrer \u00e0 ces enfants qu'ils ne sont pas seuls, que la communaut\u00e9 pense \u00e0 eux.",
+      "media_urls": [
+        "/img/accueil1.png"
+      ],
+      "stats": [
+        {
+          "label": "\u00e9ditions (2020\u20132025)",
+          "value": "6"
+        },
+        {
+          "label": "enfants par \u00e9dition",
+          "value": "~30"
+        },
+        {
+          "label": "cadeaux & animations",
+          "value": "F\u00eate"
+        }
+      ],
+      "date": "2025-12-25",
+      "created_at": "2026-06-05T02:48:15.941Z"
+    }
+  },
+  {
+    "model": "api.realisation",
+    "pk": 24,
+    "fields": {
+      "project": 24,
+      "title": "28 jeunes coach\u00e9s  Phase 1 du programme Leadership",
+      "story": "Le 12 mars 2022 au Royal Space H\u00f4tel d'Abomey-Calavi, la FAAZ a rassembl\u00e9 28 jeunes b\u00e9ninois pour la Phase 1 de son programme de coaching et de leadership transformationnel. Au programme : comp\u00e9tences de vie, orientation professionnelle, gestion du stress et sant\u00e9 mentale. Une Phase 2 est en pr\u00e9paration pour toucher un public plus large.",
+      "media_urls": [
+        "/img/close-up-team-hand-shake.jpg"
+      ],
+      "stats": [
+        {
+          "label": "jeunes accompagn\u00e9s",
+          "value": "28"
+        },
+        {
+          "label": "journ\u00e9e intensive",
+          "value": "1"
+        },
+        {
+          "label": "Royal Space H\u00f4tel",
+          "value": "Calavi"
+        }
+      ],
+      "date": "2022-03-12",
+      "created_at": "2026-06-05T02:48:15.942Z"
+    }
+  },
+  {
+    "model": "api.news",
+    "pk": 19,
+    "fields": {
+      "title": "4\u1d49 \u00e9dition \u2014 \u00ab Chaque orphelin \u00e0 l'\u00e9cole \u00bb : 29 enfants scolaris\u00e9s \u00e0 Grand-Popo et Toviclin",
+      "content": "Le 20 et 27 septembre 2025, la Fondation les Amis de A \u00e0 Z a organis\u00e9 la 4\u1d49 \u00e9dition du projet \u00ab Chaque orphelin \u00e0 l'\u00e9cole \u00bb dans deux nouveaux centres : le Centre SILOE de Grand-Popo et la Maison de l'Espoir de Toviclin. 29 enfants ont re\u00e7u leurs kits scolaires complets \u2014 cahiers, stylos, cartable, uniforme \u2014 et b\u00e9n\u00e9ficieront d'un suivi p\u00e9dagogique tout au long de l'ann\u00e9e scolaire.\n\nDepuis le lancement en 2021, ce sont d\u00e9sormais 122 orphelins qui ont \u00e9t\u00e9 scolaris\u00e9s gr\u00e2ce \u00e0 ce projet. La FAAZ tient \u00e0 remercier chaleureusement tous les membres et donateurs qui ont rendu cette expansion possible.",
+      "category": "Enfance",
+      "cover_image": "/img/about1.png",
+      "date": "2025-09-30",
+      "featured": false,
+      "status": "publie",
+      "created_at": "2026-06-05T02:48:15.955Z"
+    }
+  },
+  {
+    "model": "api.news",
+    "pk": 20,
+    "fields": {
+      "title": "Prix Gnamey 2025 \u2014 6\u1d49 \u00e9dition : l'excellence r\u00e9compens\u00e9e \u00e0 Cotonou et dans 3 nouvelles communes",
+      "content": "Le 5 d\u00e9cembre 2025, la Fondation les Amis de A \u00e0 Z a c\u00e9l\u00e9br\u00e9 la 6\u1d49 \u00e9dition du Prix Gnamey de l'Excellence, en m\u00e9moire du Professeur Gnamey Kouassivi Charles. Conform\u00e9ment \u00e0 la d\u00e9cision de l'Assembl\u00e9e G\u00e9n\u00e9rale du 27 ao\u00fbt 2023, le prix a \u00e9t\u00e9 \u00e9tendu \u00e0 trois nouvelles communes en plus de Cotonou.\n\nLes meilleurs \u00e9l\u00e8ves du CEP, BEPC et BAC ont re\u00e7u des enveloppes de 15 000 \u00e0 200 000 FCFA, des attestations de m\u00e9rite et des b\u00e2ches d'excellence. La fondation perp\u00e9tue ainsi la m\u00e9moire de cet enseignant exemplaire qui a consacr\u00e9 27 ans de sa vie \u00e0 l'\u00e9ducation au CEG K/V\u00eadoko.",
+      "category": "Excellence scolaire",
+      "cover_image": "/img/accueil1.png",
+      "date": "2025-12-07",
+      "featured": false,
+      "status": "publie",
+      "created_at": "2026-06-05T02:48:15.956Z"
+    }
+  },
+  {
+    "model": "api.news",
+    "pk": 21,
+    "fields": {
+      "title": "6\u1d49 \u00e9dition Sant\u00e9 & V\u00eatements \u2014 40 enfants pris en charge le 2 mai 2026",
+      "content": "Le 2 mai 2026, la FAAZ a organis\u00e9 la 6\u1d49 \u00e9dition de son projet \u00ab Sant\u00e9 & dons de v\u00eatements \u00bb. 40 enfants orphelins ont b\u00e9n\u00e9fici\u00e9 de consultations m\u00e9dicales gratuites, de s\u00e9ances d'IEC sur l'hygi\u00e8ne et la sant\u00e9, de v\u00eatements neufs et recycl\u00e9s adapt\u00e9s \u00e0 la saison, ainsi que de m\u00e9dicaments et de kits d'hygi\u00e8ne bucco-dentaire.\n\nDepuis le lancement en 2021, ce sont 232 enfants qui ont b\u00e9n\u00e9fici\u00e9 de ce programme de prise en charge globale. M\u00e9decins, infirmiers et membres b\u00e9n\u00e9voles de la fondation se sont mobilis\u00e9s pour cette journ\u00e9e d\u00e9di\u00e9e \u00e0 la sant\u00e9 et au bien-\u00eatre des enfants.",
+      "category": "Enfance",
+      "cover_image": "/img/close-up-team-hand-shake.jpg",
+      "date": "2026-05-05",
+      "featured": false,
+      "status": "publie",
+      "created_at": "2026-06-05T02:48:15.957Z"
+    }
+  },
+  {
+    "model": "api.news",
+    "pk": 22,
+    "fields": {
+      "title": "3\u1d49 dons de vivres \u00e0 l'Orphelinat Saint Dominique \u2014 36 orphelins approvisionn\u00e9s pour 6 mois",
+      "content": "Le 28 f\u00e9vrier 2026, la Fondation les Amis de A \u00e0 Z a livr\u00e9 sa 3\u1d49 cargaison de vivres \u00e0 l'Orphelinat Saint Dominique d'Azowliss\u00e8, \u00e0 Adjohoun. 36 orphelins disposeront de provisions pour plusieurs mois : ma\u00efs, riz, huile, haricot, gari, \u0153ufs, sucre, Milo, lait et macaronis.\n\nCe projet, initi\u00e9 en juillet 2022, a d\u00e9sormais b\u00e9n\u00e9fici\u00e9 \u00e0 108 enfants au total. La fondation exprime sa gratitude \u00e0 tous ceux qui ont contribu\u00e9 \u00e0 cette action, membres comme donateurs occasionnels.",
+      "category": "Enfance",
+      "cover_image": "/img/about1.png",
+      "date": "2026-03-01",
+      "featured": false,
+      "status": "publie",
+      "created_at": "2026-06-05T02:48:15.959Z"
+    }
+  },
+  {
+    "model": "api.news",
+    "pk": 23,
+    "fields": {
+      "title": "Assembl\u00e9e G\u00e9n\u00e9rale 2025 \u2014 Bilan d'impact et perspectives 2026",
+      "content": "L'Assembl\u00e9e G\u00e9n\u00e9rale annuelle de la Fondation les Amis de A \u00e0 Z s'est r\u00e9unie conform\u00e9ment aux statuts avant la fin du premier semestre 2025. Les membres ont valid\u00e9 le bilan de l'exercice \u00e9coul\u00e9, adopt\u00e9 le plan d'action 2025\u20132026 et renouvel\u00e9 une partie du Conseil d'Administration.\n\nParmi les d\u00e9cisions majeures : renforcement du programme de coaching jeunesse (Phase 2), ouverture officielle des r\u00e9flexions sur le programme d'assistance aux personnes du 3\u1d49 \u00e2ge, et extension du Prix Gnamey \u00e0 de nouvelles communes. La fondation compte sur la mobilisation de l'ensemble de ses membres pour concr\u00e9tiser ces ambitions.",
+      "category": "Vie associative",
+      "cover_image": "/img/accueil1.png",
+      "date": "2025-06-20",
+      "featured": false,
+      "status": "publie",
+      "created_at": "2026-06-05T02:48:15.960Z"
+    }
+  },
+  {
+    "model": "api.news",
+    "pk": 24,
+    "fields": {
+      "title": "Coaching jeunesse Phase 1 \u2014 Retour sur une journ\u00e9e transformatrice",
+      "content": "Le 12 mars 2022, la FAAZ a r\u00e9uni 28 jeunes au Royal Space H\u00f4tel d'Abomey-Calavi pour la Phase 1 de son programme de coaching et de leadership transformationnel. Une journ\u00e9e intensive ponctu\u00e9e de sessions sur les comp\u00e9tences de vie, l'orientation professionnelle et la sant\u00e9 mentale.\n\n\u00ab Cette journ\u00e9e m'a ouvert les yeux sur ce dont j'\u00e9tais capable \u00bb, t\u00e9moigne l'un des participants. La fondation pr\u00e9pare actuellement la Phase 2 de ce programme, avec l'ambition de toucher un public plus large et d'int\u00e9grer un volet entrepreneuriat.",
+      "category": "Jeunesse",
+      "cover_image": "/img/close-up-team-hand-shake.jpg",
+      "date": "2022-03-20",
+      "featured": false,
+      "status": "publie",
+      "created_at": "2026-06-05T02:48:15.961Z"
+    }
+  },
+  {
+    "model": "api.recruitmentoffer",
+    "pk": 25,
+    "fields": {
+      "offer_type": "emploi",
+      "title": "Charg\u00e9(e) de programmes \u2014 \u00c9ducation & Jeunesse",
+      "pdf_file": "",
+      "status": "ouvert",
+      "created_at": "2026-06-05T02:48:15.962Z"
+    }
+  },
+  {
+    "model": "api.recruitmentoffer",
+    "pk": 26,
+    "fields": {
+      "offer_type": "emploi",
+      "title": "Responsable Communication & R\u00e9seaux Sociaux",
+      "pdf_file": "",
+      "status": "ouvert",
+      "created_at": "2026-06-05T02:48:15.963Z"
+    }
+  },
+  {
+    "model": "api.recruitmentoffer",
+    "pk": 27,
+    "fields": {
+      "offer_type": "emploi",
+      "title": "Comptable / Gestionnaire Financier(\u00e8re)",
+      "pdf_file": "",
+      "status": "ouvert",
+      "created_at": "2026-06-05T02:48:15.964Z"
+    }
+  },
+  {
+    "model": "api.recruitmentoffer",
+    "pk": 28,
+    "fields": {
+      "offer_type": "b\u00e9n\u00e9volat",
+      "title": "Tuteurs / Tutrices scolaires b\u00e9n\u00e9voles",
+      "pdf_file": "",
+      "status": "ouvert",
+      "created_at": "2026-06-05T02:48:15.965Z"
+    }
+  },
+  {
+    "model": "api.recruitmentoffer",
+    "pk": 29,
+    "fields": {
+      "offer_type": "b\u00e9n\u00e9volat",
+      "title": "Accompagnateurs / Accompagnatrices personnes \u00e2g\u00e9es",
+      "pdf_file": "",
+      "status": "ouvert",
+      "created_at": "2026-06-05T02:48:15.966Z"
+    }
+  },
+  {
+    "model": "api.recruitmentoffer",
+    "pk": 30,
+    "fields": {
+      "offer_type": "b\u00e9n\u00e9volat",
+      "title": "Agents de terrain \u2014 distribution d'aide humanitaire",
+      "pdf_file": "",
+      "status": "ouvert",
+      "created_at": "2026-06-05T02:48:15.967Z"
+    }
+  },
+  {
+    "model": "api.recruitmentoffer",
+    "pk": 31,
+    "fields": {
+      "offer_type": "stage",
+      "title": "Stage \u2014 Suivi & \u00c9valuation de projets",
+      "pdf_file": "",
+      "status": "ouvert",
+      "created_at": "2026-06-05T02:48:15.968Z"
+    }
+  },
+  {
+    "model": "api.recruitmentoffer",
+    "pk": 32,
+    "fields": {
+      "offer_type": "stage",
+      "title": "Stage \u2014 Communication Digitale & Cr\u00e9ation de Contenu",
+      "pdf_file": "",
+      "status": "ouvert",
+      "created_at": "2026-06-05T02:48:15.969Z"
+    }
+  },
+  {
+    "model": "api.recruitmentoffer",
+    "pk": 33,
+    "fields": {
+      "offer_type": "emploi",
+      "title": "Ing\u00e9nieur Test QA",
+      "pdf_file": "",
+      "status": "ouvert",
+      "created_at": "2026-06-05T09:30:04.669Z"
+    }
+  },
+  {
+    "model": "api.userprofile",
+    "pk": 1,
+    "fields": {
+      "user": [
+        "admin"
+      ],
+      "role": "admin_principal"
+    }
+  },
+  {
+    "model": "api.userprofile",
+    "pk": 2,
+    "fields": {
+      "user": [
+        "jean.dupont"
+      ],
+      "role": "editeur_contenu"
+    }
+  },
+  {
+    "model": "api.userprofile",
+    "pk": 5,
+    "fields": {
+      "user": [
+        "test_gestionnaire"
+      ],
+      "role": "gestionnaire_communaute"
+    }
+  },
+  {
+    "model": "api.userprofile",
+    "pk": 6,
+    "fields": {
+      "user": [
+        "test_tresorier"
+      ],
+      "role": "tresorier"
+    }
+  },
+  {
+    "model": "api.userprofile",
+    "pk": 7,
+    "fields": {
+      "user": [
+        "test_editor"
+      ],
+      "role": "editeur_contenu"
+    }
+  }
+]
