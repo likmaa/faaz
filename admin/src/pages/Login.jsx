@@ -19,7 +19,7 @@ export default function Login() {
     setError(null);
     setLoading(true);
     try {
-      const res = await api.post('/login', { email, password });
+      const res = await api.post('/login/', { email, password });
       const token = res.data.access_token;
       localStorage.setItem('admin_token', token);
 
