@@ -61,8 +61,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./admin/dist/
-          # Remplacez ce chemin par le dossier exact créé par N0C pour le sous-domaine admin
-          server-dir: /admin.lafaaz.org/
+          server-dir: /admin/
           exclude: |
             **/.git*
             **/.git*/**
@@ -75,8 +74,7 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: ./backend/
-          # Remplacez ce chemin par le dossier exact créé par N0C pour le sous-domaine api
-          server-dir: /api.lafaaz.org/
+          server-dir: /api/
           exclude: |
             **/.git*
             **/.git*/**
