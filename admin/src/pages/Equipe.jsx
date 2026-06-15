@@ -151,6 +151,7 @@ export default function Equipe() {
                         <p className="text-xs text-slate-400 truncate mt-0.5">{member.role}</p>
                         <span className="inline-block text-[9px] font-bold bg-slate-200/60 text-slate-500 px-1.5 py-0.5 rounded-md mt-1">Ordre : {member.order}</span>
                       </div>
+                    </div>
                     <div className="flex items-center gap-1">
                       <button
                         type="button"
