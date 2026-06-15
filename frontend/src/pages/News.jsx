@@ -6,6 +6,7 @@ import Loading from '../components/ui/Loading';
 import { newsService } from '../services/newsService';
 import Pagination from '../components/ui/Pagination';
 import { useSeo } from '../hooks/useSeo';
+import { getImageUrl } from '../utils/imageUrl';
 
 const formatDate = (d) =>
   new Date(d).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });
@@ -76,7 +77,7 @@ export default function News() {
                 <div className="grid lg:grid-cols-2 gap-0 rounded-2xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-lg transition-shadow">
                   <div className="aspect-video lg:aspect-auto bg-gray-100 overflow-hidden">
                     {featured.image
-                      ? <img src={featured.image} alt={featured.titre} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      ? <img src={getImageUrl(featured.image)} alt={featured.titre} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                       : <div className="w-full h-full bg-gradient-to-br from-primary-100 to-secondary-100" />
                     }
                   </div>
@@ -108,7 +109,7 @@ export default function News() {
                 <Link key={a.id} to={`/news/${a.id}`} className="group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-lg transition-shadow overflow-hidden flex flex-col">
                   <div className="aspect-video bg-gray-100 overflow-hidden">
                     {a.image
-                      ? <img src={a.image} alt={a.titre} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                      ? <img src={getImageUrl(a.image)} alt={a.titre} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                       : <div className="w-full h-full bg-gradient-to-br from-gray-100 to-gray-200" />
                     }
                   </div>

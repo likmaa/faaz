@@ -4,6 +4,7 @@ import { useNews } from '../../hooks/useNews';
 import { motion } from 'framer-motion';
 import SectionHeader from '../ui/SectionHeader';
 import { ArrowRight, Calendar, Tag } from 'lucide-react';
+import { getImageUrl } from '../../utils/imageUrl';
 
 const CATEGORIE_COLORS = {
   'Éducation':       'bg-blue-50 text-blue-700',
@@ -62,7 +63,7 @@ export default function NewsSection() {
               <div className="aspect-video w-full bg-slate-50 overflow-hidden relative border-b border-slate-100">
                 {article.image ? (
                   <img
-                    src={article.image}
+                    src={getImageUrl(article.image)}
                     alt={article.titre}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                     onError={(e) => { e.target.style.display = 'none'; }}

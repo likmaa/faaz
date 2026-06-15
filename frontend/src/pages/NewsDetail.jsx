@@ -22,7 +22,8 @@ export default function NewsDetail() {
 
   useSeo({
     title: article?.titre || "Chargement de l'actualité...",
-    description: article?.contenu || "Détails de l'article d'actualité de la Fondation FAAZ."
+    description: article?.contenu || "Détails de l'article d'actualité de la Fondation FAAZ.",
+    image: article ? getImageUrl(article.image) : undefined
   });
 
   if (isLoading) return <Loading text="Chargement de l'article…" />;
@@ -56,7 +57,7 @@ export default function NewsDetail() {
         {/* Image */}
         {article.image && (
           <div className="aspect-video rounded-2xl overflow-hidden bg-gray-100 mb-10">
-            <img src={article.image} alt={article.titre} className="w-full h-full object-cover" />
+            <img src={getImageUrl(article.image)} alt={article.titre} className="w-full h-full object-cover" />
           </div>
         )}
 
