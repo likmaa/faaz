@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import api from '../services/api';
-import { Plus, Trash2, Loader2, Users } from 'lucide-react';
+import { Plus, Trash2, Edit, Loader2, Users } from 'lucide-react';
 import { getImageUrl } from '../utils/imageUrl';
 
 export default function Equipe() {
   const [team, setTeam] = useState([]);
   const [loading, setLoading] = useState(true);
   const [adding, setAdding] = useState(false);
+  const [editingTeamId, setEditingTeamId] = useState(null);
 
   // Form states
   const [newTeam, setNewTeam] = useState({ first_name: '', last_name: '', role: '', order: 0 });
@@ -33,7 +34,7 @@ export default function Equipe() {
     }
   }
 
-  async function handleAddTeam(e) {
+  async function handleSubmitTeam(e) {
     e.preventDefault();
     setAdding(true);
     const formData = new FormData();
@@ -45,17 +46,44 @@ export default function Equipe() {
       formData.append('photo', teamFile);
     }
     try {
-      const res = await api.post('/team/', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
-      setTeam([...team, res.data]);
+      if (editingTeamId) {
+        const res = await api.put(`/team/${editingTeamId}/`, formData, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
+        setTeam(team.map(t => t.id === editingTeamId ? res.data : t));
+        setEditingTeamId(null);
+      } else {
+        const res = await api.post('/team/', formData, {
+          headers: { 'Content-Type': 'multipart/form-data' }
+        });
+        setTeam([...team, res.data]);
+      }
       setNewTeam({ first_name: '', last_name: '', role: '', order: 0 });
       setTeamFile(null);
     } catch (err) {
-      alert("Erreur lors de l'ajout.");
+      alert("Erreur lors de l'enregistrement.");
     } finally {
       setAdding(false);
     }
+  }
+
+  function handleEditClick(member) {
+    setEditingTeamId(member.id);
+    setNewTeam({
+      first_name: member.first_name,
+      last_name: member.last_name,
+      role: member.role,
+      order: member.order || 0
+    });
+    setTeamFile(null);
+    // Scroll to top where the form is
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function cancelEdit() {
+    setEditingTeamId(null);
+    setNewTeam({ first_name: '', last_name: '', role: '', order: 0 });
+    setTeamFile(null);
   }
 
   async function handleDeleteTeam(id) {
@@ -123,14 +151,22 @@ export default function Equipe() {
                         <p className="text-xs text-slate-400 truncate mt-0.5">{member.role}</p>
                         <span className="inline-block text-[9px] font-bold bg-slate-200/60 text-slate-500 px-1.5 py-0.5 rounded-md mt-1">Ordre : {member.order}</span>
                       </div>
+                    <div className="flex items-center gap-1">
+                      <button
+                        type="button"
+                        onClick={() => handleEditClick(member)}
+                        className="p-2 text-slate-500 hover:bg-slate-100 rounded-xl transition flex-shrink-0"
+                      >
+                        <Edit className="w-4 h-4" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => handleDeleteTeam(member.id)}
+                        className="p-2 text-red-500 hover:bg-red-50 rounded-xl transition flex-shrink-0"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
                     </div>
-                    <button
-                      type="button"
-                      onClick={() => handleDeleteTeam(member.id)}
-                      className="p-2 text-red-500 hover:bg-red-50 rounded-xl transition flex-shrink-0"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
                   </div>
                 ))}
               </div>
@@ -138,12 +174,14 @@ export default function Equipe() {
           </div>
         </div>
 
-        {/* Add form */}
+        {/* Add/Edit form */}
         <div className="lg:col-span-1">
           <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm sticky top-24">
-            <h2 className="text-lg font-bold text-slate-900 font-title mb-6">Ajouter un membre</h2>
+            <h2 className="text-lg font-bold text-slate-900 font-title mb-6">
+              {editingTeamId ? 'Modifier un membre' : 'Ajouter un membre'}
+            </h2>
 
-            <form onSubmit={handleAddTeam} className="space-y-4">
+            <form onSubmit={handleSubmitTeam} className="space-y-4">
               <div>
                 <label className="block text-xs font-semibold text-slate-550 uppercase mb-2">Prénom</label>
                 <input
@@ -208,14 +246,25 @@ export default function Equipe() {
                 </div>
               </div>
 
-              <button
-                type="submit"
-                disabled={adding}
-                className="w-full flex items-center justify-center gap-2 py-3.5 bg-primary-600 hover:bg-primary-700 text-white font-bold rounded-2xl text-sm transition disabled:opacity-60"
-              >
-                {adding ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />}
-                <span>Ajouter à l'équipe</span>
-              </button>
+              <div className="flex gap-2 pt-2">
+                {editingTeamId && (
+                  <button
+                    type="button"
+                    onClick={cancelEdit}
+                    className="flex-1 py-3.5 bg-slate-100 hover:bg-slate-200 text-slate-600 font-bold rounded-2xl text-sm transition"
+                  >
+                    Annuler
+                  </button>
+                )}
+                <button
+                  type="submit"
+                  disabled={adding}
+                  className={`flex-1 flex items-center justify-center gap-2 py-3.5 bg-primary-600 hover:bg-primary-700 text-white font-bold rounded-2xl text-sm transition disabled:opacity-60 ${!editingTeamId ? 'w-full' : ''}`}
+                >
+                  {adding ? <Loader2 className="w-4 h-4 animate-spin" /> : (editingTeamId ? <Edit className="w-4 h-4" /> : <Plus className="w-4 h-4" />)}
+                  <span>{editingTeamId ? 'Enregistrer' : "Ajouter à l'équipe"}</span>
+                </button>
+              </div>
             </form>
           </div>
         </div>
