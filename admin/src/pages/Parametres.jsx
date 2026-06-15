@@ -56,8 +56,7 @@ export default function Parametres() {
     address: 'Cotonou, Bénin',
     facebook: '',
     instagram: '',
-    twitter: '',
-    tiktok: '',
+    linkedin: '',
     youtube: '',
   });
 
@@ -230,8 +229,7 @@ export default function Parametres() {
         address: map.address || f.address,
         facebook: map.facebook || f.facebook,
         instagram: map.instagram || f.instagram,
-        twitter: map.twitter || f.twitter,
-        tiktok: map.tiktok || f.tiktok,
+        linkedin: map.linkedin || f.linkedin,
         youtube: map.youtube || f.youtube,
       }));
 
@@ -373,8 +371,7 @@ export default function Parametres() {
               {[
                 { key: 'facebook', label: 'Facebook' },
                 { key: 'instagram', label: 'Instagram' },
-                { key: 'twitter', label: 'X (Twitter)' },
-                { key: 'tiktok', label: 'TikTok' },
+                { key: 'linkedin', label: 'LinkedIn' },
                 { key: 'youtube', label: 'YouTube' },
               ].map(({ key, label }) => (
                 <Field key={key} label={label}>
