@@ -173,7 +173,7 @@ export default function About() {
               className="text-4xl md:text-5xl lg:text-6xl leading-[1.05] font-black text-slate-900 tracking-tight font-heading mb-8"
             >
               Engageons notre amitié<br />
-              <span className="bg-gradient-to-r from-primary-600 to-secondary-500 bg-clip-text text-transparent">au service des vulnérables.</span>
+              <span className="bg-gradient-to-r from-primary-600 to-secondary-500 bg-clip-text text-transparent">au service des vulnérables et de l'humanité.</span>
             </motion.h2>
             <motion.p 
               initial={{ opacity: 0, y: 10 }}

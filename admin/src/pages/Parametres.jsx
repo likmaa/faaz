@@ -47,10 +47,10 @@ export default function Parametres() {
   // Fondation form
   const [fondation, setFondation] = useState({
     name: 'Fondation les Amis de A à Z',
-    slogan: "Engageons notre amitié\nau service des personnes\nvulnérables.",
+    slogan: "Engageons notre amitié\nau service des personnes\nvulnérables et de l'humanité.",
     mission: "Promouvoir le bien-être des personnes les plus vulnérables à travers des actions solidaires, structurées et à impact mesurable.",
     vision: "Épanouissement durable de l'humanité — un Bénin où chaque personne vulnérable est accompagnée avec dignité.",
-    about_text: "La FAAZ — Fondation les Amis de A à Z — est une ONG béninoise à membres fondée sur un engagement simple : promouvoir le bien-être des personnes les plus vulnérables. Orphelins, élèves méritants, jeunes en quête de repères, personnes âgées isolées : chaque action de la FAAZ part d'une conviction, celle que l'amitié peut changer des vies.",
+    about_text: "Fondation béninoise à 21 membres actifs. Créée depuis le 11 octobre 2020 et enregistrée au ministère de l'intérieur le 19 février 2021 sous le numéro 2021/N°069/MISP/DC/SGM/DAIC/SAAP-ASSOC/SA, nous sommes engagées pour l'enfance indigente, l'excellence en milieu scolaire et le développement de la jeunesse.",
     phone: '97 60 38 05',
     email: 'info@lafaaz.org',
     address: 'Cotonou, Bénin',

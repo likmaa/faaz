@@ -93,7 +93,7 @@ export default function Home() {
                              text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem]">
                 Engageons notre amitié<br />
                 au service des personnes<br />
-                <span className="text-primary-400">vulnérables.</span>
+                <span className="text-primary-400">vulnérables et de l'humanité.</span>
               </h1>
             ) : (
               <h1 className="text-white font-extrabold tracking-tight leading-[1.05]
@@ -106,9 +106,8 @@ export default function Home() {
             <div className="w-full h-px bg-white/30 mt-6 sm:mt-8 mb-6 sm:mb-8" />
 
             {/* Sous-titre + CTA sous la barre */}
-            <p className="text-white/75 text-sm sm:text-base leading-relaxed max-w-xl mx-auto mb-8">
-              ONG béninoise à membres active depuis 2020, engagée pour l'enfance indigente,
-              l'excellence scolaire et le développement de la jeunesse.
+            <p className="text-white/75 text-sm sm:text-base leading-relaxed max-w-2xl mx-auto mb-8">
+              Fondation béninoise à 21 membres actifs. Créée depuis le 11 octobre 2020 et enregistrée au ministère de l'intérieur le 19 février 2021 sous le numéro 2021/N°069/MISP/DC/SGM/DAIC/SAAP-ASSOC/SA, nous sommes engagées pour l'enfance indigente, l'excellence en milieu scolaire et le développement de la jeunesse.
             </p>
 
             {/* CTA */}

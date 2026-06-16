@@ -241,6 +241,25 @@ export default function DonateProject() {
           </button>
           <p className="text-xs text-gray-400 text-center">Paiement sécurisé via KKiaPay (mobile money) ou cartes bancaires.</p>
         </form>
+
+        {/* Note de virement bancaire */}
+        <div className="mt-8 pt-6 border-t border-slate-100/50">
+          <div className="bg-slate-50/50 rounded-2xl p-5 border border-slate-100 flex gap-4 items-start">
+            <div className="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center shrink-0">
+              <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                <rect x="2" y="5" width="20" height="14" rx="2"/>
+                <line x1="2" y1="10" x2="22" y2="10"/>
+              </svg>
+            </div>
+            <div>
+              <h4 className="font-bold text-slate-800 text-sm mb-1">Virement bancaire direct</h4>
+              <p className="text-sm text-slate-600">
+                Vous pouvez également faire un don par dépôt ou virement bancaire sur le compte de l'association :<br/>
+                <strong className="text-slate-800">NSIA Banque : 380004537013</strong>
+              </p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
