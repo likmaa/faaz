@@ -137,7 +137,7 @@ function StackedCard({ testimonial, index, total, progress }) {
     >
       <motion.div
         style={{ boxShadow: isDark ? boxShadow : undefined }}
-        className={`relative w-full max-w-2xl rounded-[2.5rem] border overflow-hidden p-8 sm:p-12 transition-colors duration-500 ${
+        className={`relative w-full max-w-2xl rounded-[2.5rem] border overflow-hidden p-6 sm:p-8 transition-colors duration-500 ${
           isDark
             ? 'bg-slate-900 border-white/10 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.8)]'
             : 'bg-white border-slate-100 shadow-[0_40px_80px_-20px_rgba(15,23,42,0.15)]'
@@ -161,16 +161,16 @@ function StackedCard({ testimonial, index, total, progress }) {
         {/* Guillemet géant */}
         <Quote
           aria-hidden
-          className={`absolute -top-1 right-6 h-24 w-24 opacity-[0.05] ${
+          className={`absolute -top-1 right-6 h-20 w-20 opacity-[0.05] ${
             isDark ? 'text-white' : 'text-slate-900'
           }`}
         />
 
-        <div className="relative z-10 flex flex-col gap-6 sm:flex-row sm:items-start sm:gap-8">
+        <div className="relative z-10 flex flex-col gap-5 sm:flex-row sm:items-start sm:gap-6">
           {/* Avatar */}
-          <div className="flex flex-row sm:flex-col items-center sm:items-start gap-4 flex-shrink-0">
+          <div className="flex flex-row sm:flex-col items-center sm:items-start gap-3 flex-shrink-0">
             <div
-              className={`w-14 h-14 rounded-2xl flex items-center justify-center text-white font-black text-xl flex-shrink-0 ${
+              className={`w-12 h-12 rounded-2xl flex items-center justify-center text-white font-black text-xl flex-shrink-0 ${
                 isDark
                   ? 'bg-gradient-to-br from-primary-600 to-secondary-700'
                   : 'bg-gradient-to-br from-primary-500 to-secondary-500'
@@ -187,7 +187,7 @@ function StackedCard({ testimonial, index, total, progress }) {
                 {testimonial.nom || 'Anonyme'}
               </p>
               <p
-                className={`mt-0.5 text-xs font-semibold leading-snug max-w-[160px] ${
+                className={`mt-0.5 text-xs font-semibold leading-snug max-w-[140px] ${
                   isDark ? 'text-slate-400' : 'text-slate-400'
                 }`}
               >
@@ -197,13 +197,13 @@ function StackedCard({ testimonial, index, total, progress }) {
           </div>
 
           {/* Contenu */}
-          <div className="flex flex-col gap-4 flex-1">
+          <div className="flex flex-col gap-3 flex-1 overflow-hidden">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="flex gap-1" aria-label="5 étoiles sur 5">
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Star
                     key={i}
-                    size={16}
+                    size={14}
                     className={
                       isDark
                         ? 'fill-emerald-400 text-emerald-400'
@@ -221,15 +221,15 @@ function StackedCard({ testimonial, index, total, progress }) {
                   }`}
                 >
                   <Heart size={12} className="fill-current" />
-                  Donateur · {testimonial.montant} FCFA
+                  Donateur
                 </span>
               )}
             </div>
 
             <blockquote
-              className={`text-lg sm:text-xl leading-[1.65] font-medium ${
-                isDark ? 'text-slate-200' : 'text-slate-700'
-              }`}
+              className={`text-base leading-[1.6] font-medium max-h-[35vh] overflow-y-auto pr-2 ${
+                isDark ? 'text-slate-300' : 'text-slate-700'
+              } [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-400/30 [&::-webkit-scrollbar-thumb]:rounded-full`}
             >
               &ldquo;{testimonial.message || 'Merci pour votre soutien.'}&rdquo;
             </blockquote>
