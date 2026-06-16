@@ -4,6 +4,7 @@ import { useProject, useRelatedProjects } from '../hooks/useProjects';
 import PageHero from '../components/ui/PageHero';
 import Loading from '../components/ui/Loading';
 import { useSeo } from '../hooks/useSeo';
+import { getImageUrl } from '../utils/imageUrl';
 
 function ProgressBar({ cible, collecte }) {
   const pct = Math.min(Math.round((collecte / cible) * 100), 100);
@@ -63,7 +64,7 @@ export default function ProjectDetail() {
           <div className="lg:col-span-2 space-y-8">
             {project.image && (
               <div className="aspect-[16/9] md:aspect-[21/10] w-full rounded-3xl overflow-hidden shadow-md border border-slate-100 bg-slate-50">
-                <img src={project.image} alt={project.titre} className="w-full h-full object-cover" />
+                <img src={getImageUrl(project.image)} alt={project.titre} className="w-full h-full object-cover" />
               </div>
             )}
             
@@ -126,7 +127,7 @@ export default function ProjectDetail() {
                 >
                   {p.image && (
                     <div className="aspect-[16/10] bg-slate-50 overflow-hidden border-b border-slate-100">
-                      <img src={p.image} alt={p.titre} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
+                      <img src={getImageUrl(p.image)} alt={p.titre} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
                     </div>
                   )}
                   <div className="p-5 flex flex-col flex-1">

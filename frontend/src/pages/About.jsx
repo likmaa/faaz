@@ -144,7 +144,7 @@ export default function About() {
     <div className="bg-white">
       <PageHero
         title="À propos de la FAAZ"
-        subtitle="Fondation les Amis de A à Z, ONG béninoise à membres, engagée depuis 2020 pour le bien-être des personnes les plus vulnérables."
+        subtitle="Fondation les Amis de A à Z, ONG béninoise à 21 membres actifs, engagée depuis 2020 pour le bien-être des personnes les plus vulnérables."
         breadcrumbs={[{ label: 'Accueil', to: '/' }, { label: 'À propos' }]}
       />
 

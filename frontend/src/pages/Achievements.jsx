@@ -3,6 +3,7 @@ import PageHero from '../components/ui/PageHero';
 import { useAchievements } from '../hooks/useFaq';
 import Loading from '../components/ui/Loading';
 import { useSeo } from '../hooks/useSeo';
+import { getImageUrl } from '../utils/imageUrl';
 
 const AXES = [
   { slug: 'tous',     label: 'Toutes' },
@@ -62,7 +63,7 @@ export default function Achievements() {
                 {/* Image */}
                 <div className="lg:w-2/5 flex-shrink-0 aspect-video bg-gray-100 overflow-hidden">
                   {item.image
-                    ? <img src={item.image} alt={item.titre} className="w-full h-full object-cover" />
+                    ? <img src={getImageUrl(item.image)} alt={item.titre} className="w-full h-full object-cover" />
                     : <div className="w-full h-full flex items-center justify-center text-gray-300">
                         <svg className="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14" /></svg>
                       </div>

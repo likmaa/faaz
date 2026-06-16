@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { MapPin, Filter } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useProjects } from '../../hooks/useProjects';
+import { getImageUrl } from '../../utils/imageUrl';
 
 function ProgressBar({ cible, collecte }) {
   const pct = Math.min(Math.round((collecte / cible) * 100), 100);
@@ -41,7 +42,7 @@ function ProjectCard({ proj }) {
       <div className="h-48 overflow-hidden relative bg-secondary-900/40">
         {proj.image ? (
           <img
-            src={proj.image}
+            src={getImageUrl(proj.image)}
             alt={proj.titre}
             className="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
           />

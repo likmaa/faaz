@@ -75,7 +75,7 @@ export default function ImpactSection() {
       title: `${actionYears} ans d'engagement`,
       description: `Depuis 2020, la FAAZ agit avec régularité, transparence et une proximité absolue avec les bénéficiaires.`,
       subItems: [
-        { label: "Années d'action continue", value: `${actionYears}` },
+        { label: "Membres actifs", value: "21" },
         { label: 'Centres partenaires', value: '4+' },
         { label: 'Communes atteintes', value: '8+' },
         { label: 'Projets actifs', value: '6' },

@@ -5,6 +5,7 @@ import PageHero from '../components/ui/PageHero';
 import Loading from '../components/ui/Loading';
 import Pagination from '../components/ui/Pagination';
 import { useSeo } from '../hooks/useSeo';
+import { getImageUrl } from '../utils/imageUrl';
 
 const AXES = [
   { slug: 'tous',      label: 'Tous les projets' },
@@ -107,7 +108,7 @@ export default function Projects() {
                   <div className="aspect-[16/10] bg-slate-50 overflow-hidden relative border-b border-slate-100">
                     {p.image ? (
                       <img 
-                        src={p.image} 
+                        src={getImageUrl(p.image)} 
                         alt={p.titre} 
                         className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" 
                       />

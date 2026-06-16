@@ -4,6 +4,7 @@ import { useNewsItem } from '../hooks/useNews';
 import PageHero from '../components/ui/PageHero';
 import Loading from '../components/ui/Loading';
 import { useSeo } from '../hooks/useSeo';
+import { getImageUrl } from '../utils/imageUrl';
 
 const formatDate = (d) =>
   new Date(d).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' });

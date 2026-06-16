@@ -89,6 +89,7 @@ export default function StatsSection() {
     { value: coaches,        suffix: '',     label: 'Jeunes coachés',         sub: 'Coaching & leadership' },
     { value: gnameyEditions, suffix: '',     label: 'Éd. Prix Gnamey',        sub: 'Excellence scolaire' },
     { value: actionYears,    suffix: ' ans', label: 'D\'action continue',     sub: `2020 → ${new Date().getFullYear()}` },
+    { value: 21,             suffix: '',     label: 'Membres actifs',         sub: 'Engagement quotidien' },
   ];
 
   return (
@@ -99,9 +100,9 @@ export default function StatsSection() {
           Notre impact · Données réelles 2020–{new Date().getFullYear()}
         </p>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 lg:gap-2">
+        <div className="flex flex-wrap justify-center gap-y-8 gap-x-6 sm:gap-x-8 lg:gap-x-12">
           {stats.map((stat, i) => (
-            <div key={i} className="text-center px-2">
+            <div key={i} className="text-center px-2 w-[calc(50%-1rem)] sm:w-[calc(33.33%-1.5rem)] lg:w-auto min-w-[140px] max-w-[180px]">
               <div className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight mb-1">
                 <Counter value={stat.value} suffix={stat.suffix} duration={1500 + i * 80} />
               </div>
