@@ -1,8 +1,8 @@
 import os
-from django.core.management.base import BaseCommand
-from django.db import transaction
+from django.core.management.base import BaseCommand  # type: ignore
+from django.db import transaction  # type: ignore
 from pypdf import PdfReader
-from api.models import Member, MembershipPayment
+from api.models import Member, MembershipPayment  # type: ignore
 
 class Command(BaseCommand):
     help = "Importe les membres et leurs cotisations depuis le PDF 'Point des cotisations des membres FAAZ.pdf'"
@@ -23,7 +23,7 @@ class Command(BaseCommand):
                 break
                 
         if not pdf_path:
-            self.stdout.write(self.style.ERROR(f"Fichier PDF '{pdf_filename}' non trouvé."))
+            self.stderr.write(getattr(self.style, 'ERROR', str)(f"Fichier PDF '{pdf_filename}' non trouvé."))
             return
 
         self.stdout.write(f"Chargement du fichier: {pdf_path}")
@@ -36,7 +36,7 @@ class Command(BaseCommand):
                 if text:
                     lines.extend(text.split("\n"))
         except Exception as e:
-            self.stdout.write(self.style.ERROR(f"Erreur de lecture du PDF : {str(e)}"))
+            self.stderr.write(getattr(self.style, 'ERROR', str)(f"Erreur de lecture du PDF : {str(e)}"))
             return
 
         parsed_members = []
@@ -48,9 +48,9 @@ class Command(BaseCommand):
         self.stdout.write(f"Nombre de membres trouvés dans le PDF : {len(parsed_members)}")
 
         # Exécuter les opérations de manière transactionnelle
-        with transaction.atomic():
+        with transaction.atomic():  # type: ignore
             for item in parsed_members:
-                name = item["name"]
+                name = str(item.get("name", ""))
                 parts = name.split()
                 if not parts:
                     continue
@@ -92,7 +92,7 @@ class Command(BaseCommand):
                         contribution_status="en_retard"
                     )
                     created_new = True
-                    self.stdout.write(self.style.SUCCESS(f"Créé le membre : {first_name} {last_name}"))
+                    self.stdout.write(getattr(self.style, 'SUCCESS', str)(f"Créé le membre : {first_name} {last_name}"))
                 else:
                     self.stdout.write(f"Membre existant trouvé : {first_name} {last_name}")
 
@@ -138,7 +138,7 @@ class Command(BaseCommand):
                     if created:
                         self.stdout.write(f"  - Enregistré cotisation 2024-2025 pour {member}")
 
-        self.stdout.write(self.style.SUCCESS("Importation des cotisations terminée avec succès !"))
+        self.stdout.write(getattr(self.style, 'SUCCESS', str)("Importation des cotisations terminée avec succès !"))
 
     def parse_line(self, line):
         line = line.strip()
