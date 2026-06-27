@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuthStore } from '../store/auth';
 import api from '../services/api';
 import PageHero from '../components/ui/PageHero';
 import { User, Mail, Phone, MapPin, Briefcase, Calendar, CreditCard, ShieldCheck, AlertTriangle, LogOut, CheckCircle2, Loader2 } from 'lucide-react';
+import { FeexPayButton } from '@feexpay/react-sdk';
 
 export default function Profile() {
   const { token, logout } = useAuthStore();
@@ -11,11 +12,13 @@ export default function Profile() {
 
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState(null);
-  const [kkiapayKey, setKkiapayKey] = useState('');
+  const [feexpayConfig, setFeexpayConfig] = useState({ id: '', token: '', mode: 'SANDBOX' });
   const [annualFee, setAnnualFee] = useState(25000);
   const [paymentLoading, setPaymentLoading] = useState(false);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [error, setError] = useState(null);
+  const [customId, setCustomId] = useState('');
+  const feexpayRef = useRef(null);
 
   // Redirect to login if not authenticated
   useEffect(() => {
@@ -39,28 +42,27 @@ export default function Profile() {
         setLoading(false);
       });
 
-    // Launch KKiaPay Widget
-    const script = document.createElement('script');
-    script.src = "https://cdn.kkiapay.me/k.js";
-    script.async = true;
-    document.body.appendChild(script);
+    // Générer un identifiant de transaction unique
+    setCustomId(`COT-${Date.now()}-${Math.random().toString(36).substring(2, 7).toUpperCase()}`);
 
-    // Load KKiaPay public key + annual fee from CMS settings
+    // Charger les clés FeexPay + montant de la cotisation depuis le CMS
     api.get('/cms/')
       .then(res => {
         const list = Array.isArray(res.data) ? res.data : (res.data?.results || []);
-        const keySetting = list.find(item => item.key === 'kkiapay_key');
+        const idSetting = list.find(item => item.key === 'feexpay_id');
+        const tokenSetting = list.find(item => item.key === 'feexpay_token');
+        const modeSetting = list.find(item => item.key === 'feexpay_mode');
         const feeSetting = list.find(item => item.key === 'annual_fee');
-        if (keySetting?.value) setKkiapayKey(keySetting.value);
+        if (idSetting && tokenSetting) {
+          setFeexpayConfig({
+            id: idSetting.value,
+            token: tokenSetting.value,
+            mode: modeSetting?.value || 'SANDBOX'
+          });
+        }
         if (feeSetting?.value) setAnnualFee(parseInt(feeSetting.value, 10) || 25000);
       })
       .catch(err => console.warn('Could not load CMS settings', err));
-
-    return () => {
-      if (document.body.contains(script)) {
-        document.body.removeChild(script);
-      }
-    };
   }, [token]);
 
   function handleLogout() {
@@ -68,76 +70,75 @@ export default function Profile() {
     navigate('/login');
   }
 
+  const currentYear = new Date().getFullYear();
+
+  const handleSuccess = async (response) => {
+    if (response && response.status === "FAILED") {
+      setError(response.message || "Le paiement de la cotisation a échoué.");
+      setPaymentLoading(false);
+      return;
+    }
+
+    try {
+      const payload = {
+        payment_type: "cotisation",
+        year: currentYear,
+        amount: annualFee,
+        payment_channel: "feexpay",
+        transaction_reference: response.reference || response.transaction_id || customId,
+        status: "paye"
+      };
+
+      const payRes = await api.post('/payments/', payload);
+
+      // Mettre à jour le profil dans le state
+      setProfile(prev => {
+        const updatedMember = {
+          ...prev.member_profile,
+          contribution_status: 'a_jour',
+          payments: [payRes.data, ...(prev.member_profile.payments || [])]
+        };
+        return {
+          ...prev,
+          member_profile: updatedMember
+        };
+      });
+
+      setPaymentSuccess(true);
+    } catch (err) {
+      console.error(err);
+      setError("Erreur lors de la validation de votre paiement. Veuillez contacter le support.");
+    } finally {
+      setPaymentLoading(false);
+    }
+  };
+
   function handlePayCotisation() {
     if (!profile || !profile.member_profile) return;
     setError(null);
 
-    if (typeof window.openKkiapayWidget === 'undefined') {
-      setError("Le service de paiement est en cours de chargement. Veuillez patienter.");
-      return;
-    }
-
-    if (!kkiapayKey) {
+    if (!feexpayConfig.id || !feexpayConfig.token) {
       setError("Le système de paiement n'est pas encore configuré par l'administrateur.");
       return;
     }
 
     setPaymentLoading(true);
 
-    const member = profile.member_profile;
-    const currentYear = new Date().getFullYear();
-
-    window.openKkiapayWidget({
-      amount: annualFee,
-      position: "center",
-      sandbox: false,
-      key: kkiapayKey,
-      phone: member.phone || "",
-      email: profile.email || "",
-      name: `${member.first_name} ${member.last_name}`.trim()
-    });
-
-    const handleSuccess = async (response) => {
-      try {
-        const payload = {
-          payment_type: "cotisation",
-          year: currentYear,
-          amount: annualFee,
-          payment_channel: "kkiapay",
-          transaction_reference: response.transactionId,
-          status: "paye"
-        };
-
-        const payRes = await api.post('/payments/', payload);
-
-        // Update profile in state with the new payment and status
-        setProfile(prev => {
-          const updatedMember = {
-            ...prev.member_profile,
-            contribution_status: 'a_jour',
-            payments: [payRes.data, ...(prev.member_profile.payments || [])]
-          };
-          return {
-            ...prev,
-            member_profile: updatedMember
-          };
-        });
-
-        setPaymentSuccess(true);
-      } catch (err) {
-        console.error(err);
-        setError("Erreur lors de la validation de votre paiement. Veuillez contacter le support.");
-      } finally {
+    // Déclencher le widget FeexPay
+    if (feexpayRef.current) {
+      const innerDiv = feexpayRef.current.firstChild;
+      if (innerDiv) {
+        innerDiv.dispatchEvent(new CustomEvent("feexpay:trigger"));
+        // Reset loading state after 3 seconds
+        setTimeout(() => setPaymentLoading(false), 3000);
+      } else {
+        setError("Erreur lors du chargement de la passerelle de paiement.");
         setPaymentLoading(false);
       }
-    };
-
-    const handleClose = () => {
+    } else {
+      setError("Le service de paiement est indisponible.");
       setPaymentLoading(false);
-    };
-
-    window.addKkiapayListener('success', handleSuccess);
-    window.addKkiapayListener('close', handleClose);
+    }
   }
 
   if (loading) {
@@ -294,6 +295,29 @@ export default function Profile() {
                         <p className="text-2xl font-black text-gray-900">{annualFee.toLocaleString('fr-FR')} FCFA</p>
                         <p className="text-xs text-gray-500 mt-1">Paiement sécurisé via Mobile Money (MoMo) ou Carte</p>
                       </div>
+
+                      {/* Wrapper caché FeexPayButton */}
+                      <div ref={feexpayRef} style={{ display: 'none' }}>
+                        {feexpayConfig.id && feexpayConfig.token && (
+                          <FeexPayButton
+                            amount={annualFee}
+                            description={`Cotisation active FAAZ ${currentYear} - ${profile.first_name} ${profile.last_name}`}
+                            id={feexpayConfig.id}
+                            token={feexpayConfig.token}
+                            customId={customId}
+                            callback_url={window.location.href}
+                            callback_info={{
+                              description: `Cotisation active FAAZ ${currentYear}`,
+                              fullname: `${member.first_name} ${member.last_name}`.trim(),
+                              email: profile.email,
+                              phone: member.phone || "00000000"
+                            }}
+                            mode={feexpayConfig.mode}
+                            callback={handleSuccess}
+                          />
+                        )}
+                      </div>
+
                       <button
                         onClick={handlePayCotisation}
                         disabled={paymentLoading}

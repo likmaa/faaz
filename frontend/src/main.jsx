@@ -6,6 +6,8 @@ import App from './App.jsx';
 import './styles/index.css';
 import './styles/vibes.css';
 import { applyThemeVariables } from './theme';
+import { FeexPayProvider } from '@feexpay/react-sdk';
+import '@feexpay/react-sdk/style.css';
 
 applyThemeVariables();
 
@@ -15,7 +17,9 @@ createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <App />
+        <FeexPayProvider>
+          <App />
+        </FeexPayProvider>
       </BrowserRouter>
     </QueryClientProvider>
   </React.StrictMode>

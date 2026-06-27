@@ -18,7 +18,7 @@ function formatFCFA(n) {
 }
 
 const CHANNEL_LABELS = {
-  kkiapay: 'KKiaPay',
+  feexpay: 'FeexPay',
   paypal: 'PayPal',
   momo: 'MoMo Pay',
   bank: 'Virement',
@@ -33,7 +33,7 @@ export default function Cotisations() {
 
   // Payment modal
   const [payModal, setPayModal] = useState(null); // null | member object
-  const [payForm, setPayForm] = useState({ payment_channel: 'kkiapay', transaction_reference: '' });
+  const [payForm, setPayForm] = useState({ payment_channel: 'feexpay', transaction_reference: '' });
   const [payLoading, setPayLoading] = useState(false);
 
   // Relance confirm
@@ -85,7 +85,7 @@ export default function Cotisations() {
   // Record payment
   function openPayModal(member) {
     setPayModal(member);
-    setPayForm({ payment_channel: 'kkiapay', transaction_reference: '' });
+    setPayForm({ payment_channel: 'feexpay', transaction_reference: '' });
   }
 
   async function submitPayment() {

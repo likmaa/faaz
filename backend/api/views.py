@@ -377,7 +377,12 @@ class RoleBasedPermission(permissions.BasePermission):
         if view_name == 'CMSSettingViewSet':
             if role == 'tresorier':
                 key = view.kwargs.get('key') or request.data.get('key')
-                payment_keys = ['kkiapay_key', 'kkiapay_secret', 'kkiapay_limit', 'paypal_client_id', 'momo_number', 'bank_name', 'bank_iban', 'fee_note']
+                payment_keys = [
+                    'kkiapay_key', 'kkiapay_secret', 'kkiapay_limit', 
+                    'paypal_client_id', 'momo_number', 'bank_name', 
+                    'bank_iban', 'fee_note',
+                    'feexpay_id', 'feexpay_token', 'feexpay_mode'
+                ]
                 if key in payment_keys:
                     return True
                 if not key and request.method == 'POST':
@@ -754,6 +759,56 @@ class KKiaPayWebhookView(APIView):
             try:
                 payment = MembershipPayment.objects.get(transaction_reference=transaction_id)
                 if status_payment == 'SUCCESS':
+                    payment.status = 'paye'
+                    payment.save()
+                    
+                    member = payment.member
+                    if payment.payment_type == 'cotisation':
+                        member.contribution_status = 'a_jour'
+                        member.save()
+                else:
+                    payment.status = 'echoue'
+                    payment.save()
+            except MembershipPayment.DoesNotExist:
+                pass
+
+        return Response({"status": "received"}, status=status.HTTP_200_OK)
+
+
+class FeexPayWebhookView(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        transaction_id = request.data.get('id') or request.data.get('transaction_id') or request.data.get('reference')
+        status_payment = request.data.get('status')
+        
+        if not transaction_id:
+            data_obj = request.data.get('data') or {}
+            transaction_id = data_obj.get('id') or data_obj.get('transaction_id') or data_obj.get('reference')
+            status_payment = status_payment or data_obj.get('status')
+
+        if not transaction_id:
+            return Response({"error": "No transaction ID provided"}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Process Donation status
+        try:
+            donation = Donation.objects.get(transaction_reference=transaction_id)
+            if status_payment in ['SUCCESSFUL', 'SUCCESS', 'completed', 'paye']:
+                donation.status = 'paye'
+                donation.save()
+                
+                if donation.project:
+                    project = donation.project
+                    project.collected_amount += donation.amount
+                    project.save()
+            else:
+                donation.status = 'echoue'
+                donation.save()
+        except Donation.DoesNotExist:
+            # Check if it is a MembershipPayment
+            try:
+                payment = MembershipPayment.objects.get(transaction_reference=transaction_id)
+                if status_payment in ['SUCCESSFUL', 'SUCCESS', 'completed', 'paye']:
                     payment.status = 'paye'
                     payment.save()
                     

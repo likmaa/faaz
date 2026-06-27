@@ -16,7 +16,7 @@ function formatDate(iso) {
   return new Date(iso).toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' });
 }
 
-const CHANNEL_LABELS = { kkiapay: 'KKiaPay', paypal: 'PayPal', momo: 'MoMo Pay', bank: 'Virement' };
+const CHANNEL_LABELS = { feexpay: 'FeexPay', paypal: 'PayPal', momo: 'MoMo Pay', bank: 'Virement' };
 
 export default function Donations() {
   const { user } = useAuthStore();

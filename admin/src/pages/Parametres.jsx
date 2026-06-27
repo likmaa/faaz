@@ -69,7 +69,10 @@ export default function Parametres() {
     momo_number: '',
     bank_name: '',
     bank_iban: '',
-    fee_note: '~3 % de frais de transaction (KKiaPay / PayPal)',
+    fee_note: '~3 % de frais de transaction (FeexPay / PayPal)',
+    feexpay_id: '',
+    feexpay_token: '',
+    feexpay_mode: 'SANDBOX',
   });
 
   // Adhésion form
@@ -244,6 +247,9 @@ export default function Parametres() {
         bank_name: map.bank_name || p.bank_name,
         bank_iban: map.bank_iban || p.bank_iban,
         fee_note: map.fee_note || p.fee_note,
+        feexpay_id: map.feexpay_id || p.feexpay_id,
+        feexpay_token: map.feexpay_token || p.feexpay_token,
+        feexpay_mode: map.feexpay_mode || p.feexpay_mode,
       }));
 
       // Update adhesion state
@@ -392,19 +398,20 @@ export default function Parametres() {
               Aucune donnée de carte n'est saisie ici. Les clés API sont transmises de façon sécurisée au serveur.
             </div>
 
-            <h3 className="text-sm font-bold text-slate-700">KKiaPay</h3>
-            <Field label="Clé publique KKiaPay">
-              <input type="text" value={paiement.kkiapay_key} onChange={e => setPaiement(f => ({ ...f, kkiapay_key: e.target.value }))}
-                placeholder="kkiapay_pub_…" className={INPUT} />
+            <h3 className="text-sm font-bold text-slate-700">FeexPay</h3>
+            <Field label="ID de la boutique (Shop ID) FeexPay">
+              <input type="text" value={paiement.feexpay_id} onChange={e => setPaiement(f => ({ ...f, feexpay_id: e.target.value }))}
+                placeholder="Shop ID fourni par FeexPay" className={INPUT} />
             </Field>
-            <Field label="Secret KKiaPay (Optionnel pour Webhook)">
-              <input type="password" value={paiement.kkiapay_secret} onChange={e => setPaiement(f => ({ ...f, kkiapay_secret: e.target.value }))}
-                placeholder="kkiapay_sec_…" className={INPUT} />
+            <Field label="Token API FeexPay">
+              <input type="password" value={paiement.feexpay_token} onChange={e => setPaiement(f => ({ ...f, feexpay_token: e.target.value }))}
+                placeholder="Token API fourni par FeexPay" className={INPUT} />
             </Field>
-            <Field label="Plafond par transaction (FCFA)">
-              <input type="number" value={paiement.kkiapay_limit} step={10000} min={0}
-                onChange={e => setPaiement(f => ({ ...f, kkiapay_limit: e.target.value }))} className={INPUT} />
-              <p className="text-xs text-slate-400 mt-1">Actuellement fixé à 300 000 FCFA par transaction.</p>
+            <Field label="Mode FeexPay">
+              <select value={paiement.feexpay_mode} onChange={e => setPaiement(f => ({ ...f, feexpay_mode: e.target.value }))} className={INPUT}>
+                <option value="SANDBOX">SANDBOX (Test)</option>
+                <option value="LIVE">LIVE (Production)</option>
+              </select>
             </Field>
 
             <h3 className="text-sm font-bold text-slate-700 pt-2 border-t border-slate-100">PayPal</h3>

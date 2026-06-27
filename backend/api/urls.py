@@ -5,7 +5,7 @@ from .views import (
     MemberViewSet, MembershipPaymentViewSet, AxeViewSet, ProjectViewSet,
     DonationViewSet, RealisationViewSet, NewsViewSet, RecruitmentOfferViewSet,
     CandidatureViewSet, CustomTokenObtainPairView, RegisterView, UserProfileView,
-    KKiaPayWebhookView, TestimonialViewSet, PasswordResetRequestView, PasswordResetConfirmView,
+    KKiaPayWebhookView, FeexPayWebhookView, TestimonialViewSet, PasswordResetRequestView, PasswordResetConfirmView,
     StaffViewSet, ContactView, ImageUploadView
 )
 
@@ -33,6 +33,7 @@ urlpatterns = [
     path('password-reset/', PasswordResetRequestView.as_view(), name='password_reset'),
     path('password-reset/confirm/', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     path('webhooks/kkiapay', KKiaPayWebhookView.as_view(), name='kkiapay_webhook'),
+    path('webhooks/feexpay', FeexPayWebhookView.as_view(), name='feexpay_webhook'),
     path('contact/', ContactView.as_view(), name='contact'),
     path('upload/', ImageUploadView.as_view(), name='image_upload'),
     path('', include(router.urls)),

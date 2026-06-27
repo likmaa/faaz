@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import PageHero from '../components/ui/PageHero';
 import { useProject } from '../hooks/useProjects';
@@ -6,6 +6,7 @@ import Loading from '../components/ui/Loading';
 import { Lock, User } from 'lucide-react';
 import api from '../services/api';
 import { useSeo } from '../hooks/useSeo';
+import { FeexPayButton } from '@feexpay/react-sdk';
 
 const PRESETS = [5000, 10000, 25000, 50000];
 
@@ -18,7 +19,9 @@ export default function DonateProject() {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [kkiapayKey, setKkiapayKey] = useState('');
+  const [feexpayConfig, setFeexpayConfig] = useState({ id: '', token: '', mode: 'SANDBOX' });
+  const [customId, setCustomId] = useState('');
+  const feexpayRef = useRef(null);
 
   useSeo({
     title: project ? `Soutenir ${project.titre}` : "Soutenir un projet",
@@ -26,27 +29,26 @@ export default function DonateProject() {
   });
 
   useEffect(() => {
-    // Inject KKiaPay script
-    const script = document.createElement('script');
-    script.src = "https://cdn.kkiapay.me/k.js";
-    script.async = true;
-    document.body.appendChild(script);
+    // Générer un identifiant de transaction unique
+    setCustomId(`DON-${Date.now()}-${Math.random().toString(36).substring(2, 7).toUpperCase()}`);
 
-    // Fetch public KKiaPay key from backend settings
+    // Charger les clés FeexPay depuis les paramètres du CMS
     api.get('/cms/')
       .then(res => {
         const list = Array.isArray(res.data) ? res.data : (res.data?.results || []);
-        const keySetting = list.find(item => item.key === 'kkiapay_key');
-        if (keySetting && keySetting.value) {
-          setKkiapayKey(keySetting.value);
+        const idSetting = list.find(item => item.key === 'feexpay_id');
+        const tokenSetting = list.find(item => item.key === 'feexpay_token');
+        const modeSetting = list.find(item => item.key === 'feexpay_mode');
+        if (idSetting && tokenSetting) {
+          setFeexpayConfig({
+            id: idSetting.value,
+            token: tokenSetting.value,
+            mode: modeSetting?.value || 'SANDBOX'
+          });
         }
       })
-      .catch(err => console.warn("Could not load KKiaPay key from settings", err));
-
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
+      .catch(err => console.warn("Could not load FeexPay key from settings", err));
+  }, [project]);
 
   const update = (k, v) => setForm(f => ({ ...f, [k]: v }));
 
@@ -107,63 +109,86 @@ export default function DonateProject() {
 
         <form onSubmit={(e) => {
           e.preventDefault();
+          
+          if (!anonymous && (!form.prenom || !form.nom || !form.email || !form.phone)) {
+            setError("Veuillez remplir vos informations personnelles avant de continuer.");
+            return;
+          }
+
+          if (!feexpayConfig.id || !feexpayConfig.token) {
+            setError("Le système de paiement n'est pas encore configuré par l'administrateur.");
+            return;
+          }
+
           setLoading(true);
           setError(null);
 
-          if (typeof window.openKkiapayWidget === 'undefined') {
-            setError("Le service de paiement est en cours de chargement. Veuillez patienter.");
-            setLoading(false);
-            return;
-          }
-
-          if (!kkiapayKey) {
-            setError("Le système de paiement n'est pas encore configuré par l'administrateur.");
-            setLoading(false);
-            return;
-          }
-
-          // Launch KKiaPay Widget
-          window.openKkiapayWidget({
-            amount: amount,
-            position: "center",
-            sandbox: false,
-            key: kkiapayKey,
-            phone: form.phone || "",
-            email: form.email || "",
-            name: anonymous ? "Donateur Anonyme" : `${form.prenom} ${form.nom}`.trim()
-          });
-
-          const handleSuccess = async (response) => {
-            try {
-              const payload = {
-                project: project.id, // Linked project
-                amount: amount,
-                payment_channel: "kkiapay",
-                transaction_reference: response.transactionId,
-                status: "paye",
-                is_anonymous: anonymous,
-                donor_name: anonymous ? "" : `${form.prenom} ${form.nom}`.trim(),
-                donor_email: anonymous ? "" : form.email,
-                donor_phone: anonymous ? "" : form.phone
-              };
-
-              await api.post('/donations/', payload);
-              setSubmitted(true);
-            } catch (err) {
-              console.error(err);
-              setError("Erreur lors de l'enregistrement du don. Veuillez contacter le support.");
-            } finally {
+          // Déclencher FeexPay de manière programmatique
+          if (feexpayRef.current) {
+            const innerDiv = feexpayRef.current.firstChild;
+            if (innerDiv) {
+              innerDiv.dispatchEvent(new CustomEvent("feexpay:trigger"));
+              // Réinitialiser le chargement après 3 secondes au cas où
+              setTimeout(() => setLoading(false), 3000);
+            } else {
+              setError("Erreur d'initialisation de la modale FeexPay.");
               setLoading(false);
             }
-          };
-
-          const handleClose = () => {
+          } else {
+            setError("Service FeexPay non prêt.");
             setLoading(false);
-          };
-
-          window.addKkiapayListener('success', handleSuccess);
-          window.addKkiapayListener('close', handleClose);
+          }
         }} className="space-y-6">
+
+          {/* Wrapper caché de FeexPayButton */}
+          <div ref={feexpayRef} style={{ display: 'none' }}>
+            {feexpayConfig.id && feexpayConfig.token && (
+              <FeexPayButton
+                amount={amount}
+                description={`Don projet - ${project.titre}`}
+                id={feexpayConfig.id}
+                token={feexpayConfig.token}
+                customId={customId}
+                callback_url={window.location.href}
+                callback_info={{
+                  description: `Don projet: ${project.titre}`,
+                  fullname: anonymous ? "Donateur Anonyme" : `${form.prenom} ${form.nom}`.trim(),
+                  email: anonymous ? "anonymous@lafaaz.org" : form.email,
+                  phone: form.phone || "00000000"
+                }}
+                mode={feexpayConfig.mode}
+                callback={async (response) => {
+                  if (response && response.status === "FAILED") {
+                    setError(response.message || "Le paiement a échoué.");
+                    setLoading(false);
+                    return;
+                  }
+                  
+                  try {
+                    const payload = {
+                      project: project.id,
+                      amount: amount,
+                      payment_channel: "feexpay",
+                      transaction_reference: response.reference || response.transaction_id || customId,
+                      status: "paye",
+                      is_anonymous: anonymous,
+                      donor_name: anonymous ? "" : `${form.prenom} ${form.nom}`.trim(),
+                      donor_email: anonymous ? "" : form.email,
+                      donor_phone: anonymous ? "" : form.phone
+                    };
+
+                    await api.post('/donations/', payload);
+                    setSubmitted(true);
+                  } catch (err) {
+                    console.error(err);
+                    setError("Erreur lors de l'enregistrement du don. Veuillez contacter le support.");
+                  } finally {
+                    setLoading(false);
+                  }
+                }}
+              />
+            )}
+          </div>
           {/* Montant */}
           <div>
             <label className="block text-sm font-bold text-gray-900 mb-3">Votre contribution (FCFA)</label>
@@ -237,9 +262,9 @@ export default function DonateProject() {
             disabled={loading}
             className="w-full py-4 bg-primary-600 text-white rounded-full font-bold text-base hover:bg-primary-700 transition shadow-md disabled:opacity-60"
           >
-            {loading ? 'Redirection vers le paiement...' : `Donner ${amount.toLocaleString('fr-FR')} FCFA pour ce projet →`}
+            {loading ? 'Initialisation du paiement...' : `Donner ${amount.toLocaleString('fr-FR')} FCFA pour ce projet →`}
           </button>
-          <p className="text-xs text-gray-400 text-center">Paiement sécurisé via KKiaPay (mobile money) ou cartes bancaires.</p>
+          <p className="text-xs text-gray-400 text-center">Paiement sécurisé via FeexPay (mobile money) ou cartes bancaires.</p>
         </form>
 
         {/* Note de virement bancaire */}
