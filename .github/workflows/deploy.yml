@@ -25,7 +25,7 @@ jobs:
       # 3. Compilation du Site Public (Frontend)
       - name: 📦 Build du Site Public
         run: |
-          npm ci
+          npm ci --legacy-peer-deps
           npm run build
         working-directory: ./frontend
         env:
@@ -34,7 +34,7 @@ jobs:
       # 4. Compilation de l'Admin
       - name: 📦 Build de l'Admin
         run: |
-          npm ci
+          npm ci --legacy-peer-deps
           npm run build
         working-directory: ./admin
         env:
